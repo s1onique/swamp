@@ -195,7 +195,7 @@ swamp-club from this baseline environment without authorization.
 ## F1 — test suite partly environmental (large false-FAIL surface)
 
 **Evidence**: `OBSERVED_RUNTIME`. 12 128 passed / 160 failed / 30 ignored.
-155/160 failures share the same root cause: `mkdir ~/.claude/skills/swamp`
+154/160 failures share the same root cause: `mkdir ~/.claude/skills/swamp`
 → `PermissionDenied: Operation not permitted (os error 1)`.
 
 **Trace**: `src/infrastructure/assets/skill_assets.ts:499:7` →
@@ -210,10 +210,11 @@ fail in this environment but would pass on a fresh machine or in CI.
 **Impact**: `POTENTIAL_FALSE_FAIL` (in this environment) and
 `LIMITATION` (CI portability).
 
-**Carry into**: `SWAMP-DOGFOOD01` — the upstream PR's attestation
+**Carry into**: `SWAMP-TEST-CHAR01` — the upstream PR's attestation
 claimed "full suite 12,288 passed via the verification workflow". This
 baseline run reported 12 128 passed — 160 fewer. The discrepancy is
-plausibly environmental, but must be checked against a clean CI run.
+plausibly environmental, but must be checked against a clean CI run
+using `HOME=$(mktemp -d)`.
 
 ## F2 — workflow overall success can co-exist with skipped reviews
 
@@ -247,21 +248,27 @@ is misleading.
 
 **Runtime reproduction**: NOT_TESTED end-to-end (no live workflow runs).
 
-## F3 — 5 unclassified test failures
+## F3 — 6 unclassified test failures
 
-**Evidence**: `OBSERVED_RUNTIME`. The 5 failures NOT classified as
-environmental are:
+**Evidence**: `OBSERVED_RUNTIME`. The 6 failures NOT classified as
+environmental are (re-derived by CORRECTION01):
 
 - `src/cli/commands/doctor_audit_test.ts`: 2 (SIGTERM/SIGKILL subprocess
-  behaviour under load — likely environmental, needs single-threaded re-run).
-- `src/infrastructure/tracing/fetch_otlp*_test.ts`: 5 (likely parallel
-  port collision).
-- `src/domain/extensions/extension_quality_checker_test.ts`: 2 (fmt ANSI
-  code assertion).
-- `src/libswamp/data/query_test.ts`: 1.
+  behaviour under load — likely environmental, needs single-threaded
+  re-run).
+- `src/domain/extensions/extension_quality_checker_test.ts`: 2 (fmt
+  ANSI code assertion).
+- `integration/telemetry_invocation_context_test.ts`: 1 (`swamp repo
+  init` permission chain — likely environmental).
+- `integration/telemetry_workflow_method_invocations_test.ts`: 1
+  (`swamp repo init` permission chain — likely environmental).
 
-**Impact**: `NOTE`. Need targeted re-runs to distinguish fragility from
-defects. Carry into `SWAMP-DOGFOOD01` or a future ACT.
+Earlier packet erroneously grouped `fetch_otlp*` (5) and `data/query`
+(1) here; those tests pass in this baseline (their names contain the
+substring `FAILED`). See CORRECTION01 for the reconciliation.
+
+**Impact**: `NOTE`. Need targeted re-runs to distinguish fragility
+from defects. Carry into `SWAMP-TEST-CHAR01`.
 
 ## F4 — verification workflow not executed in this baseline
 

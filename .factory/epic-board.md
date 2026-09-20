@@ -2,7 +2,8 @@
 
 | ID               | State   | Purpose                                                  |
 | ---------------- | ------- | -------------------------------------------------------- |
-| SWAMP-BASELINE01 | ACTIVE  | Establish pristine executable baseline and authority map |
+| SWAMP-BASELINE01                | CLOSED  | Establish pristine executable baseline and authority map; corrected by CORRECTION01 |
+| SWAMP-BASELINE01-CORRECTION01    | ACTIVE  | Reconcile arithmetic, fix board state, fix patch hygiene                       |
 | SWAMP-DOGFOOD01  | QUEUED  | Use Swamp externally as intended                         |
 | SWAMP-ATTACK01   | QUEUED  | Adversarially falsify important guarantees               |
 | SW-F01           | BACKLOG | Immutable/versioned Factory evidence experiment          |

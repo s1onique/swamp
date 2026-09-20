@@ -29,7 +29,7 @@ swamp: built locally from BASELINE_SHA via deno task compile
 | `deno check main.ts` | 0 | All type checks pass. |
 | `deno lint` | 0 | No lint findings. |
 | `deno fmt --check` | 0 | All files formatted. |
-| `deno task test` | **1** | 12 128 passed / 160 failed / 30 ignored. 155/160 failures are environmental (Nix-managed read-only `~/.claude/`). 5 need classification. |
+| `deno task test` | **1** | 12 128 passed / 160 failed / 30 ignored. 154/160 failures are environmental (Nix-managed read-only `~/.claude/`); 6 are unclassified and need a separate re-test to distinguish test fragility from environmental issues. |
 | `deno task compile` | 0 | Emitted `swamp` binary (305 MB, Mach-O arm64). |
 | `./swamp --version` | 0 | Returns `20260206.200442.0-sha.`. |
 | `./swamp --help` | 0 | Renders CLI schema. |
@@ -70,12 +70,13 @@ Count: 1 confirmed, 1 likely, several worth carrying into next ACT.
 
 ## Known false-FAIL surfaces
 
-Count: 1 environmental pattern, 5 unclassified individual failures.
+Count: 1 environmental pattern, 6 unclassified individual failures across
+4 test files.
 
 | Finding | Surface | Status |
 | --- | --- | --- |
-| F1 | Nix-managed `~/.claude/` is read-only → `RepoService.init` fails | OBSERVED_RUNTIME; 155/160 failures. |
-| F3 | 5 unclassified test failures (`doctor_audit`, `fetch_otlp*`, `extension_quality_checker`, `libswamp/data/query`) | OBSERVED_RUNTIME; not classified. |
+| F1 | Nix-managed `~/.claude/` is read-only → `RepoService.init` fails | OBSERVED_RUNTIME; 154/160 failures. |
+| F3 | 6 unclassified test failures: `doctor_audit` (2), `extension_quality_checker` (2), `telemetry_invocation_context` (1), `telemetry_workflow_method_invocations` (1) | OBSERVED_RUNTIME; not classified. |
 
 ## Authority map
 
@@ -163,19 +164,27 @@ produce are under `.factory/**`.
 
 ## Recommended next ACT
 
-`SWAMP-DOGFOOD01` is the next ACT in the epic board, but the evidence
-collected here suggests the highest-value next ACT is to **isolate and
-characterise the test-suite fragility** (F1/F3) by running `deno task
-test` in a writable-`~/.claude/` environment. The discrepancy between
-this baseline's 12 128 passes and the upstream PR's claimed 12 288
-passes must be explained before any "dogfood" experiment can be
-trusted. Therefore:
+`SWAMP-TEST-CHAR01` — characterise the 160 test failures in a
+controlled writable-home environment. (This ACT replaces the
+previously-recommended "pre-DOGFOOD" path with a properly-named
+ACT.) The discrepancy between this baseline's 12 128 passes and the
+upstream PR's claimed 12 288 passes must be explained before any
+dogfooding can be trusted.
 
-Recommended: a *pre*-`SWAMP-DOGFOOD01` ACT focused on the test suite,
-classifying the 5 unclassified failures and confirming the 155
-environmental ones are reproducible from a clean environment.
+Use an isolated synthetic HOME to avoid contaminating the Nix-managed
+real home:
 
-If the operator prefers to follow the pre-existing epic board
-literally, then `SWAMP-DOGFOOD01` is the choice — but with the
-caveat that the dogfood results will be tainted by the unknown
-state of the test suite until F1/F3 are resolved.
+```bash
+TMP_HOME="$(mktemp -d)"
+HOME="$TMP_HOME" \
+SWAMP_HOME="$TMP_HOME/.swamp" \
+DENO_DIR=/tmp/swamp-deno-char \
+deno task test
+```
+
+Repeat suspicious tests (`doctor_audit`, `extension_quality_checker`,
+`telemetry_*`, `fetch_otlp*`) 20–50 times each to distinguish
+environmental explanations from reproducible defects from flake.
+
+Exit criteria: `TEST_SUITE_ENVIRONMENTALLY_EXPLAINED`,
+`TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS`, or `TEST_SUITE_FLAKY`.

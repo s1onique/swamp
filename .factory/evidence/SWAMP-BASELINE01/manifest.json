@@ -39,8 +39,21 @@
       "failed": 160,
       "ignored": 30,
       "steps": 214,
-      "environmentalFailures": 155,
-      "unclassifiedFailures": 5
+      "environmentalFailures": 154,
+      "unclassifiedFailures": 6,
+      "perFileFailures": {
+        "src/domain/repo/repo_service_test.ts": 106,
+        "src/cli/repo_context_test.ts": 32,
+        "integration/webhook_signature_schemes_test.ts": 6,
+        "integration/scheduled_trigger_inputs_test.ts": 5,
+        "integration/remote_execution_test.ts": 5,
+        "src/domain/extensions/extension_quality_checker_test.ts": 2,
+        "src/cli/commands/doctor_audit_test.ts": 2,
+        "integration/telemetry_invocation_context_test.ts": 1,
+        "integration/telemetry_workflow_method_invocations_test.ts": 1
+      },
+      "_correctedBy": "SWAMP-BASELINE01-CORRECTION01",
+      "_note": "Earlier packet had phantom fetch_otlp* (5) and data/query (1) rows from grep false-positives; see CORRECTION01."
     },
     "denoTaskCompile": {
       "exit": 0,
@@ -170,19 +183,18 @@
       "title": "RepoService.init fails on read-only ~/.claude/ (Nix environment)",
       "evidence": "OBSERVED_RUNTIME",
       "impact": "POTENTIAL_FALSE_FAIL",
-      "count": 155
+      "count": 154
     },
     {
       "id": "F3",
-      "title": "5 unclassified test failures",
+      "title": "6 unclassified test failures (re-derived by CORRECTION01)",
       "evidence": "OBSERVED_RUNTIME",
       "impact": "NOTE",
       "tests": [
         "src/cli/commands/doctor_audit_test.ts:2",
-        "src/infrastructure/tracing/fetch_otlp_exporter_test.ts:3",
-        "src/infrastructure/tracing/fetch_otlp_log_exporter_test.ts:2",
         "src/domain/extensions/extension_quality_checker_test.ts:2",
-        "src/libswamp/data/query_test.ts:1"
+        "integration/telemetry_invocation_context_test.ts:1",
+        "integration/telemetry_workflow_method_invocations_test.ts:1"
       ]
     }
   ],
@@ -196,5 +208,5 @@
     "BASELINE_SUBJECT_EXACTLY_IDENTIFIED": true
   },
   "verdict": "BASELINE_ESTABLISHED_WITH_GAPS",
-  "recommendedNextAct": "Pre-SWAMP-DOGFOOD01 ACT: classify 5 unclassified test failures and confirm the 155 environmental ones reproduce from a clean environment. Otherwise follow the pre-existing SWAMP-DOGFOOD01 path with the documented caveats."
+  "recommendedNextAct": "SWAMP-TEST-CHAR01: characterize the 160 test failures in a controlled writable-home environment using HOME=$(mktemp -d)."
 }

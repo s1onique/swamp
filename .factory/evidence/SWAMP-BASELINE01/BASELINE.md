@@ -68,16 +68,15 @@ Failure distribution by file:
 | `integration/webhook_signature_schemes_test.ts` | 6 | `swamp repo init` → same PermissionDenied |
 | `integration/scheduled_trigger_inputs_test.ts` | 5 | Same — `swamp repo init` permission |
 | `integration/remote_execution_test.ts` | 5 | Same — `swamp repo init` permission |
-| `integration/telemetry_*_test.ts` | 2 | Same — `swamp repo init` permission |
+| `integration/telemetry_invocation_context_test.ts` | 1 | Same — `swamp repo init` permission |
+| `integration/telemetry_workflow_method_invocations_test.ts` | 1 | Same — `swamp repo init` permission |
 | `src/cli/commands/doctor_audit_test.ts` | 2 | `runChildWithAbort: SIGTERM/SIGKILL`; needs separate re-test |
-| `src/infrastructure/tracing/fetch_otlp*_test.ts` | 5 | Likely parallel port collision / mock contention |
 | `src/domain/extensions/extension_quality_checker_test.ts` | 2 | fmt ANSI codes assertion; needs separate re-test |
-| `src/libswamp/data/query_test.ts` | 1 | Likely parallel contention |
 
-Total confirmed-environmental: 155 of 160. The remaining 5
-(`doctor_audit`, `extension_quality_checker`, `libswamp/data/query`) are
-not yet classified and should be re-run individually to distinguish
-test fragility from environmental issues.
+Total confirmed-environmental: 154 of 160 (the `RepoService.init`
+PermissionDenied chain). The remaining 6 are not yet classified and
+should be re-run individually to distinguish test fragility from
+environmental issues.
 
 ### Why so many failures are environmental
 
