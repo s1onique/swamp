@@ -5,6 +5,7 @@
 | SWAMP-BASELINE01                | CLOSED  | Establish pristine executable baseline and authority map; corrected by CORRECTION01 and CORRECTION02 |
 | SWAMP-BASELINE01-CORRECTION01    | CLOSED  | Reconcile arithmetic, fix board state, fix patch hygiene — superseded by CORRECTION02 for telemetry classification |
 | SWAMP-BASELINE01-CORRECTION02    | CLOSED  | Re-classify telemetry failures by observed signature; codify evidence-immutability doctrine |
+| SWAMP-BASELINE01-CORRECTION03    | CLOSED  | Scope the evidence-hygiene verifier to the policy it enforces (policy == verifier scope == reported claim) |
 | SWAMP-DOGFOOD01  | QUEUED  | Use Swamp externally as intended                         |
 | SWAMP-ATTACK01   | QUEUED  | Adversarially falsify important guarantees               |
 | SW-F01           | BACKLOG | Immutable/versioned Factory evidence experiment          |

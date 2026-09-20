@@ -61,3 +61,9 @@ for downstream tooling that wants diff-friendly text.
 
 This hash must remain stable across all future Factory ACTs that
 build on BASELINE01. Any drift is provenance loss.
+**A verifier must be scoped to the policy it claims to enforce.**
+Three-way invariant: policy == verifier scope == reported claim.
+Use `.factory/scripts/check_evidence_hygiene.sh` to produce all three.
+
+(Codified by CORRECTION03 after CORRECTION02 codified the doctrine
+but recorded an unscoped verifier.)

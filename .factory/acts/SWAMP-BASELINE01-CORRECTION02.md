@@ -171,7 +171,7 @@ disentangles them.
 | `board_state(CORRECTION01) == CLOSED` | yes |
 | `board_state(CORRECTION02) == CLOSED` | yes (at final commit) |
 | `raw_evidence_sha256 == sha256(at original BASELINE01 commit)` | `ae420afe...` == `ae420afe...` ✓ |
-| `authored_artifacts_git_diff_check == PASS` | verified at commit time |
+| `authored_artifacts_git_diff_check == PASS` | verified at commit time *(CORRECTION03 notes: this was recorded based on unverified reasoning in CORRECTION02; re-verified with the scoped verifier in CORRECTION03 as `AUTHORED_ARTIFACTS_DIFF_CHECK = PASS`)* |
 | `manifest == prose` | counts in manifest.json match prose in BASELINE.md, FINDINGS.md, RESULT.md |
 
 ---

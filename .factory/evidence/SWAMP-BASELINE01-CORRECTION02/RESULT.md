@@ -108,16 +108,23 @@ SHA256 (verified manually before this commit).
 > if patch hygiene is required.
 
 `git diff --check` is applied **only** to authored artifacts (the
-ones under `.factory/evidence/**` and `.factory/acts/**`). The
-verification of that hygiene check at final commit is:
+ones under `.factory/evidence/**` and `.factory/acts/**`).
 
-```
-$ git diff --check HEAD~1..HEAD
-(empty)
-```
-
-The raw `.factory/tmp/**/test.stdout` is intentionally not in that
-set.
+> **CORRECTION03 amended (2026-09-21)**: the original CORRECTION02
+> wording recorded an unscoped `git diff --check HEAD~1..HEAD
+> (empty)` as evidence of `authored_artifacts_git_diff_check == PASS`.
+> That command was not scoped to the policy it claimed to enforce —
+> it checked raw evidence too, and by design could not have produced
+> `(empty)` (the raw `test.stdout` is byte-faithful to BASELINE01 and
+> contains a trailing blank line at line 17650). The CORRECTION02
+> recorded `authored_artifacts_git_diff_check = PASS` based on
+> unverified reasoning, not on a scoped verifier output. CORRECTION03
+> closes that scope contradiction by codifying
+> `.factory/scripts/check_evidence_hygiene.sh` and re-recording the
+> verification as
+> `WHOLE_RANGE_DIFF_CHECK = EXPECTED_FAIL_RAW_EVIDENCE`,
+> `AUTHORED_ARTIFACTS_DIFF_CHECK = PASS`. The scoped verifier output
+> is in `RESULT.md` of CORRECTION03.
 
 ### Normalized derivative created
 
