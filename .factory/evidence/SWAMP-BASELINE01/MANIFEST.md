@@ -36,3 +36,28 @@ Evidence bundle for ACT SWAMP-BASELINE01. Schema is intentionally simple.
 
 Computed via `shasum -a 256`. See `manifest.json` for the full machine-
 readable form.
+
+## Evidence hygiene (codified by CORRECTION02)
+
+Raw evidence artifacts under `.factory/tmp/**` are **immutable**
+byte-faithful captures of tool output. They are exempt from
+`git diff --check` whitespace hygiene. Normalized or redacted
+derivatives must live under `.factory/evidence/**/normalized/**`
+if patch hygiene is required.
+
+`git diff --check` is applied **only** to authored artifacts (the
+ones under `.factory/evidence/**` and `.factory/acts/**`). The raw
+`.factory/tmp/**/test.stdout` is intentionally not in that set.
+
+A normalized derivative of `test.stdout` is provided at
+`.factory/evidence/SWAMP-BASELINE01/normalized/test-summary.txt`
+for downstream tooling that wants diff-friendly text.
+
+## SHA-256 of immutable raw evidence (verified at CORRECTION02)
+
+| File | SHA-256 |
+| --- | --- |
+| `.factory/tmp/native-baseline/test.stdout` | `ae420afef38fea978bd6a33d0e54971547424aa2c9b8f54310d2b731a7cb9417` |
+
+This hash must remain stable across all future Factory ACTs that
+build on BASELINE01. Any drift is provenance loss.

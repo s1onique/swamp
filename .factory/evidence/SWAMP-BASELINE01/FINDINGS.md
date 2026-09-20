@@ -216,6 +216,11 @@ baseline run reported 12 128 passed — 160 fewer. The discrepancy is
 plausibly environmental, but must be checked against a clean CI run
 using `HOME=$(mktemp -d)`.
 
+> Note (CORRECTION02): a further 2 failures share a *different*
+> environmental pattern — JSR package manifest cache miss inside child
+> `swamp repo init` invocations. See F1b in RESULT.md. Total
+> environmental is therefore 156, not 154.
+
 ## F2 — workflow overall success can co-exist with skipped reviews
 
 **Evidence**: `CONFIRMED_STRUCTURALLY`. Both `workflow-verify-reviews.yaml`
@@ -248,27 +253,35 @@ is misleading.
 
 **Runtime reproduction**: NOT_TESTED end-to-end (no live workflow runs).
 
-## F3 — 6 unclassified test failures
+## F3 — 4 unclassified test failures (genuine_or_flaky)
 
-**Evidence**: `OBSERVED_RUNTIME`. The 6 failures NOT classified as
-environmental are (re-derived by CORRECTION01):
+**Evidence**: `OBSERVED_RUNTIME`. The 4 failures NOT classified as
+environmental are (re-derived by CORRECTION02):
 
-- `src/cli/commands/doctor_audit_test.ts`: 2 (SIGTERM/SIGKILL subprocess
-  behaviour under load — likely environmental, needs single-threaded
-  re-run).
-- `src/domain/extensions/extension_quality_checker_test.ts`: 2 (fmt
-  ANSI code assertion).
-- `integration/telemetry_invocation_context_test.ts`: 1 (`swamp repo
-  init` permission chain — likely environmental).
-- `integration/telemetry_workflow_method_invocations_test.ts`: 1
-  (`swamp repo init` permission chain — likely environmental).
+- `src/cli/commands/doctor_audit_test.ts:150` — `runChildWithAbort:
+  aborting a SIGTERM-respecting child terminates it promptly`.
+  `Error: expected SIGTERM-responding child to exit promptly; took
+  30029.606499999998ms`. Real subprocess timing assertion; fires at
+  the test's own 30s timeout.
+- `src/cli/commands/doctor_audit_test.ts:179` — `runChildWithAbort:
+  escalates to SIGKILL when child traps SIGTERM`. `Error: expected
+  SIGKILL escalation to terminate child; took 30032.134041999998ms`.
+- `src/domain/extensions/extension_quality_checker_test.ts:334` —
+  `checkExtensionQuality: fmt output contains no ANSI escape codes`.
+  `AssertionError: actual=true expected=false`. Real ANSI detection
+  in `deno fmt` subprocess output.
+- `src/domain/extensions/extension_quality_checker_test.ts:348` —
+  same for `deno lint`.
 
-Earlier packet erroneously grouped `fetch_otlp*` (5) and `data/query`
-(1) here; those tests pass in this baseline (their names contain the
-substring `FAILED`). See CORRECTION01 for the reconciliation.
+**Impact**: `NOTE`. These are genuine_or_flaky — cannot be resolved
+without `SWAMP-TEST-CHAR01`. Carry into TEST-CHAR01 as a targeted
+repetition target.
 
-**Impact**: `NOTE`. Need targeted re-runs to distinguish fragility
-from defects. Carry into `SWAMP-TEST-CHAR01`.
+> Earlier packet (BASELINE01 / CORRECTION01) listed 6 unclassified
+> failures, including 2 telemetry rows. CORRECTION02 reclassified
+> those 2 telemetry rows as **environmental** (JSR-cache miss), not
+> unclassified. The split is now `156 environmental + 4 unclassified =
+> 160`.
 
 ## F4 — verification workflow not executed in this baseline
 

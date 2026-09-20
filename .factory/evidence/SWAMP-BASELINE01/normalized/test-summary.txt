@@ -1,0 +1,37 @@
+# Normalized test-summary — SWAMP-BASELINE01
+
+Source of truth: .factory/tmp/native-baseline/test.stdout
+SHA-256: ae420afef38fea978bd6a33d0e54971547424aa2c9b8f54310d2b731a7cb9417
+Derived: 2026-09-21 (ACT-SWAMP-BASELINE01-CORRECTION02)
+
+## Counts
+
+passed:    12128
+failed:      160
+ignored:     30
+steps:      214
+
+## Classification (re-derived CORRECTION02)
+
+environmental (mkdir PermissionDenied):           154
+environmental (JSR cache miss in child repo init): 2
+unclassified (genuine_or_flaky):                   4
+total:                                           160
+
+## Per-file failure counts
+
+src/domain/repo/repo_service_test.ts                                106
+src/cli/repo_context_test.ts                                         32
+integration/webhook_signature_schemes_test.ts                        6
+integration/scheduled_trigger_inputs_test.ts                         5
+integration/remote_execution_test.ts                                 5
+src/domain/extensions/extension_quality_checker_test.ts              2
+src/cli/commands/doctor_audit_test.ts                                2
+integration/telemetry_invocation_context_test.ts                     1
+integration/telemetry_workflow_method_invocations_test.ts            1
+
+## Verdict
+
+BASELINE_ESTABLISHED_WITH_GAPS
+
+Recommended next ACT: SWAMP-TEST-CHAR01

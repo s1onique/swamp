@@ -68,15 +68,21 @@ Failure distribution by file:
 | `integration/webhook_signature_schemes_test.ts` | 6 | `swamp repo init` → same PermissionDenied |
 | `integration/scheduled_trigger_inputs_test.ts` | 5 | Same — `swamp repo init` permission |
 | `integration/remote_execution_test.ts` | 5 | Same — `swamp repo init` permission |
-| `integration/telemetry_invocation_context_test.ts` | 1 | Same — `swamp repo init` permission |
-| `integration/telemetry_workflow_method_invocations_test.ts` | 1 | Same — `swamp repo init` permission |
-| `src/cli/commands/doctor_audit_test.ts` | 2 | `runChildWithAbort: SIGTERM/SIGKILL`; needs separate re-test |
-| `src/domain/extensions/extension_quality_checker_test.ts` | 2 | fmt ANSI codes assertion; needs separate re-test |
+| `integration/telemetry_invocation_context_test.ts` | 1 | `JSR package manifest for '@cliffy/command' failed to load` inside child `swamp repo init`; assertion `actual=1 expected=0` at `:112:5`. PermissionDenied is present in stderr but the trigger is JSR-cache. *(environmental — JSR cache)* |
+| `integration/telemetry_workflow_method_invocations_test.ts` | 1 | Identical JSR-cache failure for `@cliffy/command`; assertion at `:183:7`. *(environmental — JSR cache)* |
+| `src/cli/commands/doctor_audit_test.ts` | 2 | `runChildWithAbort: SIGTERM/SIGKILL` — `Error: expected … child to exit promptly; took 30029ms / 30032ms`. Real subprocess timing assertion at test's own 30s timeout. *(unclassified — genuine_or_flaky)* |
+| `src/domain/extensions/extension_quality_checker_test.ts` | 2 | `fmt` / `lint` ANSI escape codes assertion — `assertEquals(true, false)`. Real ANSI detection in subprocess output. *(unclassified — genuine_or_flaky)* |
 
-Total confirmed-environmental: 154 of 160 (the `RepoService.init`
-PermissionDenied chain). The remaining 6 are not yet classified and
-should be re-run individually to distinguish test fragility from
-environmental issues.
+Total confirmed-environmental: **156 of 160** (154 `mkdir` PermissionDenied + 2 JSR-cache misses). The remaining **4** are unclassified (genuine_or_flaky) and must be re-run individually in `SWAMP-TEST-CHAR01` to distinguish real defects from load-induced flake.
+
+> Note (CORRECTION02): the original BASELINE01 attribution of the two
+> telemetry rows to "`swamp repo init` permission" was wrong. Re-reading
+> the assertion bodies in the raw `test.stdout` shows the trigger is
+> `JSR package manifest for '@cliffy/command' failed to load. Failed
+> caching 'https://jsr.io/@cliffy/command/meta.json'` at
+> `src/cli/commands/model_method_history_logs.ts:20:25`. The
+> PermissionDenied is present in stderr but is not what the assertion
+> fires on.
 
 ### Why so many failures are environmental
 

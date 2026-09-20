@@ -29,7 +29,7 @@ swamp: built locally from BASELINE_SHA via deno task compile
 | `deno check main.ts` | 0 | All type checks pass. |
 | `deno lint` | 0 | No lint findings. |
 | `deno fmt --check` | 0 | All files formatted. |
-| `deno task test` | **1** | 12 128 passed / 160 failed / 30 ignored. 154/160 failures are environmental (Nix-managed read-only `~/.claude/`); 6 are unclassified and need a separate re-test to distinguish test fragility from environmental issues. |
+| `deno task test` | **1** | 12 128 passed / 160 failed / 30 ignored. 156/160 failures are environmental (154 `mkdir PermissionDenied` on Nix-managed read-only `~/.claude/` + 2 JSR package manifest cache misses inside child `swamp repo init` invocations); 4 are unclassified (genuine_or_flaky) and need a separate re-test to distinguish test fragility from environmental issues.
 | `deno task compile` | 0 | Emitted `swamp` binary (305 MB, Mach-O arm64). |
 | `./swamp --version` | 0 | Returns `20260206.200442.0-sha.`. |
 | `./swamp --help` | 0 | Renders CLI schema. |
@@ -70,13 +70,14 @@ Count: 1 confirmed, 1 likely, several worth carrying into next ACT.
 
 ## Known false-FAIL surfaces
 
-Count: 1 environmental pattern, 6 unclassified individual failures across
-4 test files.
+Count: 2 environmental patterns + 4 unclassified individual failures
+across 2 test files.
 
 | Finding | Surface | Status |
 | --- | --- | --- |
 | F1 | Nix-managed `~/.claude/` is read-only → `RepoService.init` fails | OBSERVED_RUNTIME; 154/160 failures. |
-| F3 | 6 unclassified test failures: `doctor_audit` (2), `extension_quality_checker` (2), `telemetry_invocation_context` (1), `telemetry_workflow_method_invocations` (1) | OBSERVED_RUNTIME; not classified. |
+| F1b | JSR package manifest cache miss inside child `swamp repo init` | OBSERVED_RUNTIME; 2/160 failures (telemetry tests). |
+| F3 | 4 unclassified test failures: `doctor_audit` (2 SIGTERM/SIGKILL timing), `extension_quality_checker` (2 fmt/lint ANSI) | OBSERVED_RUNTIME; genuine_or_flaky. |
 
 ## Authority map
 

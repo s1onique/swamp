@@ -39,8 +39,16 @@
       "failed": 160,
       "ignored": 30,
       "steps": 214,
-      "environmentalFailures": 154,
-      "unclassifiedFailures": 6,
+      "environmentalFailures": 156,
+      "environmentalBreakdown": {
+        "mkdirPermissionDenied": 154,
+        "jsrCacheMissInChildRepoInit": 2
+      },
+      "unclassifiedFailures": 4,
+      "unclassifiedBreakdown": {
+        "doctorAuditSubprocessTiming": 2,
+        "extensionQualityCheckerAnsi": 2
+      },
       "perFileFailures": {
         "src/domain/repo/repo_service_test.ts": 106,
         "src/cli/repo_context_test.ts": 32,
@@ -52,8 +60,8 @@
         "integration/telemetry_invocation_context_test.ts": 1,
         "integration/telemetry_workflow_method_invocations_test.ts": 1
       },
-      "_correctedBy": "SWAMP-BASELINE01-CORRECTION01",
-      "_note": "Earlier packet had phantom fetch_otlp* (5) and data/query (1) rows from grep false-positives; see CORRECTION01."
+      "_correctedBy": "SWAMP-BASELINE01-CORRECTION02",
+      "_note": "CORRECTION02 re-derived telemetry classifications from observed assertion chains: both telemetry failures are environmental JSR-cache misses (not mkdir PermissionDenied, not unclassified). Earlier splits 155+5 and 154+6 are superseded by 156+4."
     },
     "denoTaskCompile": {
       "exit": 0,
@@ -187,14 +195,14 @@
     },
     {
       "id": "F3",
-      "title": "6 unclassified test failures (re-derived by CORRECTION01)",
+      "title": "4 unclassified test failures (genuine_or_flaky; re-derived by CORRECTION02)",
       "evidence": "OBSERVED_RUNTIME",
       "impact": "NOTE",
       "tests": [
-        "src/cli/commands/doctor_audit_test.ts:2",
-        "src/domain/extensions/extension_quality_checker_test.ts:2",
-        "integration/telemetry_invocation_context_test.ts:1",
-        "integration/telemetry_workflow_method_invocations_test.ts:1"
+        "src/cli/commands/doctor_audit_test.ts:150:1",
+        "src/cli/commands/doctor_audit_test.ts:179:1",
+        "src/domain/extensions/extension_quality_checker_test.ts:334:1",
+        "src/domain/extensions/extension_quality_checker_test.ts:348:1"
       ]
     }
   ],

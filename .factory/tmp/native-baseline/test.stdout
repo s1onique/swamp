@@ -17647,3 +17647,4 @@ RepoService.init with tool amp creates .amp/settings.json [0m[38;5;245m=> ./sr
 RepoService.upgrade with tool amp preserves existing .amp/settings.json entries [0m[38;5;245m=> ./src/domain/repo/repo_service_test.ts:3013:6[0m
 
 [0m[31mFAILED[0m | 12128 passed (214 steps) | 160 failed | 30 ignored (1 step) [0m[38;5;245m(1m40s)[0m
+
