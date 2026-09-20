@@ -1,0 +1,200 @@
+{
+  "schema": "factory.evidence.swamp-baseline/v1",
+  "act": "SWAMP-BASELINE01",
+  "subject": {
+    "commit": "bcaa9695b7f27f51964a9f41587fdf112b261c89",
+    "branch": "main",
+    "upstream": "https://github.com/swamp-club/swamp.git",
+    "upstreamCommit": "bcaa9695b7f27f51964a9f41587fdf112b261c89",
+    "divergence": {
+      "left": 0,
+      "right": 0,
+      "merge-base": "bcaa9695b7f27f51964a9f41587fdf112b261c89"
+    }
+  },
+  "environment": {
+    "os": "macOS 23.6.0 (Darwin 14.6, arm64)",
+    "deno": "2.9.7",
+    "v8": "15.0.245.2-rusty",
+    "typescript": "6.0.3",
+    "git": "2.54.0",
+    "mise": null,
+    "denoInstallPath": "/tmp/deno_install/bin/deno",
+    "denoCache": "/tmp/deno_cache"
+  },
+  "toolchainPinned": {
+    "versionFile": ".tool-versions",
+    "pinned": "deno 2.9.7",
+    "denoVersionInstalled": "deno 2.9.7 (stable, release, aarch64-apple-darwin)",
+    "matches": true
+  },
+  "nativeBaseline": {
+    "denoCheck": { "exit": 0, "durationSeconds": 0.13 },
+    "denoLint": { "exit": 0 },
+    "denoFmtCheck": { "exit": 0 },
+    "denoTaskTest": {
+      "exit": 1,
+      "durationSeconds": 113.56,
+      "passed": 12128,
+      "failed": 160,
+      "ignored": 30,
+      "steps": 214,
+      "environmentalFailures": 155,
+      "unclassifiedFailures": 5
+    },
+    "denoTaskCompile": {
+      "exit": 0,
+      "durationSeconds": 28.6,
+      "binary": "swamp",
+      "binarySize": 305435026,
+      "binaryType": "Mach-O 64-bit executable arm64"
+    },
+    "binarySmokeVersion": { "exit": 0, "output": "20260206.200442.0-sha." },
+    "binarySmokeHelp": { "exit": 0 },
+    "binaryRepoInit": {
+      "exit": 0,
+      "command": "swamp --no-telemetry --no-color repo init /tmp/swamp-smoke --tool none"
+    },
+    "binaryModelListBlocked": {
+      "exit": 1,
+      "reason": "BLOCKED_BY_ENVIRONMENT",
+      "detail": "Failed to load extension models: Operation not permitted (os error 1): mkdir '/Volumes/UserData/Users/chistyakov/.swamp/deno'"
+    },
+    "dataLayerTests": {
+      "files": [
+        "src/domain/data/data_test.ts",
+        "src/domain/data/data_record_mapper_test.ts",
+        "src/domain/models/data_writer_test.ts"
+      ],
+      "passed": 179,
+      "failed": 0
+    },
+    "dataLayerPropertyTests": {
+      "file": "src/domain/data/data_property_test.ts",
+      "passed": 11,
+      "failed": 0,
+      "properties": [
+        "path traversal is always rejected",
+        "single dots in names are accepted",
+        "version is always positive",
+        "tags always include 'type'",
+        "isOwnedBy is reflexive and ignores provenance fields",
+        "isOwnedBy rejects a different ref or type",
+        "serialization round-trips every metadata field",
+        "round-tripped data exposes the same accessors",
+        "zero-duration lifetimes normalize to 'workflow'",
+        "new version preserves identity",
+        "deletion markers tombstone without changing identity"
+      ]
+    }
+  },
+  "verificationWorkflows": {
+    "verify-build": {
+      "status": "NOT_RUN",
+      "note": "exercised components directly",
+      "externalDependencies": []
+    },
+    "verify-reviews": {
+      "status": "NOT_RUN_EXTERNAL_DEPENDENCY",
+      "missingCredentials": ["Claude CLI auth", "ANTHROPIC_API_KEY"],
+      "externalDependencies": ["Claude API"]
+    },
+    "verify-skills": {
+      "status": "NOT_RUN_EXTERNAL_DEPENDENCY",
+      "missingCredentials": ["TESSL_TOKEN", "ANTHROPIC_API_KEY"],
+      "externalDependencies": ["Tessl", "Anthropic API"]
+    }
+  },
+  "trustRoot": {
+    "verdictParser": {
+      "path": "scripts/check_review_verdict.ts",
+      "sha256": "f7176f84f2ada81d5d7426713b004943a26baf0bcc5c4e983d803b17daa67f67"
+    },
+    "skillReview": {
+      "path": "scripts/review_skills.ts",
+      "sha256": "ec68e2cc6e10e0433d7c0eafc8c6beb5b69d6d419d454e341cd6f27d88176085"
+    },
+    "verifyBuildWorkflow": {
+      "path": "verification/workflow-verify-build.yaml",
+      "sha256": "8da56936ccb9f8a02bfec62d6c3d37ca4d00667b1ea096b94a90e94a8db8c374"
+    },
+    "verifyReviewsWorkflow": {
+      "path": "verification/workflow-verify-reviews.yaml",
+      "sha256": "2f5e23aca7d795db91ff97418dfca9e0ec301d6c45e439d0896965faf09e9a44"
+    },
+    "verifySkillsWorkflow": {
+      "path": "verification/workflow-verify-skills.yaml",
+      "sha256": "38d614af3aac67cd379ed239741909361f4e94f0fb6f7f3f253d91c0306a3d90"
+    },
+    "reviewPrompts": {
+      "code-review.md": "047f9e1e2e188d52c80dd504a712c91f7c420ebf5cb54754f85dec07e930d8ad",
+      "adversarial-review.md": "0360e13aa4cc5e3ce84eff9477281d8f2ca6340e13ef4714056dbbef443379dc",
+      "ux-review.md": "00fb8e0fcee3e78ad30c45f140a00acca1ed974fb1b16f6f5deb7ba2510cc76b",
+      "ci-security-review.md": "48a9077fe872f650df5d4823b7fa89cdd302ab5510cd33f78b5deba880b6e87b"
+    },
+    "agents": {
+      "AGENTS.md": "44aebc328e443c5234778a2f8eff7cae8cc9a92c7d87232e2103231a09aafdf0",
+      "CLAUDE.md": "6d97c004d0d2dcf4a4d2d2a9dbbb7669b765ef0955c2a417004f67019c467fe6"
+    }
+  },
+  "attestationReconstruction": {
+    "possible": false,
+    "reason": "verification workflows were not executed; no recorded run data exists in this environment. Static analysis of structure is in VERIFICATION-MAP.md and FINDINGS.md."
+  },
+  "falsePassSurfaces": [
+    {
+      "id": "F3-H3",
+      "title": "Adversarial-review guard excludes extensions/",
+      "evidence": "CONFIRMED_STRUCTURALLY",
+      "impact": "POTENTIAL_FALSE_PASS",
+      "runtime": "NOT_TESTED"
+    },
+    {
+      "id": "F7",
+      "title": "Empty diff path makes review trivially pass",
+      "evidence": "INFERRED",
+      "impact": "POTENTIAL_FALSE_PASS",
+      "runtime": "NOT_TESTED"
+    },
+    {
+      "id": "F2",
+      "title": "Workflow overall success co-exists with skipped reviews",
+      "evidence": "CONFIRMED_STRUCTURALLY",
+      "impact": "LIMITATION (mitigated at report level)",
+      "runtime": "NOT_TESTED end-to-end"
+    }
+  ],
+  "falseFailSurfaces": [
+    {
+      "id": "F1",
+      "title": "RepoService.init fails on read-only ~/.claude/ (Nix environment)",
+      "evidence": "OBSERVED_RUNTIME",
+      "impact": "POTENTIAL_FALSE_FAIL",
+      "count": 155
+    },
+    {
+      "id": "F3",
+      "title": "5 unclassified test failures",
+      "evidence": "OBSERVED_RUNTIME",
+      "impact": "NOTE",
+      "tests": [
+        "src/cli/commands/doctor_audit_test.ts:2",
+        "src/infrastructure/tracing/fetch_otlp_exporter_test.ts:3",
+        "src/infrastructure/tracing/fetch_otlp_log_exporter_test.ts:2",
+        "src/domain/extensions/extension_quality_checker_test.ts:2",
+        "src/libswamp/data/query_test.ts:1"
+      ]
+    }
+  ],
+  "negativeClaims": {
+    "NO_SWAMP_PRODUCTION_CODE_CHANGED": true,
+    "NO_UPSTREAM_PR_CREATED": true,
+    "NO_UPSTREAM_LIFECYCLE_STATE_WRITTEN": true,
+    "NO_ATTESTATION_FORGED": true,
+    "NO_SKIPPED_STEP_COUNTED_AS_EXECUTED": true,
+    "NO_MODEL_REVIEW_COUNTED_AS_DETERMINISTIC": true,
+    "BASELINE_SUBJECT_EXACTLY_IDENTIFIED": true
+  },
+  "verdict": "BASELINE_ESTABLISHED_WITH_GAPS",
+  "recommendedNextAct": "Pre-SWAMP-DOGFOOD01 ACT: classify 5 unclassified test failures and confirm the 155 environmental ones reproduce from a clean environment. Otherwise follow the pre-existing SWAMP-DOGFOOD01 path with the documented caveats."
+}

@@ -1,0 +1,13 @@
+Git SHA: bcaa9695
+No --version provided; using source-default version (dev build)
+Downloading embedded deno runtime...
+Version: 2.9.7
+Target: aarch64-apple-darwin
+Artifact: deno-aarch64-apple-darwin.zip
+Source: https://github.com/denoland/deno/releases/download/v2.9.7/deno-aarch64-apple-darwin.zip
+Downloading: https://github.com/denoland/deno/releases/download/v2.9.7/deno-aarch64-apple-darwin.zip
+Downloaded 38469316 bytes, extracting...
+Wrote deno 2.9.7 (77.2 MB) to /Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/resources/deno/deno
+Wrote version to /Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/resources/deno/version.txt
+Running: deno compile --unstable-bundle --allow-read --allow-write --allow-env --allow-run --allow-sys --allow-net --allow-ffi --include .claude/skills --include resources/deno --exclude agent-constraints --exclude .agents --exclude .claude/skills/ddd --exclude .claude/skills/github-pr --exclude .claude/skills/jujutsu --exclude .claude/skills/issue-lifecycle --exclude .claude/skills/skill-creator --exclude .claude/skills/terminal-output --exclude .github --exclude .vault-test-vault --exclude design --exclude evals --exclude integration --exclude scripts --exclude verification --exclude workflows --output swamp main.ts
+Cleaned up resources/deno/
