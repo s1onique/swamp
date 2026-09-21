@@ -287,3 +287,59 @@
     deno.json  deno.lock                          (no production change)
     .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt
        (parent raw manifest SHA unchanged at 7f313578...)
+
+## CORRECTION04 closure (final state)
+
+  Content commit (Commit C):  04164de4d28b4e14ed272b8b3e9feac83f3e9238
+  Content tree:               4d769403cff93a74465051f54ac2a7d3d6977e2b
+  Attestation commit (Commit D): 9b542d5553907c3078a7c858e45743d96577c8a3
+  Attestation tree:           ab729bac5d9902b6f5dd780ab17cdb8b2ad03b49
+  Parent commit of chain:     95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
+  Subject:                    a392c49e1c899fbbbbf39bf84d73a8308c048eb6
+
+  Post-commit verifier run (committed-tree, against HEAD = Commit D):
+    POSTCOMMIT_VERIFIER_TOTAL         = 82
+    POSTCOMMIT_VERIFIER_PASS          = 82
+    POSTCOMMIT_VERIFIER_FAIL          = 0
+    POSTCOMMIT_VERIFIER_RESULT        = PASS
+    POSTCOMMIT_VERIFIER_EXIT          = 0
+    PROJECTION_COUNT                  = 8 (derived from manifest.json
+                                            authoritative_projections array)
+    RAW_GIT_STATUS_ENTRY_COUNT        = 0
+    EXPECTED_ATTESTATION_BUILD_DIRT_COUNT = 0
+    UNEXPECTED_DIRT_COUNT              = 0
+    NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE = true
+    CONTENT_COMMIT_SCOPE_FACTORY_ONLY = true
+    ATTESTATION_SUBJECT_BOUND         = true (6/6 relations satisfied)
+
+  Parent raw manifest preserved (D3 fix; independent of overall verdict):
+    PARENT_RAW_MANIFEST_EXPECTED_SHA256 = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
+    PARENT_RAW_MANIFEST_ACTUAL_SHA256   = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
+    PARENT_PRESERVED                    = true
+    PARENT_PRESERVED_SCOPE              = PARENT_RAW_MANIFEST
+
+  Raw evidence entry count (D2 fix; runtime-derived from wc -l):
+    RAW_SHA256_ENTRY_COUNT             = 13
+
+  Negative controls (both demonstrated, both clean):
+    parent-hash-negative:
+      before:   51 PASS / 1 FAIL (baseline: epic-board state in clone)
+      mutated:  50 PASS / 2 FAIL (+ PARENT_CHARACTERIZATION_RAW_MANIFEST_PRESERVED)
+      restored: 51 PASS / 1 FAIL (back to baseline)
+    projection-negative:
+      before:   51 PASS / 1 FAIL (baseline)
+      mutated:  50 PASS / 2 FAIL (+ failures.json:CLUSTER-02.evidence_strength)
+      restored: 51 PASS / 1 FAIL (back to baseline)
+
+  D3 independence demonstration: in the 'before' run the overall
+  VERIFIER_RESULT=FAIL (baseline confound) but PARENT_PRESERVED=true.
+  This proves PARENT_PRESERVED is independent of the overall verdict,
+  not just an alias for it.
+
+## Verdict
+
+  CLOSURE_STATE_AUTHORITY_RESTORED
+
+  All four semantic-predicate fidelity defects (D1-D4) repaired;
+  doctrine extended to seven properties; closure is self-consistent
+  at the committed tree of Commit D = 9b542d5553907c3078a7c858e45743d96577c8a3.

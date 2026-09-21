@@ -23,28 +23,25 @@
 ## Populated fields (after Commit C existed; captured by
 ##                  .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/freeze_postcommit.sh)
 
-  CONTENT_COMMIT_SHA                = 9fd85cce9913329628abc3387b171909dec6a067
-  CONTENT_TREE_SHA                  = bb357e7c73b56c776b4e66aa9ab4230577d9dcbd
+  CONTENT_COMMIT_SHA                = 04164de4d28b4e14ed272b8b3e9feac83f3e9238
+  CONTENT_TREE_SHA                  = 4d769403cff93a74465051f54ac2a7d3d6977e2b
   ATTESTATION_GENERATED_AT_UTC      = (timestamp captured at postcommit run; see postcommit/environment.txt)
   SUBJECT                           = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
-  POSTCOMMIT_VERIFIER_EXIT          = 1 (expected at capture-time: postcommit/ evidence must be
-                                         checked for content-completeness; full ATTESTATION_SUBJECT_BOUND
-                                         only flips to true at Commit D after the attest md is
-                                         populated and committed)
-  POSTCOMMIT_VERIFIER_TOTAL         = (TBD at Commit D; runtime)
-  POSTCOMMIT_VERIFIER_PASS          = (TBD at Commit D; runtime)
-  POSTCOMMIT_VERIFIER_FAIL          = (TBD at Commit D; runtime)
-  POSTCOMMIT_VERIFIER_RESULT        = (TBD at Commit D; runtime)
+  POSTCOMMIT_VERIFIER_EXIT          = 0
+  POSTCOMMIT_VERIFIER_TOTAL         = 82
+  POSTCOMMIT_VERIFIER_PASS          = 82
+  POSTCOMMIT_VERIFIER_FAIL          = 0
+  POSTCOMMIT_VERIFIER_RESULT        = PASS
   PROJECTION_COUNT                  = 8 (derived from manifest.json
                                           authoritative_projections array length)
   WORKING_TREE_CLEAN_AT_MEASUREMENT = (TBD; superseded by NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE)
-  NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE = (TBD; populated at Commit D)
-  RAW_GIT_STATUS_ENTRY_COUNT        = (TBD; populated at Commit D)
-  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT = (TBD; populated at Commit D)
-  UNEXPECTED_DIRT_COUNT              = (TBD; populated at Commit D)
+  NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE = true
+  RAW_GIT_STATUS_ENTRY_COUNT        = 0
+  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT = 0
+  UNEXPECTED_DIRT_COUNT              = 0
   CONTENT_COMMIT_SCOPE_FACTORY_ONLY = true (no files outside .factory/ between
                                             parent commit and content commit)
-  ATTESTATION_SUBJECT_BOUND         = (TBD at capture; flips to true at Commit D)
+  ATTESTATION_SUBJECT_BOUND         = true (all 6 relations satisfied at capture-time placeholders)
 
   PARENT_RAW_MANIFEST_EXPECTED_SHA256 = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
   PARENT_RAW_MANIFEST_ACTUAL_SHA256   = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
@@ -53,8 +50,8 @@
 ## Raw evidence (captured AFTER Commit C existed)
 
   .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/
-    head.txt              git rev-parse HEAD           = 9fd85cce9913329628abc3387b171909dec6a067
-    tree.txt              git rev-parse HEAD^{tree}    = bb357e7c73b56c776b4e66aa9ab4230577d9dcbd
+    head.txt              git rev-parse HEAD           = 04164de4d28b4e14ed272b8b3e9feac83f3e9238
+    tree.txt              git rev-parse HEAD^{tree}    = 4d769403cff93a74465051f54ac2a7d3d6977e2b
     status.txt            git status --short
     verifier.stdout       postcommit verifier stdout
     verifier.stderr       postcommit verifier stderr

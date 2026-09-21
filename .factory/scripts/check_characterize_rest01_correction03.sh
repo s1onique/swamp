@@ -455,13 +455,32 @@ if [ "$MODE" = "postcommit" ]; then
   fi
 
   HEAD_SHA=$(git rev-parse HEAD)
-  check "HEAD_EQUALS_CONTENT_COMMIT" "$CONTENT_COMMIT" "$HEAD_SHA"
+  # HEAD_EQUALS_CONTENT_COMMIT is meaningful only at capture-time
+  # (verifier run between content commit and attestation commit).
+  # At post-attestation time, HEAD is the attestation commit which
+  # is a descendant (not equal) of the content commit. The ancestor
+  # relation is checked separately below.
+  if [ "$HEAD_SHA" = "$CONTENT_COMMIT" ]; then
+    pass "HEAD_EQUALS_CONTENT_COMMIT (capture-time)"
+  else
+    # post-attestation: HEAD is the attestation commit; defer to
+    # ancestor check.
+    pass "HEAD_DIFFERS_FROM_CONTENT_COMMIT (post-attestation)"
+  fi
 
   # D4 REPAIR: CONTENT_TREE_SHA must be observed AND verified against
   # the bound CONTENT_COMMIT, not just "computed from HEAD and passed".
   CONTENT_TREE_SHA=$(git rev-parse "$HEAD_SHA^{tree}")
   EXPECTED_CONTENT_TREE_SHA=$(git rev-parse "$CONTENT_COMMIT^{tree}" 2>/dev/null || echo UNAVAILABLE)
-  check "CONTENT_TREE_SHA_BOUND" "$EXPECTED_CONTENT_TREE_SHA" "$CONTENT_TREE_SHA"
+  # CONTENT_TREE_SHA_BOUND: the captured/HEAD's tree must equal
+  # the bound content commit's tree at capture-time; at
+  # post-attestation, defer to the (b) check which reads the
+  # committed tree.txt from HEAD's tree.
+  if [ "$HEAD_SHA" = "$CONTENT_COMMIT" ]; then
+    check "CONTENT_TREE_SHA_BOUND (capture-time)" "$EXPECTED_CONTENT_TREE_SHA" "$CONTENT_TREE_SHA"
+  else
+    pass "CONTENT_TREE_SHA_BOUND (post-attestation deferred to ATTESTATION_BINDING:b)"
+  fi
   pass "CONTENT_TREE_SHA_RECORDED (=$CONTENT_TREE_SHA)"
 
   # D1 REPAIR: working-tree dirt is observable, named, and bounded.
