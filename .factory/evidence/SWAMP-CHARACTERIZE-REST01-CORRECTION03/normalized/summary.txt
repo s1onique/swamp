@@ -1,0 +1,46 @@
+ACT                          = SWAMP-CHARACTERIZE-REST01-CORRECTION03
+SUBJECT                      = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
+PARENT_COMMIT                = 19d6d2e093e1bbc9e2cb160a19018444874444aa
+VERDICT                      = CLOSURE_STATE_AUTHORITY_RESTORED
+
+CANONICAL CLASSIFICATIONS (single source of truth):
+  CLUSTER-01  = ENVIRONMENTAL          | SUBSTRATE              | FALSIFIED_BY_CONTROL                | count=31
+  CLUSTER-02  = UNRESOLVED             | UNKNOWN                | OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD | count= 1
+  CLUSTER-03  = TEST_CONTRACT_AMBIGUITY| SWAMP_TEST_CONTRACT    | REPRODUCED_REPEATEDLY               | count= 1
+
+CONSERVATION:
+  ENVIRONMENTAL            = 31
+  UNRESOLVED               =  1
+  TEST_CONTRACT_AMBIGUITY  =  1
+  total                    = 33
+  runner_failed            = 33
+  no_unknown_red           = false
+  DOGFOOD_READY            = false
+
+PROJECTION REGISTRY (derived; len(authoritative_projections)):
+  projection_count         = 8
+  members:
+    1. failures.json
+    2. classified-inventory.json
+    3. CLUSTER-SUMMARY.md
+    4. RESULT.md
+    5. normalized/summary.txt
+    6. clusters/CLUSTER-02.md
+    7. clusters/CLUSTER-03.md
+    8. epic-board.md
+
+PARENT RAW MANIFEST (independent historical reference):
+  parent_commit            = 19d6d2e093e1bbc9e2cb160a19018444874444aa
+  parent_manifest_path     = .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt
+  expected_sha256          = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
+  actual_sha256            = (derived from current committed file by verifier)
+
+VERIFIER COUNTS (runtime-derived; populated by post-commit run):
+  VERIFIER_TOTAL           = (runtime)
+  VERIFIER_PASS            = (runtime)
+  VERIFIER_FAIL            = (runtime)
+  VERIFIER_RESULT          = (runtime)
+
+CONTENT_COMMIT             = (filled in by attestation)
+ATTESTATION_COMMIT         = (filled in by attestation)
+CONTENT_TREE_SHA           = (filled in by attestation)
