@@ -67,6 +67,165 @@ type AnyOptions = any;
 export const DEFAULT_SIGKILL_AFTER_MS = 3_000;
 
 /**
+ * Internal seam used by `runChildWithAbort` to deliver a signal to a child
+ * process. Production callers never override this — the default delegates to
+ * `ChildProcess.kill`. Tests inject a stub to make cancellation outcomes
+ * deterministic without depending on whether the host substrate allows
+ * signal delivery.
+ *
+ * NOT a global mutable hook. NOT an environment variable. The seam lives
+ * on the function call itself, so production callers cannot be affected.
+ */
+export type SignalSender = (
+  child: Deno.ChildProcess,
+  signal: Deno.Signal,
+) => void;
+
+/** Production default: `ChildProcess.kill`. */
+export const defaultSignalSender: SignalSender = (child, sig) => {
+  child.kill(sig);
+};
+
+/** Phase of the cancellation pipeline in which a signal was attempted. */
+export type CancellationPhase = "graceful" | "escalation";
+
+/**
+ * Error raised when a child-process signal could not be delivered.
+ *
+ * This is distinct from the benign "process already terminated" race: the
+ * caller asked for cancellation and the runtime could not honor the
+ * request. Callers should not treat this as a successful cancellation;
+ * they should surface it (e.g. exit non-zero, log the cause).
+ *
+ * The `cause` field carries the underlying error from the Deno runtime
+ * so diagnostic information is preserved end-to-end.
+ */
+export class ChildSignalDeliveryError extends UserError {
+  readonly signal: Deno.Signal;
+  readonly pid?: number;
+  readonly phase: CancellationPhase;
+  override readonly cause?: unknown;
+  constructor(
+    message: string,
+    options: {
+      signal: Deno.Signal;
+      pid?: number;
+      phase: CancellationPhase;
+      cause?: unknown;
+    },
+  ) {
+    super(message, "subprocess_signal_unavailable");
+    this.name = "ChildSignalDeliveryError";
+    this.signal = options.signal;
+    this.pid = options.pid;
+    this.phase = options.phase;
+    this.cause = options.cause;
+  }
+}
+
+/**
+ * Outcome of attempting to deliver one signal to a child process.
+ *
+ *   - `delivered`         — the kill() call returned normally; signal may
+ *                           or may not have reached the child.
+ *   - `already-terminal`  — the runtime indicated the child is no longer
+ *                           reachable (e.g. TypeError "Child process has
+ *                           already terminated", or Deno.errors.NotFound).
+ *                           This is the benign race where the child exited
+ *                           in the window between the abort signal arriving
+ *                           and our kill() call.
+ *   - `capability-denied` — the runtime refused permission
+ *                           (`Deno.errors.PermissionDenied`). The signal
+ *                           was NOT delivered and the child may still be
+ *                           alive. The caller must surface this as a
+ *                           bounded failure.
+ *   - `failed`            — any other unexpected error. The signal may or
+ *                           may not have reached the child. The caller
+ *                           must surface this as a bounded failure.
+ */
+export type SignalAttempt =
+  | { kind: "delivered"; signal: Deno.Signal }
+  | { kind: "already-terminal"; signal: Deno.Signal }
+  | {
+    kind: "capability-denied";
+    signal: Deno.Signal;
+    cause: unknown;
+  }
+  | { kind: "failed"; signal: Deno.Signal; cause: unknown };
+
+/**
+ * Attempt to deliver `signal` to `child` via `sender`, classifying the
+ * result. Never throws — every error path becomes a typed outcome.
+ *
+ * The classification recognises two "already terminal" indicators:
+ *   1. `Deno.errors.NotFound` (e.g. `ESRCH: No such process` from `Deno.kill`)
+ *   2. A `TypeError` with message `"Child process has already terminated"`
+ *      (raised by `ChildProcess.kill` after the child has exited)
+ *
+ * Anything else is either `Deno.errors.PermissionDenied` (capability
+ * denied) or `failed`. The caller MUST treat capability-denied and failed
+ * outcomes as bounded errors and must NOT swallow them.
+ */
+export function attemptSignal(
+  child: Deno.ChildProcess,
+  signal: Deno.Signal,
+  sender: SignalSender,
+): SignalAttempt {
+  try {
+    sender(child, signal);
+    return { kind: "delivered", signal };
+  } catch (cause: unknown) {
+    if (cause instanceof Deno.errors.NotFound) {
+      return { kind: "already-terminal", signal };
+    }
+    // `ChildProcess.kill` after the child has exited raises a plain
+    // TypeError; recognise its specific message rather than the whole
+    // TypeError class so unrelated TypeErrors are reported as failures.
+    if (
+      cause instanceof TypeError &&
+      (cause as TypeError).message === "Child process has already terminated"
+    ) {
+      return { kind: "already-terminal", signal };
+    }
+    if (cause instanceof Deno.errors.PermissionDenied) {
+      return { kind: "capability-denied", signal, cause };
+    }
+    return { kind: "failed", signal, cause };
+  }
+}
+
+/** Build the `ChildSignalDeliveryError` for a non-delivered attempt. */
+function toDeliveryError(
+  child: Deno.ChildProcess,
+  phase: CancellationPhase,
+  attempt:
+    | { kind: "capability-denied"; signal: Deno.Signal; cause: unknown }
+    | { kind: "failed"; signal: Deno.Signal; cause: unknown },
+): ChildSignalDeliveryError {
+  const causeMessage = attempt.cause instanceof Error
+    ? attempt.cause.message
+    : String(attempt.cause);
+  const verb = attempt.kind === "capability-denied"
+    ? "could not deliver"
+    : "failed to deliver";
+  const detail = phase === "escalation"
+    ? " after the SIGTERM grace period"
+    : "";
+  const pidPart = typeof child.pid === "number"
+    ? ` to child process ${child.pid}`
+    : "";
+  return new ChildSignalDeliveryError(
+    `doctor audit ${verb} ${attempt.signal}${pidPart}${detail}: ${causeMessage}`,
+    {
+      signal: attempt.signal,
+      pid: typeof child.pid === "number" ? child.pid : undefined,
+      phase,
+      cause: attempt.cause,
+    },
+  );
+}
+
+/**
  * Spawns `cmd`, writes `stdin` to its stdin, and returns the captured
  * exit code and decoded output. While the child runs, an optional
  * `signal` aborts by sending SIGTERM to the child — without this, killing
@@ -75,53 +234,116 @@ export const DEFAULT_SIGKILL_AFTER_MS = 3_000;
  * after `sigkillAfterMs` so a hung subprocess can't keep the doctor
  * alive forever.
  *
+ * Cancellation is **capability-aware**: every signal-delivery attempt
+ * produces one of four typed outcomes (`delivered`, `already-terminal`,
+ * `capability-denied`, `failed`). Non-delivered outcomes surface
+ * synchronously as `ChildSignalDeliveryError` rather than silently
+ * leaving the caller to await `child.output()` for the child's natural
+ * lifetime. This ensures a host whose substrate denies signal delivery
+ * (e.g. a sandboxed parent) cannot stall `runChildWithAbort` indefinitely.
+ *
  * Exported for testing; production callers go through `makeSwampSpawnFn`.
  */
 export async function runChildWithAbort(
   cmd: Deno.Command,
   stdin: string,
   signal: AbortSignal | undefined,
-  opts: { sigkillAfterMs?: number } = {},
+  opts: {
+    sigkillAfterMs?: number;
+    /**
+     * Test seam — replaces the default signal sender. Must NOT be used by
+     * production callers; exists only so portable unit tests can drive
+     * delivery-failure and capability-denied outcomes deterministically.
+     *
+     * @internal
+     */
+    _signalSender?: SignalSender;
+  } = {},
 ): Promise<{ exitCode: number; stdout: string; stderr: string }> {
   if (signal?.aborted) {
     throw new DOMException("doctor audit aborted", "AbortError");
   }
   const sigkillAfterMs = opts.sigkillAfterMs ?? DEFAULT_SIGKILL_AFTER_MS;
+  const sendSignal: SignalSender = opts._signalSender ?? defaultSignalSender;
   const child = cmd.spawn();
-  let escalationTimer: ReturnType<typeof setTimeout> | undefined;
-  const onAbort = () => {
-    try {
-      child.kill("SIGTERM");
-    } catch {
-      // Child already exited; nothing to escalate.
-      return;
-    }
-    escalationTimer = setTimeout(() => {
-      try {
-        child.kill("SIGKILL");
-      } catch {
-        // Already exited between SIGTERM and the escalation tick.
-      }
-    }, sigkillAfterMs);
-  };
-  signal?.addEventListener("abort", onAbort);
-  try {
+
+  // Race the child's natural completion against cancellation. We do not
+  // bind `child.output()` directly to the return value, because a denied
+  // signal must reject the call *before* `child.output()` resolves — the
+  // substrate-defining invariant.
+  let resolveSettle: ((v: Deno.CommandOutput) => void) | undefined;
+  let rejectSettle: ((e: unknown) => void) | undefined;
+  const settled = new Promise<Deno.CommandOutput>((resolve, reject) => {
+    resolveSettle = resolve;
+    rejectSettle = reject;
+  });
+
+  // Begin writing stdin and awaiting the child output in the background.
+  // We retain a reference so the finally block can attach a no-op
+  // rejection handler if the call was settled by cancellation — without
+  // that handler the child eventually exits naturally and surfaces an
+  // unhandled rejection (forbidden by project policy).
+  const childCompletion: Promise<Deno.CommandOutput> = (async () => {
     const writer = child.stdin.getWriter();
     try {
       await writer.write(new TextEncoder().encode(stdin));
     } finally {
       await writer.close();
     }
-    const { code, stdout, stderr } = await child.output();
+    return await child.output();
+  })();
+  childCompletion.then(
+    (v) => resolveSettle?.(v),
+    (e) => rejectSettle?.(e),
+  );
+
+  let escalationTimer: ReturnType<typeof setTimeout> | undefined;
+  let onAbort: (() => void) | undefined;
+  if (signal) {
+    onAbort = () => {
+      const attempt = attemptSignal(child, "SIGTERM", sendSignal);
+      if (attempt.kind !== "delivered") {
+        if (attempt.kind === "already-terminal") {
+          // Child is gone — let `childCompletion` resolve naturally.
+          return;
+        }
+        // capability-denied / failed: surface immediately and do NOT
+        // arm the escalation timer (there is nothing to escalate).
+        rejectSettle?.(toDeliveryError(child, "graceful", attempt));
+        return;
+      }
+      // SIGTERM delivered; arm escalation if child is still alive at the
+      // end of the grace period.
+      escalationTimer = setTimeout(() => {
+        const esc = attemptSignal(child, "SIGKILL", sendSignal);
+        if (esc.kind === "delivered" || esc.kind === "already-terminal") {
+          return;
+        }
+        // capability-denied / failed during escalation: surface.
+        if (escalationTimer !== undefined) clearTimeout(escalationTimer);
+        rejectSettle?.(toDeliveryError(child, "escalation", esc));
+      }, sigkillAfterMs);
+    };
+    signal.addEventListener("abort", onAbort);
+  }
+
+  try {
+    const result = await settled;
     const decoder = new TextDecoder();
     return {
-      exitCode: code,
-      stdout: decoder.decode(stdout),
-      stderr: decoder.decode(stderr),
+      exitCode: result.code,
+      stdout: decoder.decode(result.stdout),
+      stderr: decoder.decode(result.stderr),
     };
   } finally {
-    signal?.removeEventListener("abort", onAbort);
+    if (signal && onAbort) signal.removeEventListener("abort", onAbort);
     if (escalationTimer !== undefined) clearTimeout(escalationTimer);
+    // If we settled by cancellation (rejected through `rejectSettle`),
+    // `childCompletion` is still in flight. Attach a no-op rejection
+    // handler so it does not surface as an unhandled rejection when the
+    // child eventually exits naturally — its resolution is irrelevant
+    // once we have already reported the cancellation failure.
+    childCompletion.then(() => {}, () => {});
   }
 }
 
