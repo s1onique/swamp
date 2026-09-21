@@ -1,0 +1,422 @@
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: no disconnected workers yields zero counts ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: all within grace period yields zero counts ... [0m[32mok[0m [0m[38;5;245m(148µs)[0m
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: dry run does not delete ... [0m[32mok[0m [0m[38;5;245m(153µs)[0m
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: deletes stale worker and prunes bindings ... [0m[32mok[0m [0m[38;5;245m(252µs)[0m
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: partial delete failure continues to next worker ... [0m[32mok[0m [0m[38;5;245m(229µs)[0m
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: mixed prunable and non-prunable workers ... [0m[32mok[0m [0m[38;5;245m(133µs)[0m
+[0m[38;5;245m./src/libswamp/worker/prune_test.ts => [0mworkerPrune: skips binding prune when resolveStaleBindings is not provided ... [0m[32mok[0m [0m[38;5;245m(96µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerTokenList: yields resolving then completed with mapped tokens ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerTokenList: overlays expired display state on stale live tokens ... [0m[32mok[0m [0m[38;5;245m(190µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerTokenList: skips malformed records and sorts by name ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerTokenList: yields error when the query fails ... [0m[32mok[0m [0m[38;5;245m(232µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerList: yields completed with mapped workers sorted by name ... [0m[32mok[0m [0m[38;5;245m(851µs)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: connects, enrolls, and reports status ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerList: skips malformed worker records ... [0m[32mok[0m [0m[38;5;245m(262µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerList: yields error when the query fails ... [0m[32mok[0m [0m[38;5;245m(153µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerList: filters disconnected workers by default ... [0m[32mok[0m [0m[38;5;245m(173µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerList: includes disconnected workers with includeDisconnected ... [0m[32mok[0m [0m[38;5;245m(91µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0mworkerList: omits filteredDisconnectedCount when no workers are disconnected ... [0m[32mok[0m [0m[38;5;245m(82µs)[0m
+[0m[38;5;245m./src/libswamp/worker/list_test.ts => [0meffectiveTokenState: live states past expiry display as expired ... [0m[32mok[0m [0m[38;5;245m(44µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_revoke_test.ts => [0mworkerTokenRevoke: yields revoking then completed with state ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./src/libswamp/worker/token_revoke_test.ts => [0mworkerTokenRevoke: reports already-revoked tokens as a no-op ... [0m[32mok[0m [0m[38;5;245m(114µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_revoke_test.ts => [0mworkerTokenRevoke: forwards run errors ... [0m[32mok[0m [0m[38;5;245m(77µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_revoke_test.ts => [0mworkerTokenRevoke: errors when the stream ends without completing ... [0m[32mok[0m [0m[38;5;245m(71µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: mints and yields the plaintext once ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: defaults to the sole configured vault ... [0m[32mok[0m [0m[38;5;245m(204µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: errors when no vaults are configured ... [0m[32mok[0m [0m[38;5;245m(106µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: errors when multiple vaults and no --vault ... [0m[32mok[0m [0m[38;5;245m(86µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: errors when the requested vault is unknown ... [0m[32mok[0m [0m[38;5;245m(56µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: forwards mint errors ... [0m[32mok[0m [0m[38;5;245m(95µs)[0m
+[0m[38;5;245m./src/libswamp/worker/token_create_test.ts => [0mworkerTokenCreate: errors when the token record is missing ... [0m[32mok[0m [0m[38;5;245m(63µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0msplitEnrollmentToken: splits on the first dot only ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: dispatches a step and completes its lease ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: extension bundles register by content fingerprint ... [0m[32mok[0m [0m[38;5;245m(322µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: remote method error fails the lease and rethrows ... [0m[32mok[0m [0m[38;5;245m(530µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: enrollment redeems the token, records the worker, issues a credential ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: protocol mismatch is rejected before any transition ... [0m[32mok[0m [0m[38;5;245m(683µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: malformed token is rejected ... [0m[32mok[0m [0m[38;5;245m(160µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: failed redemption leaves no pool state behind ... [0m[32mok[0m [0m[38;5;245m(246µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: capability verbs are unavailable before enrollment ... [0m[32mok[0m [0m[38;5;245m(291µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: session refresh issues a fresh sliding credential ... [0m[32mok[0m [0m[38;5;245m(253µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: dispatch streams events and records busy → idle ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: dispatch to a busy worker rejects ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: dispatch to an unknown worker rejects ... [0m[32mok[0m [0m[38;5;245m(157µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts a valid workflow.run request ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts a valid model.method.run request ... [0m[32mok[0m [0m[38;5;245m(467µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts a valid cancel request ... [0m[32mok[0m [0m[38;5;245m(136µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects unknown type ... [0m[32mok[0m [0m[38;5;245m(377µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects empty id ... [0m[32mok[0m [0m[38;5;245m(149µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects missing payload for workflow.run ... [0m[32mok[0m [0m[38;5;245m(134µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects missing methodName for model.method.run ... [0m[32mok[0m [0m[38;5;245m(93µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mextractRequestId: returns id when present ... [0m[32mok[0m [0m[38;5;245m(45µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mextractRequestId: returns 'unknown' when id is missing ... [0m[32mok[0m [0m[38;5;245m(36µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mextractRequestId: returns 'unknown' for non-string id ... [0m[32mok[0m [0m[38;5;245m(27µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mextractRequestId: returns 'unknown' for null data ... [0m[32mok[0m [0m[38;5;245m(17µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage sends error for invalid JSON ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage sends error for invalid request shape ... [0m[32mok[0m [0m[38;5;245m(110µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage echoes request id on validation failure ... [0m[32mok[0m [0m[38;5;245m(110µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage uses 'unknown' id when id is missing ... [0m[32mok[0m [0m[38;5;245m(103µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage echoes id for valid type with invalid payload ... [0m[32mok[0m [0m[38;5;245m(271µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage cancel aborts the matching controller ... [0m[32mok[0m [0m[38;5;245m(203µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage cancel for unknown id is a no-op ... [0m[32mok[0m [0m[38;5;245m(47µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage rejects duplicate request ID ... [0m[32mok[0m [0m[38;5;245m(62µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleMessage does not leak unknown type value in error ... [0m[32mok[0m [0m[38;5;245m(90µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.grant.list ... [0m[32mok[0m [0m[38;5;245m(98µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.grant.list with payload ... [0m[32mok[0m [0m[38;5;245m(64µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.group.list ... [0m[32mok[0m [0m[38;5;245m(67µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.check ... [0m[32mok[0m [0m[38;5;245m(117µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.check with collectives ... [0m[32mok[0m [0m[38;5;245m(65µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.reload ... [0m[32mok[0m [0m[38;5;245m(33µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.method.run with typeArg ... [0m[32mok[0m [0m[38;5;245m(43µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects access.check without payload ... [0m[32mok[0m [0m[38;5;245m(71µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.can-i with action and resource ... [0m[32mok[0m [0m[38;5;245m(137µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.can-i without action/resource for enumeration ... [0m[32mok[0m [0m[38;5;245m(21µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.can-i with collectives ... [0m[32mok[0m [0m[38;5;245m(38µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects access.can-i without id ... [0m[32mok[0m [0m[38;5;245m(60µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects access.can-i with action but no resource ... [0m[32mok[0m [0m[38;5;245m(66µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects access.can-i with resource but no action ... [0m[32mok[0m [0m[38;5;245m(34µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:54.512Z [INF] access·reload: Access policy reload requested by "anonymous"
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: mode:none allows all requests without principal ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: mode:none allows all requests without principal ... [0m[32mok[0m [0m[38;5;245m(654µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: null principal rejected in token mode ... [0m[32mok[0m [0m[38;5;245m(154µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: authorized workflow.run proceeds ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: no-match placement queues then times out ... [0m[32mok[0m [0m[38;5;245m(102ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: unauthorized workflow.run returns error frame ... [0m[32mok[0m [0m[38;5;245m(26ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.reload requires admin on access:* ... [0m[32mok[0m [0m[38;5;245m(176µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:54.567Z [INF] access·reload: Access policy reload requested by "user:adam"
+2026-09-21T16:55:54.567Z [ERR] access·reload: Access policy reload failed (requested by "user:adam"): TypeError: Cannot read properties of undefined (reading 'findAllForType')
+    at Object.queryFileGrants (file:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/src/domain/access/grant_file_reconciler.ts:287:18)
+    at reconcileAllFileGrants (file:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/src/domain/access/grant_file_reconciler.ts:219:37)
+    at handleAccessReload (file:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/src/serve/handlers/access_handlers.ts:725:35)
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.reload allowed with admin grant ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.reload allowed with admin grant ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.grant.list rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(199µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.group.list rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(203µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: admin on access:* allows grant list without explicit read ... [0m[32mok[0m [0m[38;5;245m(326µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: admin on access:* allows group list without explicit read ... [0m[32mok[0m [0m[38;5;245m(132µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: admin on access:* grants workflow run (superuser) ... [0m[32mok[0m [0m[38;5;245m(253µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: explicit deny beats admin on access:* ... [0m[32mok[0m [0m[38;5;245m(103µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:54.586Z [INF] serve·worker-gateway: Worker "it-worker" enrolled ("first-connect")
+2026-09-21T16:55:54.587Z [INF] worker·connect: Enrolled as "it-worker"
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: explicit deny returns denied error frame ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: explicit deny returns denied error frame ... [0m[32mok[0m [0m[38;5;245m(26ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:54.616Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["60301939-61bf-445d-a527-f2b845883908"]
+2026-09-21T16:55:54.622Z [INF] worker·dispatch: Dispatch "60301939-61bf-445d-a527-f2b845883908" started: "swamp/remote-it"."run"
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: resolvedUserNames replaces raw ID in error message ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: resolvedUserNames replaces raw ID in error message ... [0m[32mok[0m [0m[38;5;245m(26ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: falls back to raw ID when resolvedUserNames absent ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: per-step queueTimeout overrides serve-level default ... [0m[32mok[0m [0m[38;5;245m(102ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-dot "swamp.grant" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: disconnect starts the grace window; reconnect cancels it ... [0m[32mok[0m [0m[38;5;245m(258ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-doublecolon "swamp::grant" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-uppercase "SWAMP/GRANT" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:54.814Z [INF] worker·dispatch: Dispatch "60301939-61bf-445d-a527-f2b845883908" finished: "swamp/remote-it"."run" "succeeded" in 192ms
+2026-09-21T16:55:54.815Z [INF] serve·worker-gateway: Dispatch "60301939-61bf-445d-a527-f2b845883908" on worker "it-worker" "succeeded" in 199ms
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-doubleslash "swamp//grant" requires admin ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-doubleslash "swamp//grant" requires admin ... [0m[32mok[0m [0m[38;5;245m(50ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:54.867Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["30dbfe07-bb03-48d7-91e5-76b52fad1e0a"]
+2026-09-21T16:55:54.871Z [INF] worker·dispatch: Dispatch "30dbfe07-bb03-48d7-91e5-76b52fad1e0a" started: "swamp/remote-it"."run"
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-space "swamp grant" requires admin ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-space "swamp grant" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-at-prefix "@swamp/grant" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: a restarted process on the same machine re-enrolls after a disconnect ... [0m[32mok[0m [0m[38;5;245m(258ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized grant-canonical "swamp/grant" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: grace expiry removes the worker and revokes its credential ... [0m[32mok[0m [0m[38;5;245m(61ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:55.050Z [INF] worker·dispatch: Dispatch "30dbfe07-bb03-48d7-91e5-76b52fad1e0a" finished: "swamp/remote-it"."run" "succeeded" in 179ms
+2026-09-21T16:55:55.050Z [INF] serve·worker-gateway: Dispatch "30dbfe07-bb03-48d7-91e5-76b52fad1e0a" on worker "it-worker" "succeeded" in 184ms
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized group-dot "swamp.group" requires admin ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized group-dot "swamp.group" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized group-doublecolon "swamp::group" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: token expiry disconnects the worker and removes it after grace ... [0m[32mok[0m [0m[38;5;245m(102ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: a different instance cannot enroll while a worker is connected ... [0m[32mok[0m [0m[38;5;245m(427µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized group-uppercase "SWAMP/GROUP" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: dispatch ending after a socket drop does not mark idle ... [0m[32mok[0m [0m[38;5;245m(63ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized group-space "swamp group" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: a cancelled dispatch frees the worker only after it unwinds ... [0m[32mok[0m [0m[38;5;245m(34ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mfleetMemberSuffix: returns a stable 8-char hex suffix ... [0m[32mok[0m [0m[38;5;245m(260µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: fleet token (maxEnrollments > 1) names workers with suffix ... [0m[32mok[0m [0m[38;5;245m(273µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: single-enrollment token (maxEnrollments === 1) uses plain token name ... [0m[32mok[0m [0m[38;5;245m(63µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: fleet token auto-injects fleet label ... [0m[32mok[0m [0m[38;5;245m(74µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: worker-supplied fleet label wins over auto-injection ... [0m[32mok[0m [0m[38;5;245m(146µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized group-canonical "swamp/group" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized server-token-dot "swamp.server-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: reconnects with the same instance uuid after a drop ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: a stable cache directory keeps the machine id across restarts ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized server-token-doublecolon "swamp::server-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized server-token-uppercase "SWAMP/SERVER-TOKEN" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized server-token-canonical "swamp/server-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: fleet worker naming is stable across reconnects ... [0m[32mok[0m [0m[38;5;245m(258ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: null readTokenMaxEnrollments defaults to single-machine naming ... [0m[32mok[0m [0m[38;5;245m(431µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized enrollment-token-dot "swamp.enrollment-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized enrollment-token-doublecolon "swamp::enrollment-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: fleet token expiry records expire on the token name, not the worker name ... [0m[32mok[0m [0m[38;5;245m(101ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized enrollment-token-uppercase "SWAMP/ENROLLMENT-TOKEN" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: verifyOnEnroll — worker starts as unverified and transitions to idle on probe pass ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized enrollment-token-space "swamp enrollment-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: verifyOnEnroll — probe failure leaves worker unverified with reason ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized enrollment-token-at-prefix "@swamp/enrollment-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: verifyOnEnroll — probe error leaves worker unverified with error message ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: without verifyOnEnroll — worker becomes idle immediately ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: worker.drain sets status to draining ... [0m[32mok[0m [0m[38;5;245m(615µs)[0m
+[0m[38;5;245m./src/serve/worker_gateway_test.ts => [0mWorkerGateway: draining worker disconnect skips grace window ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized enrollment-token-canonical "swamp/enrollment-token" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized worker-dot "swamp.worker" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized worker-doublecolon "swamp::worker" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized worker-uppercase "SWAMP/WORKER" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized worker-space "swamp worker" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized worker-at-prefix "@swamp/worker" requires admin ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: denormalized worker-canonical "swamp/worker" requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: normal model typeArg still uses model:* run, not admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0misAccessModelType: admin user can still run canonical swamp/grant ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedModelTypes: non-admin denied run on restricted type ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedModelTypes: denormalized restricted type requires admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedModelTypes: admin can run restricted type ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedModelTypes: non-restricted type still allowed for non-admin ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedCommands: non-admin denied on restricted command ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedCommands: admin can use restricted command ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:56.578Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["1635ad2b-cdc3-4975-9fc1-7e819563c071"]
+2026-09-21T16:55:56.583Z [INF] worker·dispatch: Dispatch "1635ad2b-cdc3-4975-9fc1-7e819563c071" started: "swamp/remote-it"."run"
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedCommands: non-restricted command still allowed for non-admin ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mrestrictedCommands: non-restricted command still allowed for non-admin ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: missing snapshot loader rejects in token mode ... [0m[32mok[0m [0m[38;5;245m(124µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.get ... [0m[32mok[0m [0m[38;5;245m(187µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.get with optional fields ... [0m[32mok[0m [0m[38;5;245m(91µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.query ... [0m[32mok[0m [0m[38;5;245m(130µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects data.query without predicate ... [0m[32mok[0m [0m[38;5;245m(71µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.list ... [0m[32mok[0m [0m[38;5;245m(105µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.search ... [0m[32mok[0m [0m[38;5;245m(24µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.search with query ... [0m[32mok[0m [0m[38;5;245m(17µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.method.describe ... [0m[32mok[0m [0m[38;5;245m(80µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects model.method.describe without methodName ... [0m[32mok[0m [0m[38;5;245m(42µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.search ... [0m[32mok[0m [0m[38;5;245m(33µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.get ... [0m[32mok[0m [0m[38;5;245m(75µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects vault.get without vaultNameOrId ... [0m[32mok[0m [0m[38;5;245m(63µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.put ... [0m[32mok[0m [0m[38;5;245m(152µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects vault.put without value ... [0m[32mok[0m [0m[38;5;245m(40µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts audit.timeline ... [0m[32mok[0m [0m[38;5;245m(46µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts audit.timeline with options ... [0m[32mok[0m [0m[38;5;245m(116µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts summarise ... [0m[32mok[0m [0m[38;5;245m(43µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts report.get ... [0m[32mok[0m [0m[38;5;245m(116µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects report.get without reportName ... [0m[32mok[0m [0m[38;5;245m(54µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts report.search ... [0m[32mok[0m [0m[38;5;245m(84µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts report.search with filters ... [0m[32mok[0m [0m[38;5;245m(142µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts report.describe ... [0m[32mok[0m [0m[38;5;245m(75µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts report.type.search ... [0m[32mok[0m [0m[38;5;245m(38µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: data.get rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: data.query rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(218µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: model.search rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(97µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: vault.get rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(102µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: vault.put rejected without write grant ... [0m[32mok[0m [0m[38;5;245m(145µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: vault.put with refreshFrom requires admin ... [0m[32mok[0m [0m[38;5;245m(63µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: vault.put with clearRefresh requires admin ... [0m[32mok[0m [0m[38;5;245m(49µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: vault.put with empty refreshFrom requires admin ... [0m[32mok[0m [0m[38;5;245m(37µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: audit.timeline rejected without read grant ... [0m[32mok[0m [0m[38;5;245m(83µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: admin on access:* grants data.get (superuser) ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: queues while eligible workers are busy ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: narrow grant + mismatched typeArg is denied ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: queue wait times out with a clear error ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: no-write drop re-dispatches; lease expires ... [0m[32mok[0m [0m[38;5;245m(505µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: write-then-drop fails the run ... [0m[32mok[0m [0m[38;5;245m(380µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: recordFirstWrite marks the lease exactly once ... [0m[32mok[0m [0m[38;5;245m(82µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: declaredWrites pre-marks dispatch as write-bearing ... [0m[32mok[0m [0m[38;5;245m(144µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: declaredWrites false behaves like no declaration ... [0m[32mok[0m [0m[38;5;245m(151µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: abort during queue wait rejects ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: cancelled dispatch fails the lease and rejects with AbortError ... [0m[32mok[0m [0m[38;5;245m(161µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: direct command/shell without grant is denied ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:56.766Z [INF] worker·dispatch: Dispatch "1635ad2b-cdc3-4975-9fc1-7e819563c071" finished: "swamp/remote-it"."run" "succeeded" in 183ms
+2026-09-21T16:55:56.767Z [INF] serve·worker-gateway: Dispatch "1635ad2b-cdc3-4975-9fc1-7e819563c071" on worker "it-worker" "succeeded" in 188ms
+2026-09-21T16:55:56.787Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["0378074a-0084-44ca-9b31-6fafd3cb600a"]
+2026-09-21T16:55:56.791Z [INF] worker·dispatch: Dispatch "0378074a-0084-44ca-9b31-6fafd3cb600a" started: "swamp/remote-it"."run"
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: model:* grant + typeArg still works (no regression) ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: model:* grant + typeArg still works (no regression) ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: matching modelIdOrName and typeArg with narrow grant works ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: admin superuser bypasses typeArg check ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: prefix wildcard grant covers matching typeArg ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mtypeArg authz: @ prefix on typeArg is stripped before authorization ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + active-runs record + fresh heartbeat returns run.elsewhere ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + active-runs record + stale heartbeat returns run.interrupted ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:57.122Z [INF] worker·dispatch: Dispatch "0378074a-0084-44ca-9b31-6fafd3cb600a" finished: "swamp/remote-it"."run" "failed" in 330ms
+2026-09-21T16:55:57.122Z [INF] serve·worker-gateway: Dispatch "0378074a-0084-44ca-9b31-6fafd3cb600a" on worker "it-worker" "failed" in 335ms
+2026-09-21T16:55:57.135Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["e7b62997-1f3e-4819-bc63-7b667be7c9d8"]
+2026-09-21T16:55:57.139Z [INF] worker·dispatch: Dispatch "e7b62997-1f3e-4819-bc63-7b667be7c9d8" started: "swamp/remote-it"."run"
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + no active-runs record returns not_found ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + no active-runs record returns not_found ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + active-runs record + no heartbeat returns run.interrupted ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + no control-plane store returns not_found ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mhandleRunAttach: miss + active-runs record + unauthorized principal returns error without leaking existence ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: redacts absolute Unix paths ... [0m[32mok[0m [0m[38;5;245m(102µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:57.322Z [INF] worker·dispatch: Dispatch "e7b62997-1f3e-4819-bc63-7b667be7c9d8" finished: "swamp/remote-it"."run" "succeeded" in 183ms
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: redacts .swamp internal paths ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: redacts .swamp internal paths ... [0m[32mok[0m [0m[38;5;245m(27µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: redacts Windows drive paths ... [0m[32mok[0m [0m[38;5;245m(21µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: redacts /home/ paths ... [0m[32mok[0m [0m[38;5;245m(19µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: passes model type slashes (not absolute paths) ... [0m[32mok[0m [0m[38;5;245m(53µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: passes relative paths in user-facing errors ... [0m[32mok[0m [0m[38;5;245m(24µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:57.323Z [INF] serve·worker-gateway: Dispatch "e7b62997-1f3e-4819-bc63-7b667be7c9d8" on worker "it-worker" "succeeded" in 187ms
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: truncates long messages at 200 chars ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: truncates long messages at 200 chars ... [0m[32mok[0m [0m[38;5;245m(38µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: passes through short non-path errors ... [0m[32mok[0m [0m[38;5;245m(61µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: redacts UserError with absolute paths ... [0m[32mok[0m [0m[38;5;245m(42µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: passes safe UserError messages ... [0m[32mok[0m [0m[38;5;245m(17µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: passes UserError with model type slashes ... [0m[32mok[0m [0m[38;5;245m(16µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0msanitizeErrorForClient: handles non-Error values ... [0m[32mok[0m [0m[38;5;245m(21µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns constructor name for custom Error subclass ... [0m[32mok[0m [0m[38;5;245m(48µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns name for TypeError ... [0m[32mok[0m [0m[38;5;245m(21µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns name for RangeError ... [0m[32mok[0m [0m[38;5;245m(18µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns undefined for plain Error ... [0m[32mok[0m [0m[38;5;245m(18µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns UserError name ... [0m[32mok[0m [0m[38;5;245m(18µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns undefined for non-Error values ... [0m[32mok[0m [0m[38;5;245m(38µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns name when constructor is Error but name differs ... [0m[32mok[0m [0m[38;5;245m(33µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mexceptionTypeForClient: returns undefined for anonymous Error subclass ... [0m[32mok[0m [0m[38;5;245m(41µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mlockTimeoutErrorForClient: returns lock_timeout code with retryable details ... [0m[32mok[0m [0m[38;5;245m(97µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mlockTimeoutErrorForClient: preserves safe lockKey in message ... [0m[32mok[0m [0m[38;5;245m(28µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mlockTimeoutErrorForClient: includes holder info when present ... [0m[32mok[0m [0m[38;5;245m(31µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mlockTimeoutErrorForClient: sanitizes absolute filesystem path in lockKey ... [0m[32mok[0m [0m[38;5;245m(23µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mlockTimeoutErrorForClient: sanitizes Windows path in lockKey ... [0m[32mok[0m [0m[38;5;245m(20µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mlockTimeoutErrorForClient: sanitizes .swamp internal path in lockKey ... [0m[32mok[0m [0m[38;5;245m(21µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: data.query rejects predicate over 4096 chars ... [0m[32mok[0m [0m[38;5;245m(147µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: data.query rejects limit over 10000 ... [0m[32mok[0m [0m[38;5;245m(273µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: data.query rejects non-integer limit ... [0m[32mok[0m [0m[38;5;245m(93µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: data.query rejects negative limit ... [0m[32mok[0m [0m[38;5;245m(91µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: data.query accepts valid predicate and limit ... [0m[32mok[0m [0m[38;5;245m(40µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: rejects request ID over 256 chars ... [0m[32mok[0m [0m[38;5;245m(84µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: model.method.run accepts report filter fields ... [0m[32mok[0m [0m[38;5;245m(80µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: model.method.run accepts request without filter fields ... [0m[32mok[0m [0m[38;5;245m(34µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: model.method.run rejects non-boolean skipAllReports ... [0m[32mok[0m [0m[38;5;245m(86µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: model.method.run rejects non-array skipReportNames ... [0m[32mok[0m [0m[38;5;245m(64µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.run accepts report filter fields ... [0m[32mok[0m [0m[38;5;245m(67µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.run accepts request without filter fields ... [0m[32mok[0m [0m[38;5;245m(38µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.run rejects non-boolean skipAllChecks ... [0m[32mok[0m [0m[38;5;245m(59µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.schema accepts empty payload ... [0m[32mok[0m [0m[38;5;245m(122µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.schema accepts payload with workflowIdOrName ... [0m[32mok[0m [0m[38;5;245m(22µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.resume accepts traceparent and tracestate ... [0m[32mok[0m [0m[38;5;245m(128µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest: workflow.resume accepts request without trace fields ... [0m[32mok[0m [0m[38;5;245m(19µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.token.list ... [0m[32mok[0m [0m[38;5;245m(55µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.token.revoke ... [0m[32mok[0m [0m[38;5;245m(85µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects access.token.revoke without name ... [0m[32mok[0m [0m[38;5;245m(48µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.token.rotate ... [0m[32mok[0m [0m[38;5;245m(97µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.token.rotate without optional fields ... [0m[32mok[0m [0m[38;5;245m(18µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts access.token.mint ... [0m[32mok[0m [0m[38;5;245m(106µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects access.token.mint without principalId ... [0m[32mok[0m [0m[38;5;245m(42µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.edit ... [0m[32mok[0m [0m[38;5;245m(89µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects model.edit without modelIdOrName ... [0m[32mok[0m [0m[38;5;245m(54µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.type.describe ... [0m[32mok[0m [0m[38;5;245m(63µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects model.type.describe without typeArg ... [0m[32mok[0m [0m[38;5;245m(33µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.type.search ... [0m[32mok[0m [0m[38;5;245m(34µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts model.type.search with query ... [0m[32mok[0m [0m[38;5;245m(67µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.create ... [0m[32mok[0m [0m[38;5;245m(50µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects workflow.create without name ... [0m[32mok[0m [0m[38;5;245m(29µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.delete ... [0m[32mok[0m [0m[38;5;245m(92µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.edit ... [0m[32mok[0m [0m[38;5;245m(79µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.validate ... [0m[32mok[0m [0m[38;5;245m(47µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.validate with workflowIdOrName ... [0m[32mok[0m [0m[38;5;245m(26µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.evaluate ... [0m[32mok[0m [0m[38;5;245m(30µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts workflow.evaluate with inputs ... [0m[32mok[0m [0m[38;5;245m(223µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.create ... [0m[32mok[0m [0m[38;5;245m(103µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects vault.create without name ... [0m[32mok[0m [0m[38;5;245m(45µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.edit ... [0m[32mok[0m [0m[38;5;245m(57µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.audit-trail ... [0m[32mok[0m [0m[38;5;245m(31µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.audit-trail with filters ... [0m[32mok[0m [0m[38;5;245m(126µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.read-secret ... [0m[32mok[0m [0m[38;5;245m(85µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects vault.read-secret without secretKey ... [0m[32mok[0m [0m[38;5;245m(40µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts vault.type.search ... [0m[32mok[0m [0m[38;5;245m(43µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts worker.token.create ... [0m[32mok[0m [0m[38;5;245m(131µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts worker.token.create with unlimited enrollments ... [0m[32mok[0m [0m[38;5;245m(70µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest rejects worker.token.create without durationMs ... [0m[32mok[0m [0m[38;5;245m(94µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts worker.token.list ... [0m[32mok[0m [0m[38;5;245m(33µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts worker.token.revoke ... [0m[32mok[0m [0m[38;5;245m(63µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.gc ... [0m[32mok[0m [0m[38;5;245m(39µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.gc with dryRun ... [0m[32mok[0m [0m[38;5;245m(44µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts data.prune ... [0m[32mok[0m [0m[38;5;245m(32µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts run.gc ... [0m[32mok[0m [0m[38;5;245m(29µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts run.gc with retention options ... [0m[32mok[0m [0m[38;5;245m(80µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mvalidateServerRequest accepts datastore.namespace.list ... [0m[32mok[0m [0m[38;5;245m(31µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.token.list requires admin on access:* ... [0m[32mok[0m [0m[38;5;245m(120µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: access.token.revoke requires admin on access:* ... [0m[32mok[0m [0m[38;5;245m(79µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: worker.token.create requires admin on access:* ... [0m[32mok[0m [0m[38;5;245m(111µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: model.edit requires write on model:<name> ... [0m[32mok[0m [0m[38;5;245m(137µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: workflow.create requires write on workflow:<name> ... [0m[32mok[0m [0m[38;5;245m(96µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: vault.read-secret requires read on data:<vault> ... [0m[32mok[0m [0m[38;5;245m(93µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: data.gc requires write on data:* ... [0m[32mok[0m [0m[38;5;245m(79µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: model.type.search requires read on model:* ... [0m[32mok[0m [0m[38;5;245m(80µs)[0m
+[0m[38;5;245m./src/serve/connection_test.ts => [0mauthorizeOrReject: admin on access:* allows all new command types ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:57.663Z [INF] serve·worker-gateway: Worker "queue-worker" enrolled ("first-connect")
+2026-09-21T16:55:57.664Z [INF] worker·connect: Enrolled as "queue-worker"
+2026-09-21T16:55:57.669Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "queue-worker" ["c9f4cc40-660d-4ea2-9ff6-64d6cf464408"]
+2026-09-21T16:55:57.674Z [INF] worker·dispatch: Dispatch "c9f4cc40-660d-4ea2-9ff6-64d6cf464408" started: "swamp/remote-it"."run"
+2026-09-21T16:55:57.850Z [INF] worker·dispatch: Dispatch "c9f4cc40-660d-4ea2-9ff6-64d6cf464408" finished: "swamp/remote-it"."run" "succeeded" in 176ms
+2026-09-21T16:55:57.850Z [INF] serve·worker-gateway: Dispatch "c9f4cc40-660d-4ea2-9ff6-64d6cf464408" on worker "queue-worker" "succeeded" in 181ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ... [0m[32mok[0m [0m[38;5;245m(506ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:57.964Z [INF] serve·worker-gateway: Worker "recon-worker" enrolled ("first-connect")
+2026-09-21T16:55:57.964Z [INF] worker·connect: Enrolled as "recon-worker"
+2026-09-21T16:55:57.990Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "recon-worker" ["10c0e806-1cdc-440a-b4e0-4a38805bca7b"]
+2026-09-21T16:55:57.995Z [INF] worker·dispatch: Dispatch "10c0e806-1cdc-440a-b4e0-4a38805bca7b" started: "swamp/remote-it"."run"
+2026-09-21T16:55:58.176Z [INF] worker·dispatch: Dispatch "10c0e806-1cdc-440a-b4e0-4a38805bca7b" finished: "swamp/remote-it"."run" "succeeded" in 181ms
+2026-09-21T16:55:58.177Z [INF] serve·worker-gateway: Dispatch "10c0e806-1cdc-440a-b4e0-4a38805bca7b" on worker "recon-worker" "succeeded" in 186ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ... [0m[32mok[0m [0m[38;5;245m(351ms)[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: a wrong token is rejected and the worker stops ... [0m[32mok[0m [0m[38;5;245m(106ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:58.336Z [INF] serve·worker-gateway: Reconnection grace window expired for "it-worker"
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: pre-enrollment failures stop after 3 consecutive attempts ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: pre-enrollment failures stop after 3 consecutive attempts ... [0m[32mok[0m [0m[38;5;245m(3s)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:58.422Z [INF] serve·worker-gateway: Worker "fleet-pool-07bf94d1" enrolled ("first-connect")
+2026-09-21T16:55:58.423Z [INF] worker·connect: Enrolled as "fleet-pool-07bf94d1"
+2026-09-21T16:55:58.453Z [INF] serve·worker-gateway: Worker "fleet-pool-316c49a2" enrolled ("first-connect")
+2026-09-21T16:55:58.453Z [INF] worker·connect: Enrolled as "fleet-pool-316c49a2"
+2026-09-21T16:55:58.475Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-07bf94d1" ["5610d7d9-1eab-404d-baa3-af7819d7dad4"]
+2026-09-21T16:55:58.479Z [INF] worker·dispatch: Dispatch "5610d7d9-1eab-404d-baa3-af7819d7dad4" started: "swamp/remote-it"."run"
+2026-09-21T16:55:58.662Z [INF] worker·dispatch: Dispatch "5610d7d9-1eab-404d-baa3-af7819d7dad4" finished: "swamp/remote-it"."run" "succeeded" in 183ms
+2026-09-21T16:55:58.662Z [INF] serve·worker-gateway: Dispatch "5610d7d9-1eab-404d-baa3-af7819d7dad4" on worker "fleet-pool-07bf94d1" "succeeded" in 187ms
+2026-09-21T16:55:58.674Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-316c49a2" ["71265d4d-7063-4518-9ff9-c749fd5ca8b9"]
+2026-09-21T16:55:58.679Z [INF] worker·dispatch: Dispatch "71265d4d-7063-4518-9ff9-c749fd5ca8b9" started: "swamp/remote-it"."run"
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: worker_busy desync re-queues instead of failing the run ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: worker_busy desync re-queues instead of failing the run ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: wake-on-enroll dispatches to newly enrolled worker ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:58.855Z [INF] worker·dispatch: Dispatch "71265d4d-7063-4518-9ff9-c749fd5ca8b9" finished: "swamp/remote-it"."run" "succeeded" in 177ms
+2026-09-21T16:55:58.856Z [INF] serve·worker-gateway: Dispatch "71265d4d-7063-4518-9ff9-c749fd5ca8b9" on worker "fleet-pool-316c49a2" "succeeded" in 182ms
+2026-09-21T16:55:58.861Z [INF] serve·worker-gateway: Reconnection grace window expired for "queue-worker"
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: timeout error contains placement description ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: timeout error contains placement description ... [0m[32mok[0m [0m[38;5;245m(101ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: forwards trace headers and reports the executing worker ... [0m[32mok[0m [0m[38;5;245m(159µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:58.876Z [WRN] serve·worker-gateway: Failed to record disconnect for "fleet-pool-07bf94d1": "No such file or directory (os error 2): writefile '/tmp/swamp-remote-it-30f1586964b8151d/.swamp/outputs/swamp/worker/set_status/.adc38b8c-6c23-424b-9839-a93769662391.tmp'"
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ... [0m[32mok[0m [0m[38;5;245m(554ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mDispatchService: worker_draining re-queues instead of failing the run ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: emits target_disconnected event for grace-window disconnected worker ... [0m[32mok[0m [0m[38;5;245m(102ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: no target_disconnected event for connected worker ... [0m[32mok[0m [0m[38;5;245m(427µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: no target_disconnected event without explicit target ... [0m[32mok[0m [0m[38;5;245m(161µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: affinity pins subsequent steps to the same worker ... [0m[32mok[0m [0m[38;5;245m(226µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: affinity fails when pinned worker disconnects ... [0m[32mok[0m [0m[38;5;245m(320µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: releaseAffinity clears pin ... [0m[32mok[0m [0m[38;5;245m(118µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: affinity worker lost mid-dispatch fails instead of re-dispatching ... [0m[32mok[0m [0m[38;5;245m(268µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: steps without affinity key are unaffected ... [0m[32mok[0m [0m[38;5;245m(107µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: concurrent affinity steps pin to the same worker ... [0m[32mok[0m [0m[38;5;245m(176µs)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: concurrent affinity step rejects when first step fails ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./src/serve/dispatch_service_test.ts => [0mexecuteRemote: dataOutputOverrides and tagOverrides are stored on the active dispatch ... [0m[32mok[0m [0m[38;5;245m(255µs)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: HTTP 401 stops after 3 consecutive attempts ... [0m[32mok[0m [0m[38;5;245m(3s)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: 'does not exist' enrollment failure stops immediately ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: pre-enrollment failure counter resets after successful enrollment ... [0m[32mok[0m [0m[38;5;245m(3s)[0m
+[0m[38;5;245m./src/worker/connect_test.ts => [0mrunWorker: permanent enrollment failures stop the loop ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+
+[0m[32mok[0m | 328 passed | 0 failed [0m[38;5;245m(10s)[0m
+

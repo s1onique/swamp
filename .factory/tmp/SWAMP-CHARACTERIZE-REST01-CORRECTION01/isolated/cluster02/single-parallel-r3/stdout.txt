@@ -1,0 +1,65 @@
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:55:38.883Z [INF] serve·worker-gateway: Worker "it-worker" enrolled ("first-connect")
+2026-09-21T16:55:38.884Z [INF] worker·connect: Enrolled as "it-worker"
+2026-09-21T16:55:38.906Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["9c8cde00-2754-4dc9-8076-de2cfd2d49d5"]
+2026-09-21T16:55:38.912Z [INF] worker·dispatch: Dispatch "9c8cde00-2754-4dc9-8076-de2cfd2d49d5" started: "swamp/remote-it"."run"
+2026-09-21T16:55:39.093Z [INF] worker·dispatch: Dispatch "9c8cde00-2754-4dc9-8076-de2cfd2d49d5" finished: "swamp/remote-it"."run" "succeeded" in 181ms
+2026-09-21T16:55:39.094Z [INF] serve·worker-gateway: Dispatch "9c8cde00-2754-4dc9-8076-de2cfd2d49d5" on worker "it-worker" "succeeded" in 188ms
+2026-09-21T16:55:39.142Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["7f3783bb-4b7e-4344-8a79-e1dfea092c9e"]
+2026-09-21T16:55:39.147Z [INF] worker·dispatch: Dispatch "7f3783bb-4b7e-4344-8a79-e1dfea092c9e" started: "swamp/remote-it"."run"
+2026-09-21T16:55:39.325Z [INF] worker·dispatch: Dispatch "7f3783bb-4b7e-4344-8a79-e1dfea092c9e" finished: "swamp/remote-it"."run" "succeeded" in 179ms
+2026-09-21T16:55:39.326Z [INF] serve·worker-gateway: Dispatch "7f3783bb-4b7e-4344-8a79-e1dfea092c9e" on worker "it-worker" "succeeded" in 183ms
+2026-09-21T16:55:40.853Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["22f0f2fe-88c8-4c8a-8f6a-4d95933981e5"]
+2026-09-21T16:55:40.859Z [INF] worker·dispatch: Dispatch "22f0f2fe-88c8-4c8a-8f6a-4d95933981e5" started: "swamp/remote-it"."run"
+2026-09-21T16:55:41.042Z [INF] worker·dispatch: Dispatch "22f0f2fe-88c8-4c8a-8f6a-4d95933981e5" finished: "swamp/remote-it"."run" "succeeded" in 182ms
+2026-09-21T16:55:41.042Z [INF] serve·worker-gateway: Dispatch "22f0f2fe-88c8-4c8a-8f6a-4d95933981e5" on worker "it-worker" "succeeded" in 189ms
+2026-09-21T16:55:41.062Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["b569debb-6519-4424-816d-4e9392a4c588"]
+2026-09-21T16:55:41.066Z [INF] worker·dispatch: Dispatch "b569debb-6519-4424-816d-4e9392a4c588" started: "swamp/remote-it"."run"
+2026-09-21T16:55:41.397Z [INF] worker·dispatch: Dispatch "b569debb-6519-4424-816d-4e9392a4c588" finished: "swamp/remote-it"."run" "failed" in 332ms
+2026-09-21T16:55:41.397Z [INF] serve·worker-gateway: Dispatch "b569debb-6519-4424-816d-4e9392a4c588" on worker "it-worker" "failed" in 335ms
+2026-09-21T16:55:41.413Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["f8404b0a-bdb1-4b6f-b9b4-bb21147a03f0"]
+2026-09-21T16:55:41.417Z [INF] worker·dispatch: Dispatch "f8404b0a-bdb1-4b6f-b9b4-bb21147a03f0" started: "swamp/remote-it"."run"
+2026-09-21T16:55:41.601Z [INF] worker·dispatch: Dispatch "f8404b0a-bdb1-4b6f-b9b4-bb21147a03f0" finished: "swamp/remote-it"."run" "succeeded" in 184ms
+2026-09-21T16:55:41.601Z [INF] serve·worker-gateway: Dispatch "f8404b0a-bdb1-4b6f-b9b4-bb21147a03f0" on worker "it-worker" "succeeded" in 188ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ...[0m[38;5;245m----- output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:55:41.942Z [INF] serve·worker-gateway: Worker "queue-worker" enrolled ("first-connect")
+2026-09-21T16:55:41.942Z [INF] worker·connect: Enrolled as "queue-worker"
+2026-09-21T16:55:41.948Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "queue-worker" ["c4b1e7c4-6c84-4d1a-9217-b2caa43d01c3"]
+2026-09-21T16:55:41.953Z [INF] worker·dispatch: Dispatch "c4b1e7c4-6c84-4d1a-9217-b2caa43d01c3" started: "swamp/remote-it"."run"
+2026-09-21T16:55:42.133Z [INF] worker·dispatch: Dispatch "c4b1e7c4-6c84-4d1a-9217-b2caa43d01c3" finished: "swamp/remote-it"."run" "succeeded" in 180ms
+2026-09-21T16:55:42.133Z [INF] serve·worker-gateway: Dispatch "c4b1e7c4-6c84-4d1a-9217-b2caa43d01c3" on worker "queue-worker" "succeeded" in 185ms
+2026-09-21T16:55:42.147Z [WRN] serve·worker-gateway: Failed to record disconnect for "queue-worker": "No such file or directory (os error 2): rename '/tmp/swamp-remote-it-71b73a4621b88fe/.swamp/data/swamp/worker/e3f23c91-4bf7-4ec6-8d6b-4558b55fd3e4/state-main/4/.9078b414-9928-4b20-80f3-97613d677c83.tmp' -> '/tmp/swamp-remote-it-71b73a4621b88fe/.swamp/data/swamp/worker/e3f23c91-4bf7-4ec6-8d6b-4558b55fd3e4/state-main/4/raw'"
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ...[0m[38;5;245m----- output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ... [0m[32mok[0m [0m[38;5;245m(518ms)[0m
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:55:42.246Z [INF] serve·worker-gateway: Worker "recon-worker" enrolled ("first-connect")
+2026-09-21T16:55:42.246Z [INF] worker·connect: Enrolled as "recon-worker"
+2026-09-21T16:55:42.271Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "recon-worker" ["a67f0f05-65c3-478a-847e-c7293ad32652"]
+2026-09-21T16:55:42.275Z [INF] worker·dispatch: Dispatch "a67f0f05-65c3-478a-847e-c7293ad32652" started: "swamp/remote-it"."run"
+2026-09-21T16:55:42.456Z [INF] worker·dispatch: Dispatch "a67f0f05-65c3-478a-847e-c7293ad32652" finished: "swamp/remote-it"."run" "succeeded" in 181ms
+2026-09-21T16:55:42.456Z [INF] serve·worker-gateway: Dispatch "a67f0f05-65c3-478a-847e-c7293ad32652" on worker "recon-worker" "succeeded" in 185ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ...[0m[38;5;245m----- output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ... [0m[32mok[0m [0m[38;5;245m(340ms)[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: a wrong token is rejected and the worker stops ... [0m[32mok[0m [0m[38;5;245m(95ms)[0m
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:55:42.612Z [INF] serve·worker-gateway: Reconnection grace window expired for "it-worker"
+2026-09-21T16:55:42.680Z [INF] serve·worker-gateway: Worker "fleet-pool-4653e215" enrolled ("first-connect")
+2026-09-21T16:55:42.681Z [INF] worker·connect: Enrolled as "fleet-pool-4653e215"
+2026-09-21T16:55:42.711Z [INF] serve·worker-gateway: Worker "fleet-pool-55a6aa90" enrolled ("first-connect")
+2026-09-21T16:55:42.712Z [INF] worker·connect: Enrolled as "fleet-pool-55a6aa90"
+2026-09-21T16:55:42.734Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-4653e215" ["54fb45bc-276b-4431-a8be-5fb8494a910d"]
+2026-09-21T16:55:42.738Z [INF] worker·dispatch: Dispatch "54fb45bc-276b-4431-a8be-5fb8494a910d" started: "swamp/remote-it"."run"
+2026-09-21T16:55:42.912Z [INF] worker·dispatch: Dispatch "54fb45bc-276b-4431-a8be-5fb8494a910d" finished: "swamp/remote-it"."run" "succeeded" in 174ms
+2026-09-21T16:55:42.912Z [INF] serve·worker-gateway: Dispatch "54fb45bc-276b-4431-a8be-5fb8494a910d" on worker "fleet-pool-4653e215" "succeeded" in 178ms
+2026-09-21T16:55:42.924Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-55a6aa90" ["2d8712f6-0adc-406d-9fe6-f095bed3d64b"]
+2026-09-21T16:55:42.928Z [INF] worker·dispatch: Dispatch "2d8712f6-0adc-406d-9fe6-f095bed3d64b" started: "swamp/remote-it"."run"
+2026-09-21T16:55:43.107Z [INF] worker·dispatch: Dispatch "2d8712f6-0adc-406d-9fe6-f095bed3d64b" finished: "swamp/remote-it"."run" "succeeded" in 178ms
+2026-09-21T16:55:43.107Z [INF] serve·worker-gateway: Dispatch "2d8712f6-0adc-406d-9fe6-f095bed3d64b" on worker "fleet-pool-55a6aa90" "succeeded" in 183ms
+2026-09-21T16:55:43.124Z [WRN] serve·worker-gateway: Failed to record disconnect for "fleet-pool-4653e215": "Worker 'worker-fleet-pool-4653e215' has no recorded state — enroll first"
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ...[0m[38;5;245m----- output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ... [0m[32mok[0m [0m[38;5;245m(539ms)[0m
+
+[0m[32mok[0m | 5 passed | 0 failed [0m[38;5;245m(4s)[0m
+

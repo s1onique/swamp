@@ -1,0 +1,17 @@
+[0m[32mDownload[0m https://registry.npmjs.org/react
+[0m[32mDownload[0m https://registry.npmjs.org/ink
+[0m[32mDownload[0m https://registry.npmjs.org/fzf
+[0m[32mDownload[0m https://registry.npmjs.org/marked
+[0m[32mDownload[0m https://registry.npmjs.org/marked-terminal
+[0m[32mDownload[0m https://registry.npmjs.org/@vercel%2fbeautiful-mermaid
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/mod.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/bash.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/fish.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/zsh.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/completions_command.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/generate.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/_bash_completions_generator.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/_fish_completions_generator.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/_zsh_completions_generator.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/command/1.0.1/completions/complete.ts
+[0m[32mDownload[0m https://jsr.io/@cliffy/internal/1.0.1/runtime/write_sync.ts

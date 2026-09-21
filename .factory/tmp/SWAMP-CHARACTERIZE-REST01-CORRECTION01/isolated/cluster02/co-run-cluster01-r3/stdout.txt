@@ -1,0 +1,115 @@
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: resolves a binary that exists (deno) ... [0m[32mok[0m [0m[38;5;245m(4ms)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: returns null for a binary that does not exist ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: returns first non-empty line of multi-line output ... [0m[32mok[0m [0m[38;5;245m(94µs)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: skips leading blank lines ... [0m[32mok[0m [0m[38;5;245m(68µs)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: returns null when lookup process fails ... [0m[32mok[0m [0m[38;5;245m(59µs)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: returns null when stdout is empty ... [0m[32mok[0m [0m[38;5;245m(67µs)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: uses the platform-appropriate lookup tool ... [0m[32mok[0m [0m[38;5;245m(48µs)[0m
+[0m[38;5;245m./src/infrastructure/process/resolve_command_test.ts => [0mdefaultCommandResolver: trims trailing CR on Windows-style line endings ... [0m[32mok[0m [0m[38;5;245m(52µs)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - returns empty result for nonexistent directory ... [0m[32mok[0m [0m[38;5;245m(907µs)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - returns empty result for nonexistent directory ... [0m[32mok[0m [0m[38;5;245m(674µs)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mmodule-reload(model): distinct fingerprints see fresh module ... [0m[32mok[0m [0m[38;5;245m(28ms)[0m
+[0m[38;5;245m./src/infrastructure/testing/subprocess_harness_test.ts => [0mspawnExtensionProcess: starts subprocess and imports a bundle ... [0m[32mok[0m [0m[38;5;245m(28ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - loads valid vault from temp directory ... [0m[32mok[0m [0m[38;5;245m(23ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - loads valid datastore from temp directory ... [0m[32mok[0m [0m[38;5;245m(26ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - skips files without datastore export ... [0m[32mok[0m [0m[38;5;245m(561µs)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - skips test files ... [0m[32mok[0m [0m[38;5;245m(456µs)[0m
+[0m[38;5;245m./src/infrastructure/testing/subprocess_harness_test.ts => [0mimportInSubprocess: distinct fingerprints produce distinct modules ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mmodule-reload(vault): distinct fingerprints see fresh module ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - reports validation failure for invalid export ... [0m[32mok[0m [0m[38;5;245m(18ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mDatastoreTypeRegistry standalone - rejects duplicate registration ... [0m[32mok[0m [0m[38;5;245m(160µs)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - allows @swamp/* namespace for local vaults ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - skips files without vault export ... [0m[32mok[0m [0m[38;5;245m(533µs)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - skips test files ... [0m[32mok[0m [0m[38;5;245m(482µs)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mVaultTypeRegistry standalone - rejects duplicate registration ... [0m[32mok[0m [0m[38;5;245m(153µs)[0m
+[0m[38;5;245m./src/infrastructure/testing/subprocess_harness_test.ts => [0mimportInSubprocess: same fingerprint returns cached module ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mmodule-reload(datastore): distinct fingerprints see fresh module ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - loads valid non-@ datastore type ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - loads valid non-@ vault type ... [0m[32mok[0m [0m[38;5;245m(18ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - allows swamp/* namespace for local vaults ... [0m[32mok[0m [0m[38;5;245m(18ms)[0m
+[0m[38;5;245m./src/infrastructure/testing/subprocess_harness_test.ts => [0mimportInSubprocess: empty fingerprint produces bare URL ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mmodule-reload(report): distinct fingerprints see fresh module ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader - invalidates bundle cache when dependency changes ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m./src/infrastructure/testing/subprocess_harness_test.ts => [0mmeasureHeap: returns heap size ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mfingerprint-collision: same fingerprint returns same cached module ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - invalidates bundle cache when dependency changes ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mfingerprint-divergence: same path different fingerprints are distinct ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader - allows si/* namespace for local vaults ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader buildIndex rebundles when source content changes with preserved mtime (#128) ... [0m[32mok[0m [0m[38;5;245m(50ms)[0m
+[0m[38;5;245m./src/domain/extensions/extension_loader_subprocess_test.ts => [0mempty-fingerprint: no query parameter produces bare URL import ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader buildIndex rebundles when source content changes with preserved mtime (#128) ... [0m[32mok[0m [0m[38;5;245m(46ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader buildIndex rebundles when transitive dep content changes with preserved mtime (#128) ... [0m[32mok[0m [0m[38;5;245m(44ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader: registerLazyFromCatalog skips validation_failed rows (swamp-club#209) ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader buildIndex rebundles when transitive dep content changes with preserved mtime (#128) ... [0m[32mok[0m [0m[38;5;245m(44ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mUserDatastoreLoader.bundleAndIndexOne: returns datastore metadata without writing catalog rows (Pin 1) ... [0m[32mok[0m [0m[38;5;245m(21ms)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mdatastoreKindAdapter.extractTypeFromSource: ignores type in helper objects above the export ... [0m[32mok[0m [0m[38;5;245m(45µs)[0m
+[0m[38;5;245m./src/domain/datastore/user_datastore_loader_test.ts => [0mdatastoreKindAdapter.extractTypeFromSource: handles inline structural type annotation ... [0m[32mok[0m [0m[38;5;245m(19µs)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader: registerLazyFromCatalog skips validation_failed rows (swamp-club#209) ... [0m[32mok[0m [0m[38;5;245m(23ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mUserVaultLoader.bundleAndIndexOne: returns vault metadata without writing catalog rows (Pin 1) ... [0m[32mok[0m [0m[38;5;245m(22ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mloadSingleType: promotes lazy vault entry to fully loaded ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mvaultKindAdapter.extractTypeFromSource: ignores type in helper objects above the export ... [0m[32mok[0m [0m[38;5;245m(40µs)[0m
+[0m[38;5;245m./src/domain/vaults/user_vault_loader_test.ts => [0mvaultKindAdapter.extractTypeFromSource: handles inline structural type annotation ... [0m[32mok[0m [0m[38;5;245m(18µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:21.088Z [INF] serve·worker-gateway: Worker "it-worker" enrolled ("first-connect")
+2026-09-21T16:55:21.089Z [INF] worker·connect: Enrolled as "it-worker"
+2026-09-21T16:55:21.110Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["b3564043-2dc9-4a29-bc1f-ba6cd21d6576"]
+2026-09-21T16:55:21.116Z [INF] worker·dispatch: Dispatch "b3564043-2dc9-4a29-bc1f-ba6cd21d6576" started: "swamp/remote-it"."run"
+2026-09-21T16:55:21.298Z [INF] worker·dispatch: Dispatch "b3564043-2dc9-4a29-bc1f-ba6cd21d6576" finished: "swamp/remote-it"."run" "succeeded" in 182ms
+2026-09-21T16:55:21.298Z [INF] serve·worker-gateway: Dispatch "b3564043-2dc9-4a29-bc1f-ba6cd21d6576" on worker "it-worker" "succeeded" in 188ms
+2026-09-21T16:55:21.353Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["28a24c16-a20e-485a-92d0-9f4b18dbcfba"]
+2026-09-21T16:55:21.357Z [INF] worker·dispatch: Dispatch "28a24c16-a20e-485a-92d0-9f4b18dbcfba" started: "swamp/remote-it"."run"
+2026-09-21T16:55:21.542Z [INF] worker·dispatch: Dispatch "28a24c16-a20e-485a-92d0-9f4b18dbcfba" finished: "swamp/remote-it"."run" "succeeded" in 185ms
+2026-09-21T16:55:21.543Z [INF] serve·worker-gateway: Dispatch "28a24c16-a20e-485a-92d0-9f4b18dbcfba" on worker "it-worker" "succeeded" in 190ms
+2026-09-21T16:55:23.075Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["30b56243-1edc-44bf-8cdf-2395156c7753"]
+2026-09-21T16:55:23.079Z [INF] worker·dispatch: Dispatch "30b56243-1edc-44bf-8cdf-2395156c7753" started: "swamp/remote-it"."run"
+2026-09-21T16:55:23.260Z [INF] worker·dispatch: Dispatch "30b56243-1edc-44bf-8cdf-2395156c7753" finished: "swamp/remote-it"."run" "succeeded" in 181ms
+2026-09-21T16:55:23.260Z [INF] serve·worker-gateway: Dispatch "30b56243-1edc-44bf-8cdf-2395156c7753" on worker "it-worker" "succeeded" in 185ms
+2026-09-21T16:55:23.272Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["5cabfebf-3959-43d5-8c20-901d431adbf3"]
+2026-09-21T16:55:23.276Z [INF] worker·dispatch: Dispatch "5cabfebf-3959-43d5-8c20-901d431adbf3" started: "swamp/remote-it"."run"
+2026-09-21T16:55:23.606Z [INF] worker·dispatch: Dispatch "5cabfebf-3959-43d5-8c20-901d431adbf3" finished: "swamp/remote-it"."run" "failed" in 330ms
+2026-09-21T16:55:23.606Z [INF] serve·worker-gateway: Dispatch "5cabfebf-3959-43d5-8c20-901d431adbf3" on worker "it-worker" "failed" in 334ms
+2026-09-21T16:55:23.620Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["f2934902-1e63-4a42-af85-71b383eb9d2a"]
+2026-09-21T16:55:23.623Z [INF] worker·dispatch: Dispatch "f2934902-1e63-4a42-af85-71b383eb9d2a" started: "swamp/remote-it"."run"
+2026-09-21T16:55:23.805Z [INF] worker·dispatch: Dispatch "f2934902-1e63-4a42-af85-71b383eb9d2a" finished: "swamp/remote-it"."run" "succeeded" in 182ms
+2026-09-21T16:55:23.805Z [INF] serve·worker-gateway: Dispatch "f2934902-1e63-4a42-af85-71b383eb9d2a" on worker "it-worker" "succeeded" in 186ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:24.143Z [INF] serve·worker-gateway: Worker "queue-worker" enrolled ("first-connect")
+2026-09-21T16:55:24.143Z [INF] worker·connect: Enrolled as "queue-worker"
+2026-09-21T16:55:24.148Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "queue-worker" ["2acf8339-21c4-443b-b625-6a1a7c0a047f"]
+2026-09-21T16:55:24.152Z [INF] worker·dispatch: Dispatch "2acf8339-21c4-443b-b625-6a1a7c0a047f" started: "swamp/remote-it"."run"
+2026-09-21T16:55:24.331Z [INF] worker·dispatch: Dispatch "2acf8339-21c4-443b-b625-6a1a7c0a047f" finished: "swamp/remote-it"."run" "succeeded" in 179ms
+2026-09-21T16:55:24.331Z [INF] serve·worker-gateway: Dispatch "2acf8339-21c4-443b-b625-6a1a7c0a047f" on worker "queue-worker" "succeeded" in 183ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ... [0m[32mok[0m [0m[38;5;245m(509ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:24.444Z [INF] serve·worker-gateway: Worker "recon-worker" enrolled ("first-connect")
+2026-09-21T16:55:24.445Z [INF] worker·connect: Enrolled as "recon-worker"
+2026-09-21T16:55:24.470Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "recon-worker" ["291ea41a-086f-4ba4-85db-f50d1c0cbc06"]
+2026-09-21T16:55:24.474Z [INF] worker·dispatch: Dispatch "291ea41a-086f-4ba4-85db-f50d1c0cbc06" started: "swamp/remote-it"."run"
+2026-09-21T16:55:24.652Z [INF] worker·dispatch: Dispatch "291ea41a-086f-4ba4-85db-f50d1c0cbc06" finished: "swamp/remote-it"."run" "succeeded" in 178ms
+2026-09-21T16:55:24.652Z [INF] serve·worker-gateway: Dispatch "291ea41a-086f-4ba4-85db-f50d1c0cbc06" on worker "recon-worker" "succeeded" in 182ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ... [0m[32mok[0m [0m[38;5;245m(340ms)[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: a wrong token is rejected and the worker stops ... [0m[32mok[0m [0m[38;5;245m(98ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:55:24.816Z [INF] serve·worker-gateway: Reconnection grace window expired for "it-worker"
+2026-09-21T16:55:24.881Z [INF] serve·worker-gateway: Worker "fleet-pool-3f300679" enrolled ("first-connect")
+2026-09-21T16:55:24.882Z [INF] worker·connect: Enrolled as "fleet-pool-3f300679"
+2026-09-21T16:55:24.911Z [INF] serve·worker-gateway: Worker "fleet-pool-2831e2e3" enrolled ("first-connect")
+2026-09-21T16:55:24.911Z [INF] worker·connect: Enrolled as "fleet-pool-2831e2e3"
+2026-09-21T16:55:24.933Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-2831e2e3" ["5a7679c8-c124-42c2-a359-34fce2e031e5"]
+2026-09-21T16:55:24.937Z [INF] worker·dispatch: Dispatch "5a7679c8-c124-42c2-a359-34fce2e031e5" started: "swamp/remote-it"."run"
+2026-09-21T16:55:25.114Z [INF] worker·dispatch: Dispatch "5a7679c8-c124-42c2-a359-34fce2e031e5" finished: "swamp/remote-it"."run" "succeeded" in 176ms
+2026-09-21T16:55:25.114Z [INF] serve·worker-gateway: Dispatch "5a7679c8-c124-42c2-a359-34fce2e031e5" on worker "fleet-pool-2831e2e3" "succeeded" in 180ms
+2026-09-21T16:55:25.124Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-3f300679" ["42acbb87-9ae8-4f5f-8415-8aaa13b01044"]
+2026-09-21T16:55:25.128Z [INF] worker·dispatch: Dispatch "42acbb87-9ae8-4f5f-8415-8aaa13b01044" started: "swamp/remote-it"."run"
+2026-09-21T16:55:25.305Z [INF] worker·dispatch: Dispatch "42acbb87-9ae8-4f5f-8415-8aaa13b01044" finished: "swamp/remote-it"."run" "succeeded" in 177ms
+2026-09-21T16:55:25.306Z [INF] serve·worker-gateway: Dispatch "42acbb87-9ae8-4f5f-8415-8aaa13b01044" on worker "fleet-pool-3f300679" "succeeded" in 181ms
+2026-09-21T16:55:25.322Z [WRN] serve·worker-gateway: Failed to record disconnect for "fleet-pool-2831e2e3": "Worker 'worker-fleet-pool-2831e2e3' has no recorded state — enroll first"
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ... [0m[32mok[0m [0m[38;5;245m(538ms)[0m
+
+[0m[32mok[0m | 56 passed | 0 failed [0m[38;5;245m(4s)[0m
+

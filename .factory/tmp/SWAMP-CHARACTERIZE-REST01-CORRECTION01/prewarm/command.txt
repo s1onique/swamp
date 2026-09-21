@@ -1,0 +1,16 @@
+CORRECTION01 prewarm command (executed via Cline shell):
+
+  cd .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/prewarm
+  HOME=/tmp/swamp-char-rest01-correction01/home
+  DENO_DIR=/tmp/swamp-char-rest01-correction01/deno
+  TMPDIR=/tmp
+  PATH=/tmp/deno-arm64:$PATH
+  /tmp/deno-arm64/deno test --no-check --allow-read --allow-env \
+      --allow-write --allow-net --allow-run --allow-sys --allow-ffi \
+      --allow-import \
+      .factory/scripts/parse_deno_test_result_test.ts
+
+  Purpose: warm only the parser's transitive deps. The full-suite
+  prewarm is performed by Job 1 controls themselves (deno downloads
+  everything before running the first real test). Verified-prewarm
+  timing for the full suite was ~7s.

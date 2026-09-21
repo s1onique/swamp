@@ -1,0 +1,630 @@
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: grant file with methods parses and authorizes correctly ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: methods-scoped grant allows matching method ... [0m[32mok[0m [0m[38;5;245m(86µs)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: methods-scoped grant denies non-matching method ... [0m[32mok[0m [0m[38;5;245m(155µs)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: grant without methods allows any method ... [0m[32mok[0m [0m[38;5;245m(210µs)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: CEL condition on methodName evaluates through full pipeline ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: CEL methodName condition with absent field does not throw ... [0m[32mok[0m [0m[38;5;245m(576µs)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: methods field and CEL condition compose correctly ... [0m[32mok[0m [0m[38;5;245m(532µs)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: deny grant with methods blocks specific method ... [0m[32mok[0m [0m[38;5;245m(230µs)[0m
+[0m[38;5;245m./integration/access_grant_methods_test.ts => [0mintegration: explain path respects methods filtering ... [0m[32mok[0m [0m[38;5;245m(151µs)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mIntegration: HMAC applied through emitter to collector sink ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mIntegration: HMAC emitter to webhook sink end-to-end ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mIntegration: filtered events not delivered to webhook sink ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mWebhookSink: sends JSON batch on flush ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mWebhookSink: sends CEF format on flush ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mWebhookSink: includes bearer auth header ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mWebhookSink: batches at configured size ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: create data with model-method owner ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mWebhookSink: close flushes remaining events ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mSyslogSink: sends messages to TCP server ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/catalog_namespace_upgrade_test.ts => [0mCatalog upgrade: rebuilding from disk preserves query results with namespace='' ... [0m[32mok[0m [0m[38;5;245m(98ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mSyslogSink: sends messages via UDP ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/architecture_boundary_test.ts => [0mfindMutualDependencies: bounded-context cycles match the pinned ratchet list ... [0m[32mok[0m [0m[38;5;245m(225ms)[0m
+[0m[38;5;245m./integration/audit_sinks_test.ts => [0mSyslogSink: filters events over TCP ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: create data with workflow-step owner ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: create data with required type tag ... [0m[32mok[0m [0m[38;5;245m(38ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: reference model input attributes by name ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+[0m[38;5;245m./integration/data_output_specs_test.ts => [0mData output specs - shell model declares result resource spec ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+{"event":"auto_resolve","status":"searching","type":"@test/fixture/some-type"}
+{"event":"auto_resolve","status":"failed","extension":"@test/fixture","path":"/tmp/swamp_issue_121_97ebd8ad30c2e725/.swamp/pulled-extensions/@test/fixture","reason":"already_installed"}
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: create data with manual owner ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: create data with manual owner ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/data_output_specs_test.ts => [0mData output specs - shell model declares log file spec ... [0m[32mok[0m [0m[38;5;245m(187µs)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: create data with multiple tags ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: reference model by UUID ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/auto_resolver_no_clobber_test.ts => [0mintegration: auto-resolver refuses to overwrite an existing pulled extension ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+{"event":"auto_resolve","status":"searching","type":"@test/legacy/some-type"}
+{"event":"auto_resolve","status":"failed","extension":"@test/legacy","paths":[".claude/skills/legacy"],"reason":"legacy_on_disk"}
+[0m[38;5;245m./integration/auto_resolver_no_clobber_test.ts => [0mintegration: auto-resolver preserves legacy skill directories ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/auto_resolver_no_clobber_test.ts => [0mintegration: auto-resolver preserves legacy skill directories ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: tags persist across versions ... [0m[32mok[0m [0m[38;5;245m(19ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: model.X.resource.specName accesses latest version of resource ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: read another model's data by name ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: same owner can write new versions ... [0m[32mok[0m [0m[38;5;245m(19ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: reference hyphenated model name ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+[0m[38;5;245m./integration/datastore_sync_rules_test.ts => [0mper-path-wired repos must not call bare notifyDirty() ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+{"event":"auto_resolve","status":"failed","type":"@repro/broken-model","reason":"local_source_failed"}
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: reclaims orphaned data, spares live and auto-definition models ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: reclaims orphaned data, spares live and auto-definition models ... [0m[32mok[0m [0m[38;5;245m(145ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: different owner is rejected ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/auto_resolver_truncated_test.ts => [0mintegration: auto-resolver surfaces truncated error and leaves the tree untouched ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/auto_resolver_local_source_failed_test.ts => [0mintegration: auto-resolver emits localSourceFailed when failed local source contains the type ... [0m[32mok[0m [0m[38;5;245m(31ms)[0m
+[0m[38;5;245m./integration/architecture_boundary_test.ts => [0mcollectImportEdges: no domain context imports from CLI layer ... [0m[32mok[0m [0m[38;5;245m(88ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: different owner type is rejected ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+{"event":"auto_resolve","status":"failed","type":"@unrelated/widget","reason":"collective_not_trusted","collective":"unrelated"}
+[0m[38;5;245m./integration/auto_resolver_local_source_failed_test.ts => [0mintegration: auto-resolver emits collectiveNotTrusted when failed local source does NOT contain the type ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/auto_resolver_local_source_failed_test.ts => [0mintegration: auto-resolver emits collectiveNotTrusted when failed local source does NOT contain the type ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: no orphans when every model has a live definition ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: filter by specName ... [0m[32mok[0m [0m[38;5;245m(49ms)[0m
+[0m[38;5;245m./integration/data_output_specs_test.ts => [0mData output specs - shell model execution produces valid resource handle ... [0m[32mok[0m [0m[38;5;245m(76ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: access latest resource via model.X.resource.specName ... [0m[32mok[0m [0m[38;5;245m(45ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: modified ownerRef is rejected ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./integration/data_output_specs_test.ts => [0mData output specs - undeclared resource spec fails at writeResource ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/ddd_layer_rules_test.ts => [0mcollectImportEdges: domain→infrastructure imports match the pinned ratchet list ... [0m[32mok[0m [0m[38;5;245m(68ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+{"event":"auto_resolve","status":"failed","type":"@myns/bad-schema","reason":"local_source_failed"}
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: non-existent model returns empty array ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: non-existent model returns empty array ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/auto_resolver_local_source_failed_test.ts => [0mintegration: auto-resolver emits localSourceFailed for ValidationFailed state too ... [0m[32mok[0m [0m[38;5;245m(23ms)[0m
+[0m[38;5;245m./integration/data_output_specs_test.ts => [0mData output specs - undeclared file spec fails at createFileWriter ... [0m[32mok[0m [0m[38;5;245m(5ms)[0m
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: model with no data returns empty array ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: external datastore — auto-definition-backed model is NOT pruned (swamp-club#1396) ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: data.version() retrieves specific version ... [0m[32mok[0m [0m[38;5;245m(94ms)[0m
+[0m[38;5;245m./integration/ddd_layer_rules_test.ts => [0mcollectImportEdges: presentation layer must not import infrastructure (excluding logging) ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: multiple data items can have different owners ... [0m[32mok[0m [0m[38;5;245m(42ms)[0m
+[0m[38;5;245m./integration/ddd_layer_rules_test.ts => [0mcollectImportEdges: serve→cli imports match the pinned ratchet list ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: workflowRunId scoping returns only matching data ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: access specific version via data.version() ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: data.version() returns null for missing version ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: namespaced datastore — auto-definition-backed model is NOT pruned (swamp-club#1396) ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./integration/architecture_boundary_test.ts => [0mcollectImportEdges: no domain context imports from presentation layer ... [0m[32mok[0m [0m[38;5;245m(81ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: new data with non-existing name succeeds ... [0m[32mok[0m [0m[38;5;245m(19ms)[0m
+[0m[38;5;245m./integration/cross_model_data_access_test.ts => [0mcross-model data access: orphan recovery reads content from old UUID path ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: findByTag returns matching records ... [0m[32mok[0m [0m[38;5;245m(136ms)[0m
+[0m[38;5;245m./integration/ddd_layer_rules_test.ts => [0mcollectImportEdges: presentation→cli imports match the pinned ratchet list ... [0m[32mok[0m [0m[38;5;245m(23ms)[0m
+[0m[38;5;245m./integration/architecture_boundary_test.ts => [0mcollectImportEdges: no infrastructure imports from CLI layer ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: same ownerType+ownerRef matches regardless of other fields ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: workflow report data is NOT pruned when workflow definition exists (swamp-club#1749) ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: rejected write doesn't corrupt existing data ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: write multiple versions of same data ... [0m[32mok[0m [0m[38;5;245m(127ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: access data via data.latest() ... [0m[32mok[0m [0m[38;5;245m(50ms)[0m
+[0m[38;5;245m./integration/extension_kind_sync_test.ts => [0mFreshnessKind stays in sync with ExtensionKind (compile-time) ... [0m[32mok[0m [0m[38;5;245m(164µs)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: data.latest() retrieves latest version ... [0m[32mok[0m [0m[38;5;245m(59ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: findByTag with custom tags ... [0m[32mok[0m [0m[38;5;245m(45ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: retyped model data is detected as orphaned (swamp-club#1737) ... [0m[32mok[0m [0m[38;5;245m(36ms)[0m
+[0m[38;5;245m./integration/dispatch_runner_test.ts => [0mStdioTransport + RpcChannel: end-to-end RPC over stdio pipes ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/dispatch_runner_test.ts => [0mStdioTransport + RpcChannel: stream events flow through bridge ... [0m[32mok[0m [0m[38;5;245m(910µs)[0m
+[0m[38;5;245m./integration/dispatch_runner_test.ts => [0menvironment isolation: overlayEnvironment does not mutate process env ... [0m[32mok[0m [0m[38;5;245m(473µs)[0m
+[0m[38;5;245m./integration/dispatch_runner_test.ts => [0menvironment isolation: denylist vars survive overlay ... [0m[32mok[0m [0m[38;5;245m(122µs)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: retrieve specific versions ... [0m[32mok[0m [0m[38;5;245m(38ms)[0m
+[0m[38;5;245m./integration/dispatch_runner_test.ts => [0mbootstrap params: round-trip through JSON serialization ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/dispatch_runner_test.ts => [0mcapability bridge: orchestrator error message propagates to runner ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: owner persists across multiple versions ... [0m[32mok[0m [0m[38;5;245m(45ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: create with static attributes ... [0m[32mok[0m [0m[38;5;245m(21ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: list all versions via data.listVersions() ... [0m[32mok[0m [0m[38;5;245m(50ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: create and retrieve by name ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: retyped model with undefined type is treated as live (legacy safety) ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+[0m[38;5;245m./integration/data_ownership_test.ts => [0mData Ownership: different models can own data with same name ... [0m[32mok[0m [0m[38;5;245m(23ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: latest marker points to newest version ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: global name uniqueness enforced ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: data.listVersions() returns sorted version numbers ... [0m[32mok[0m [0m[38;5;245m(51ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: create with JsonSchema inputs ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: create and save definition with static attributes ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: findByTag returns only latest version with matching tag ... [0m[32mok[0m [0m[38;5;245m(61ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: reference resource from dependent model ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: definition with CEL expression is preserved on save ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: evaluate with input values ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: data.listVersions() returns empty array for missing data ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: evaluate definition with CEL expressions referencing self ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: nested JsonSchema inputs ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: evaluate definition with CEL expressions referencing other models ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: CEL expression references other model input ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/data_prune_test.ts => [0mData Prune: serve control-plane types are NOT pruned (swamp-club#1749) ... [0m[32mok[0m [0m[38;5;245m(54ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: evaluate definition with inputs parameter ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: CEL expression self-reference ... [0m[32mok[0m [0m[38;5;245m(5ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: chain data references across multiple models ... [0m[32mok[0m [0m[38;5;245m(40ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: save and load evaluated definitions ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: garbage collection by version count ... [0m[32mok[0m [0m[38;5;245m(66ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: access environment variables ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: CEL expression with arithmetic ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: definition without expressions returns hadExpressions=false ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/ddd_layer_rules_test.ts => [0mlibswamp encapsulation: cli and presentation import libswamp only via mod.ts ... [0m[32mok[0m [0m[38;5;245m(155ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: findByName works correctly ... [0m[32mok[0m [0m[38;5;245m(5ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: conditional expressions ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: data.findByTag() returns matching records ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: findByNameGlobal works across types ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m./integration/definition_test.ts => [0mDefinition: hasDefinitionExpressions detects expressions correctly ... [0m[32mok[0m [0m[38;5;245m(816µs)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: string concatenation and formatting ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: handle missing model gracefully ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: garbage collection preserves minimum versions ... [0m[32mok[0m [0m[38;5;245m(29ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: different type categories ... [0m[32mok[0m [0m[38;5;245m(85ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: handle missing data gracefully ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: model can have multiple named data items with mixed types ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m./integration/copyright_header_test.ts => [0mhasHeader: all TypeScript files have the AGPLv3 copyright header ... [0m[32mok[0m [0m[38;5;245m(612ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: handles hyphenated model names in data expressions ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+[0m[38;5;245m./integration/doctor_secrets_test.ts => [0mdoctor secrets: flags a planted cleartext sensitive arg on disk ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: multiple resource items from same model ... [0m[32mok[0m [0m[38;5;245m(46ms)[0m
+[0m[38;5;245m./integration/data_expression_test.ts => [0mIntegration: buildContext works without dataRepo ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: garbage collection dry-run reports counts without deleting ... [0m[32mok[0m [0m[38;5;245m(66ms)[0m
+[0m[38;5;245m./integration/doctor_secrets_test.ts => [0mdoctor secrets: also scans auto-definitions, not just models/ ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: cross-model resource with specName != dataName (writeResource pattern) ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: workflow and step tags ... [0m[32mok[0m [0m[38;5;245m(86ms)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mVaultTypeRegistry: get() returns undefined for lazy entries ... [0m[32mok[0m [0m[38;5;245m(309µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mVaultTypeRegistry: ensureTypeLoaded() promotes lazy entry for get() ... [0m[32mok[0m [0m[38;5;245m(273µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mDatastoreTypeRegistry: get() returns undefined for lazy entries ... [0m[32mok[0m [0m[38;5;245m(168µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mDatastoreTypeRegistry: ensureTypeLoaded() promotes lazy entry for get() ... [0m[32mok[0m [0m[38;5;245m(138µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mReportRegistry: get() returns undefined for lazy entries ... [0m[32mok[0m [0m[38;5;245m(151µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mReportRegistry: ensureTypeLoaded() promotes lazy entry for get() ... [0m[32mok[0m [0m[38;5;245m(213µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mresolveVaultType: promotes lazy type so get() works after resolution ... [0m[32mok[0m [0m[38;5;245m(152µs)[0m
+[0m[38;5;245m./integration/lazy_registry_promotion_test.ts => [0mresolveDatastoreType: promotes lazy type so get() works after resolution ... [0m[32mok[0m [0m[38;5;245m(81µs)[0m
+[0m[38;5;245m./integration/architecture_boundary_test.ts => [0mproductionSourceFiles: no production code imports from test files ... [0m[32mok[0m [0m[38;5;245m(285ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: access tags via model.X.resource.specName.tags ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: solo mode produces byte-identical results ... [0m[32mok[0m [0m[38;5;245m(47ms)[0m
+[0m[38;5;245m./integration/giga_swamp_namespace_layout_test.ts => [0mgiga-swamp layout: namespaced repo lands data under {ds}/{namespace}/data and stamps the namespace ... [0m[32mok[0m [0m[38;5;245m(44ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: cross-namespace point lookup with ns:model syntax ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: multiple data items with different GC policies ... [0m[32mok[0m [0m[38;5;245m(78ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: wildcard ambiguity errors when model exists in multiple namespaces ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m./integration/json_mode_conformance_test.ts => [0mcli command tree: root declares --json as a global option ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: multiple resource items with different tags ... [0m[32mok[0m [0m[38;5;245m(48ms)[0m
+[0m[38;5;245m./integration/giga_swamp_namespace_layout_test.ts => [0mgiga-swamp layout: solo mode is byte-identical (data in {ds}/data, repo-local catalog) ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: empty findByTag results ... [0m[32mok[0m [0m[38;5;245m(6ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: data.query() with ns predicate filters by namespace ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: special characters in tag values ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: data.query() without ns predicate spans all namespaces ... [0m[32mok[0m [0m[38;5;245m(19ms)[0m
+[0m[38;5;245m./integration/giga_swamp_namespace_layout_test.ts => [0mgiga-swamp layout: two namespaces sharing a datastore keep data and catalogs separate ... [0m[32mok[0m [0m[38;5;245m(49ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: access specific version via data.version() ... [0m[32mok[0m [0m[38;5;245m(57ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mevaluated cache: optional input provenance survives a fresh model run ... [0m[32mok[0m [0m[38;5;245m(137ms)[0m
+[0m[38;5;245m./integration/data_tagging_test.ts => [0mData Tagging: tag-based organization in findAllForModel ... [0m[32mok[0m [0m[38;5;245m(35ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: data.query('ns == ""') in solo mode returns all data ... [0m[32mok[0m [0m[38;5;245m(34ms)[0m
+[0m[38;5;245m./integration/ddd_layer_rules_test.ts => [0mlegacyStore escape hatch must not be reintroduced (W4 CI guard) ... [0m[32mok[0m [0m[38;5;245m(258ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.486Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: wildcard returns result when model exists in one namespace only ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: wildcard returns result when model exists in one namespace only ... [0m[32mok[0m [0m[38;5;245m(22ms)[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: omitted visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(111ms)[0m
+[0m[38;5;245m./integration/giga_swamp_cel_namespace_test.ts => [0mgiga-swamp CEL Phase 4: listVersions wildcard errors when ambiguous ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mevaluated cache: legacy caches authorize only source and current inputs ... [0m[32mok[0m [0m[38;5;245m(50ms)[0m
+[0m[38;5;245m./integration/giga_swamp_namespace_migrate_test.ts => [0mnamespace migrate: full round-trip solo → namespaced → solo ... [0m[32mok[0m [0m[38;5;245m(36ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: listVersions returns all versions in order ... [0m[32mok[0m [0m[38;5;245m(57ms)[0m
+[0m[38;5;245m./integration/giga_swamp_namespace_migrate_test.ts => [0mnamespace migrate: conflict detection on reverse ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: manifest private visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(27ms)[0m
+[0m[38;5;245m./integration/otel_logs_batch_flush_test.ts => [0mOTel logs (batch mode): a record logged right before shutdown is still flushed ... [0m[32mok[0m [0m[38;5;245m(73ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.534Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: each version has independent content ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: each version has independent content ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/giga_swamp_namespace_migrate_test.ts => [0mnamespace migrate: skips subdirs that don't exist in source ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: version metadata is preserved ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.543Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: CLI private visibility survives packaging, cache and HTTP ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: CLI private visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: non-existent version returns null ... [0m[32mok[0m [0m[38;5;245m(6ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.552Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+[0m[38;5;245m./integration/method_context_cel_env_test.ts => [0mcreateCelEnvironment chain: factory + executor expose a working Environment to extension execute ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/method_context_cel_env_test.ts => [0mcreateCelEnvironment chain: factory + executor expose a working Environment to extension execute ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: both private visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.562Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: delete specific version ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: delete specific version ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: manifest public visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mevaluated cache: substituted data stays literal through run and standalone evaluation ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: delete all versions ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.577Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.authored: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+2026-09-21T16:56:11.578Z [WRN] swamp·expressions: Refusing to evaluate expression at authored: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+2026-09-21T16:56:11.579Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.authored: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: CLI public visibility survives packaging, cache and HTTP ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: CLI public visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.583Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.authored: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.INJECTED }
+[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mevaluated cache: workflow steps retain saved provenance without authorizing substituted inputs ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: CLI public overrides private visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./integration/extension_publish_visibility_test.ts => [0mextension publication: CLI private overrides public visibility survives packaging, cache and HTTP ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mevaluated cache: deferred env expressions keep the model and data namespaces on standalone runs ... [0m[32mok[0m [0m[38;5;245m(29ms)[0m
+[0m[38;5;245m./integration/model_create_sensitive_test.ts => [0mIntegration: model create refuses a literal sensitive global arg and writes no YAML ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/model_create_sensitive_test.ts => [0mIntegration: model create persists a vault.get expression verbatim ... [0m[32mok[0m [0m[38;5;245m(6ms)[0m
+[0m[38;5;245m./integration/model_get_sensitive_test.ts => [0mIntegration: model get redacts a literal sensitive global argument in both output modes ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+[0m[38;5;245m./integration/model_create_sensitive_test.ts => [0mIntegration: model create accepts a vault.get expression for a constrained sensitive field (ADV-3) ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/model_create_sensitive_test.ts => [0mIntegration: the persistence chokepoint blocks an out-of-band writer ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: deleteExpiredData removes excess version directories from disk ... [0m[32mok[0m [0m[38;5;245m(67ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: resolves stored model selectors without caching values ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./integration/data_versioning_test.ts => [0mData Versioning: deleteExpiredData with expired + excess versions ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: resolves direct-type selectors without caching values ... [0m[32mok[0m [0m[38;5;245m(43ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: resolves nested target before lookup and cycle detection ... [0m[32mok[0m [0m[38;5;245m(45ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.764Z [WRN] swamp·expressions: Refusing to evaluate expression at modelIdOrName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+2026-09-21T16:56:11.764Z [WRN] swamp·expressions: Refusing to evaluate expression at modelIdOrName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+2026-09-21T16:56:11.771Z [WRN] swamp·expressions: Refusing to evaluate expression at modelIdOrName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+2026-09-21T16:56:11.771Z [WRN] swamp·expressions: Refusing to evaluate expression at modelIdOrName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted model expression stays unauthorized on replay ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted model expression stays unauthorized on replay ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.784Z [WRN] swamp·expressions: Refusing to evaluate expression at modelType: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL_TYPE"] }
+2026-09-21T16:56:11.784Z [WRN] swamp·expressions: Refusing to evaluate expression at modelType: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL_TYPE"] }
+2026-09-21T16:56:11.790Z [WRN] swamp·expressions: Refusing to evaluate expression at modelType: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL_TYPE"] }
+2026-09-21T16:56:11.790Z [WRN] swamp·expressions: Refusing to evaluate expression at modelType: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL_TYPE"] }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted type expression stays unauthorized on replay ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted type expression stays unauthorized on replay ... [0m[32mok[0m [0m[38;5;245m(19ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.803Z [WRN] swamp·expressions: Refusing to evaluate expression at modelName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+2026-09-21T16:56:11.803Z [WRN] swamp·expressions: Refusing to evaluate expression at modelName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+2026-09-21T16:56:11.812Z [WRN] swamp·expressions: Refusing to evaluate expression at modelName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+2026-09-21T16:56:11.812Z [WRN] swamp·expressions: Refusing to evaluate expression at modelName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["MODEL"] }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted name expression stays unauthorized on replay ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted name expression stays unauthorized on replay ... [0m[32mok[0m [0m[38;5;245m(22ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.825Z [WRN] swamp·expressions: Refusing to evaluate expression at methodName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["METHOD"] }
+2026-09-21T16:56:11.826Z [WRN] swamp·expressions: Refusing to evaluate expression at methodName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["METHOD"] }
+2026-09-21T16:56:11.832Z [WRN] swamp·expressions: Refusing to evaluate expression at methodName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["METHOD"] }
+2026-09-21T16:56:11.833Z [WRN] swamp·expressions: Refusing to evaluate expression at methodName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["METHOD"] }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted method expression stays unauthorized on replay ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted method expression stays unauthorized on replay ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:11.846Z [WRN] swamp·expressions: Refusing to evaluate expression at workflowIdOrName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["CHILD"] }
+2026-09-21T16:56:11.846Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["CHILD"] }
+2026-09-21T16:56:11.853Z [WRN] swamp·expressions: Refusing to evaluate expression at workflowIdOrName: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["CHILD"] }
+2026-09-21T16:56:11.853Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env["CHILD"] }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted workflow expression stays unauthorized on replay ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow runtime selectors: substituted workflow expression stays unauthorized on replay ... [0m[32mok[0m [0m[38;5;245m(21ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow cached context: deferred env with workflow dependencies survives replay and source edits ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow cached context: deferred env with definition dependencies survives replay and source edits ... [0m[32mok[0m [0m[38;5;245m(35ms)[0m
+[0m[38;5;245m./integration/sensitive_field_vault_test.ts => [0mIntegration: sensitive output fields stored in vault with references in persisted data ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/otel_logs_worker_correlation_test.ts => [0mworker env: OTEL_* is inherited and TRACEPARENT is overlaid into the child env ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow cached context: deferred env with file dependencies survives replay and source edits ... [0m[32mok[0m [0m[38;5;245m(102ms)[0m
+[0m[38;5;245m./integration/sensitive_field_vault_test.ts => [0mIntegration: sensitiveOutput flag vaults all fields ... [0m[32mok[0m [0m[38;5;245m(261µs)[0m
+[0m[38;5;245m./integration/sensitive_field_vault_test.ts => [0mIntegration: custom vaultKey from schema metadata ... [0m[32mok[0m [0m[38;5;245m(244µs)[0m
+[0m[38;5;245m./integration/otel_logs_optout_test.ts => [0mOTel logs: OTEL_LOGS_EXPORTER=none exports no log records even with an endpoint ... [0m[32mok[0m [0m[38;5;245m(10ms)[0m
+[0m[38;5;245m./integration/serve_deps_rules_test.ts => [0mserve handlers must not construct fresh definition or workflow repos ... [0m[32mok[0m [0m[38;5;245m(18ms)[0m
+[0m[38;5;245m./integration/otel_logs_export_test.ts => [0mOTel logs: initializeLogging exports correlated, redacted records to /v1/logs ... [0m[32mok[0m [0m[38;5;245m(76ms)[0m
+[0m[38;5;245m./integration/serve_deps_rules_test.ts => [0mserve handlers must pass injected definition repo to createData*Deps ... [0m[32mok[0m [0m[38;5;245m(5ms)[0m
+[0m[38;5;245m./integration/otel_logs_worker_correlation_test.ts => [0mworker correlation: child logs carry the propagated parent trace id ... [0m[32mok[0m [0m[38;5;245m(77ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.123Z [INF] cli: unique-root-line-def456
+[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/otel_logs_no_duplicate_test.ts => [0mOTel logs (log mode): each record is exported exactly once, never duplicated ... [0m[32mok[0m [0m[38;5;245m(88ms)[0m
+[0m[38;5;245m./integration/serve_deps_rules_test.ts => [0mserve functions that push must run under the sync gate ... [0m[32mok[0m [0m[38;5;245m(18ms)[0m
+[0m[38;5;245m./integration/rollback_on_failure_test.ts => [0mrollbackOnFailure: success commits all writes ... [0m[32mok[0m [0m[38;5;245m(57ms)[0m
+[0m[38;5;245m./integration/simple_return_format_test.ts => [0mIntegration: user model with dataWriter API works ... [0m[32mok[0m [0m[38;5;245m(59ms)[0m
+[0m[38;5;245m./integration/auto_definition_race_test.ts => [0mintegration: concurrent auto-creation converges on a single definition ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+[0m[38;5;245m./integration/rollback_on_failure_test.ts => [0mrollbackOnFailure: failure rolls back all writes ... [0m[32mok[0m [0m[38;5;245m(18ms)[0m
+[0m[38;5;245m./integration/rollback_on_failure_test.ts => [0mrollbackOnFailure: default path preserves writes on failure ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./integration/simple_return_format_test.ts => [0mIntegration: expression-aware validation allows expressions in required fields ... [0m[32mok[0m [0m[38;5;245m(58ms)[0m
+[0m[38;5;245m./integration/rollback_on_failure_test.ts => [0mrollbackOnFailure: file writer rollback on failure ... [0m[32mok[0m [0m[38;5;245m(43ms)[0m
+[0m[38;5;245m./integration/toolchain_pins_rules_test.ts => [0mDockerfile base image matches the .tool-versions deno pin ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/rollback_on_failure_test.ts => [0mrollbackOnFailure: unfinalized file writer cleaned up on failure ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m./integration/toolchain_pins_rules_test.ts => [0mevery setup-deno step reads the version from .tool-versions ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mworkflow cached context: deferred env with direct dependencies survives replay and source edits ... [0m[32mok[0m [0m[38;5;245m(230ms)[0m
+[0m[38;5;245m./integration/rollback_on_failure_test.ts => [0mrollbackOnFailure: multi-resource rollback (96-well scenario) ... [0m[32mok[0m [0m[38;5;245m(92ms)[0m
+[0m[38;5;245m./integration/prompt_stream_rules_test.ts => [0mstream contract: raw stdout writes in src/ match the pinned set ... [0m[32mok[0m [0m[38;5;245m(380ms)[0m
+[0m[38;5;245m./integration/verification_harness_rules_test.ts => [0mreview prompts: the expected set is present ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/verification_harness_rules_test.ts => [0mreview prompts: none instructs the reviewer to run a command ... [0m[32mok[0m [0m[38;5;245m(816µs)[0m
+[0m[38;5;245m./integration/verification_harness_rules_test.ts => [0mreview prompts: each scopes the review to the provided diff ... [0m[32mok[0m [0m[38;5;245m(457µs)[0m
+[0m[38;5;245m./integration/verification_harness_rules_test.ts => [0mverify-reviews: the expected review steps are present ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/verification_harness_rules_test.ts => [0mverify-reviews: every review step delegates its verdict to the shared script ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/verification_harness_rules_test.ts => [0mverify-reviews: no step infers a verdict when the marker is absent ... [0m[32mok[0m [0m[38;5;245m(319µs)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: save creates directory structure and symlink ... [0m[32mok[0m [0m[38;5;245m(46ms)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: single vault with no overrides uses that vault ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: two vaults with no overrides uses first registered ... [0m[32mok[0m [0m[38;5;245m(216µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: defaultVault overrides first-registered fallback ... [0m[32mok[0m [0m[38;5;245m(396µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: spec-level vaultName overrides defaultVault ... [0m[32mok[0m [0m[38;5;245m(353µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: field-level vaultName overrides spec and default ... [0m[32mok[0m [0m[38;5;245m(399µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: definition-level vaultName override via createResourceWriter ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: definition override beats defaultVault ... [0m[32mok[0m [0m[38;5;245m(924µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: no overrides and no default preserves backwards-compat ... [0m[32mok[0m [0m[38;5;245m(451µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: VaultService.getDefaultVaultName for serve path ... [0m[32mok[0m [0m[38;5;245m(50µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: VaultService.getDefaultVaultName falls back when no default ... [0m[32mok[0m [0m[38;5;245m(127µs)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: VaultService.getDefaultVaultName ignores unregistered default ... [0m[32mok[0m [0m[38;5;245m(365µs)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: save auto-increments version ... [0m[32mok[0m [0m[38;5;245m(21ms)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: fromRepository with defaultVaultName routes put to the correct vault ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: fromRepository without defaultVaultName falls back to first vault ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/vault_selection_test.ts => [0mvault selection: fromRepository + processSensitiveResourceData end-to-end ... [0m[32mok[0m [0m[38;5;245m(4ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: save validates ownership ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+[0m[38;5;245m./integration/stdout_contract_rules_test.ts => [0mevery value-on-stdout registry entry names a registered command ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: depth 1, child suffix undefined, fresh/resume/cache ... [0m[32mok[0m [0m[38;5;245m(226ms)[0m
+[0m[38;5;245m./integration/scheduled_trigger_inputs_test.ts => [0mscheduled run: a required input supplied only via trigger.inputs resolves and the run completes ... [0m[32mok[0m [0m[38;5;245m(296ms)[0m
+[0m[38;5;245m./integration/tls_trust_test.ts => [0mtls_trust integration: shim resolves a private-CA chain via SSL_CERT_FILE ... [0m[32mok[0m [0m[38;5;245m(327ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: findByName returns latest version by default ... [0m[32mok[0m [0m[38;5;245m(25ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: findByName returns specific version when requested ... [0m[32mok[0m [0m[38;5;245m(23ms)[0m
+[0m[38;5;245m./integration/summarise_perf_test.ts => [0mswamp-club#240: findAllGlobalSince mtime-pre-filter skips parse for out-of-window runs ... [0m[32mok[0m [0m[38;5;245m(343ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: listVersions returns sorted version list ... [0m[32mok[0m [0m[38;5;245m(17ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.571Z [INF] serve·worker-gateway: Worker "it-worker" enrolled ("first-connect")
+2026-09-21T16:56:12.573Z [INF] worker·connect: Enrolled as "it-worker"
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: findAllForModel returns all data ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: findAllForModel returns all data ... [0m[32mok[0m [0m[38;5;245m(14ms)[0m
+[0m[38;5;245m./integration/scheduled_trigger_inputs_test.ts => [0mscheduled run: a required input with no trigger.inputs still fails validation with a clear error ... [0m[32mok[0m [0m[38;5;245m(60ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: getContent returns data content ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.603Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["d519071f-726f-4f11-b774-fa5b7e600e5c"]
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: stream returns content chunks ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: stream returns content chunks ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.617Z [INF] worker·dispatch: Dispatch "d519071f-726f-4f11-b774-fa5b7e600e5c" started: "swamp/remote-it"."run"
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: append works for streaming data ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: append works for streaming data ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: delete removes specific version ... [0m[32mok[0m [0m[38;5;245m(19ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: delete removes all versions when no version specified ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/unit_test_hygiene_test.ts => [0munit test hygiene: src/ tests that spawn subprocesses or bind sockets match the pinned allowlist ... [0m[32mok[0m [0m[38;5;245m(340ms)[0m
+[0m[38;5;245m./integration/workflow_approval_test.ts => [0mWorkflow: manual_approval step task schema round-trips through YAML ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: depth 1, child suffix :child, fresh/resume/cache ... [0m[32mok[0m [0m[38;5;245m(171ms)[0m
+[0m[38;5;245m./integration/workflow_approval_test.ts => [0mWorkflow: manual_approval with dependencies round-trips ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: collectGarbage removes old versions by count ... [0m[32mok[0m [0m[38;5;245m(41ms)[0m
+[0m[38;5;245m./integration/workflow_approval_test.ts => [0mWorkflow: suspended run persists and round-trips ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+[0m[38;5;245m./integration/unified_data_test.ts => [0mIntegration: full lifecycle - create, write versions, read by version ... [0m[32mok[0m [0m[38;5;245m(15ms)[0m
+[0m[38;5;245m./integration/scheduled_trigger_inputs_test.ts => [0mscheduled run: records a parent invocation plus child method invocations ... [0m[32mok[0m [0m[38;5;245m(144ms)[0m
+[0m[38;5;245m./integration/json_mode_conformance_test.ts => [0mcli command tree: every leaf command declares an action and inherits --json ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+[0m[38;5;245m./integration/json_mode_conformance_test.ts => [0mcli command tree: every leaf command routes output through the OutputMode plumbing ... [0m[32mok[0m [0m[38;5;245m(489µs)[0m
+[0m[38;5;245m./integration/json_mode_conformance_test.ts => [0mcli command tree: the JSON-mode exemption list has no stale entries ... [0m[32mok[0m [0m[38;5;245m(114µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.750Z [INF] serve·webhook: Webhook received on "/hooks/bot", queued workflow "bot-wf"
+[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: a required input mapped from the payload resolves, validates, and reaches the step ... [0m[32mok[0m [0m[38;5;245m(70ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.835Z [INF] serve·webhook: Webhook workflow "bot-wf" completed (run: "ffea6537-ec63-4b04-aed3-d763834aea27")
+[0m[38;5;245m./integration/workflow_query_data_context_test.ts => [0mqueryData chain: factory + executor derive working queryData from dataQueryService ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_query_data_context_test.ts => [0mqueryData chain: factory + executor derive working queryData from dataQueryService ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.844Z [INF] serve·webhook: Webhook received on "/hooks/jira", queued workflow "jira-wf"
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: has()/ternary fallback selects an alternate payload field ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: has()/ternary fallback selects an alternate payload field ... [0m[32mok[0m [0m[38;5;245m(31ms)[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: a hard reference to a missing payload field surfaces an error ... [0m[32mok[0m [0m[38;5;245m(8ms)[0m
+[0m[38;5;245m./integration/scheduled_trigger_inputs_test.ts => [0mscheduled run: records nothing when no trigger source is supplied ... [0m[32mok[0m [0m[38;5;245m(132ms)[0m
+[0m[38;5;245m./integration/workflow_query_data_context_test.ts => [0mdata query: workflowName, jobName, stepName CEL fields resolve from ownerDefinition ... [0m[32mok[0m [0m[38;5;245m(22ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.865Z [INF] worker·dispatch: Dispatch "d519071f-726f-4f11-b774-fa5b7e600e5c" finished: "swamp/remote-it"."run" "succeeded" in 248ms
+2026-09-21T16:56:12.866Z [INF] serve·worker-gateway: Dispatch "d519071f-726f-4f11-b774-fa5b7e600e5c" on worker "it-worker" "succeeded" in 262ms
+[0m[38;5;245m./integration/webhook_extension_scheme_test.ts => [0mwebhook extension scheme: verified request is transformed, acknowledged, and run ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_extension_scheme_test.ts => [0mwebhook extension scheme: verified request is transformed, acknowledged, and run ... [0m[32mok[0m [0m[38;5;245m(149ms)[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: records telemetry attributed to the webhook trigger, without the payload ... [0m[32mok[0m [0m[38;5;245m(35ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: depth 2, child suffix undefined, fresh/resume/cache ... [0m[32mok[0m [0m[38;5;245m(213ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.908Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_WEBHOOK }
+2026-09-21T16:56:12.910Z [INF] serve·webhook: Webhook workflow "jira-wf" completed (run: "60fae6be-2d9e-4deb-a507-e04b2a201e46")
+2026-09-21T16:56:12.915Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_WEBHOOK }
+2026-09-21T16:56:12.917Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_WEBHOOK }
+[0m[38;5;245m./integration/scheduled_trigger_inputs_test.ts => [0mscheduled run: a failed run records an error parent invocation ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/scheduled_trigger_inputs_test.ts => [0mscheduled run: a failed run records an error parent invocation ... [0m[32mok[0m [0m[38;5;245m(56ms)[0m
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a valid jira signature is accepted ... [0m[32mok[0m [0m[38;5;245m(143ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCLI: model evaluate resolves cross-model resource expressions (standalone, specName != dataName) ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.948Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["3d71614f-e282-4b65-a7a2-fda4e3f62f0e"]
+2026-09-21T16:56:12.957Z [INF] worker·dispatch: Dispatch "3d71614f-e282-4b65-a7a2-fda4e3f62f0e" started: "swamp/remote-it"."run"
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: cross-type resource with specName tag via ExpressionEvaluationService (#370) ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: cross-type resource with specName tag via ExpressionEvaluationService (#370) ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: env expression injected through the payload never reaches the shell step ... [0m[32mok[0m [0m[38;5;245m(84ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: resource resolves after model delete and recreate with new UUID (#370) ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a forged jira signature is rejected with 401 ... [0m[32mok[0m [0m[38;5;245m(59ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:12.998Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_RESUME }
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: data.latest() sees data written after buildContext() ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: data.latest() sees data written after buildContext() ... [0m[32mok[0m [0m[38;5;245m(22ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.004Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_RESUME }
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI round trip: set → read → remove ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI round trip: set → read → remove ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.005Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_RESUME }
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI: replace semantics — set replaces entire entry ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI: replace semantics — set replaces entire entry ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI: preserves other config sections ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/tls_trust_test.ts => [0mtls_trust integration: public TLS still works under the merged store ... [0m[32mok[0m [0m[38;5;245m(485ms)[0m
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI: multiple triggers coexist ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/workflow_trigger_cli_test.ts => [0mtrigger CLI: creates serve.yaml from scratch ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: env expression injected through data.latest() is not resolved ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.024Z [INF] serve·webhook: Webhook received on "/hooks/linear", queued workflow "linear-wf"
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: env expression written in the workflow source still resolves ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: env expression written in the workflow source still resolves ... [0m[32mok[0m [0m[38;5;245m(72ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: authored env expression still resolves alongside substituted data ... [0m[32mok[0m [0m[38;5;245m(29ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.063Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_RESUME }
+2026-09-21T16:56:13.064Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_RESUME }
+2026-09-21T16:56:13.064Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_BRACKET'] }
+2026-09-21T16:56:13.065Z [INF] serve·webhook: Webhook workflow "linear-wf" completed (run: "c8a938fe-6f54-4e11-8325-47feb768a480")
+2026-09-21T16:56:13.066Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.SWAMP_TEST_2172_RESUME }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: depth 2, child suffix :child, fresh/resume/cache ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: depth 2, child suffix :child, fresh/resume/cache ... [0m[32mok[0m [0m[38;5;245m(169ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.068Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_BRACKET'] }
+2026-09-21T16:56:13.070Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_BRACKET'] }
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a valid linear signature is accepted ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a valid linear signature is accepted ... [0m[32mok[0m [0m[38;5;245m(87ms)[0m
+[0m[38;5;245m./integration/cel_data_access_test.ts => [0mCEL Data Access: data.latest() on a sensitive field injected through a plain field never reads the vault ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.103Z [INF] scheduled-execution: Registered schedule for workflow "ext-scanner": "0 3 * * *" (serve.yaml override)
+2026-09-21T16:56:13.103Z [INF] workflow-watcher: Workflows directory does not exist, skipping watch: "/tmp/nonexistent-trigger-override-test/workflows"
+2026-09-21T16:56:13.103Z [INF] scheduled-execution: Scheduled execution service started with 1 schedules
+2026-09-21T16:56:13.104Z [INF] scheduled-execution: Scheduled execution service stopped
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: bracket-index env expression injected through the payload never reaches the shell step ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: bracket-index env expression injected through the payload never reaches the shell step ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mCLI: model method run creates Data with correct metadata ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a forged linear signature is rejected with 401 ... [0m[32mok[0m [0m[38;5;245m(39ms)[0m
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow resume: env expression injected through run inputs is not resolved ... [0m[32mok[0m [0m[38;5;245m(145ms)[0m
+[0m[38;5;245m./integration/workflow_trigger_override_test.ts => [0mtrigger override: adds schedule to unscheduled extension workflow and scheduler registers it ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.112Z [INF] scheduled-execution: Registered schedule for workflow "daily-report": "0 8 * * 1-5" (serve.yaml override)
+2026-09-21T16:56:13.112Z [INF] workflow-watcher: Workflows directory does not exist, skipping watch: "/tmp/nonexistent-trigger-override-test/workflows"
+2026-09-21T16:56:13.112Z [INF] scheduled-execution: Scheduled execution service started with 1 schedules
+2026-09-21T16:56:13.112Z [INF] scheduled-execution: Scheduled execution service stopped
+[0m[38;5;245m./integration/workflow_trigger_override_test.ts => [0mtrigger override: replaces built-in schedule with override schedule ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_trigger_override_test.ts => [0mtrigger override: replaces built-in schedule with override schedule ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.113Z [INF] scheduled-execution: Registered schedule for workflow "scheduled-wf": "0 3 * * *" (serve.yaml override)
+2026-09-21T16:56:13.113Z [INF] scheduled-execution: Registered schedule for workflow "unscheduled-wf": "0 6 * * *" (serve.yaml override)
+2026-09-21T16:56:13.113Z [INF] workflow-watcher: Workflows directory does not exist, skipping watch: "/tmp/nonexistent-trigger-override-test/workflows"
+2026-09-21T16:56:13.113Z [INF] scheduled-execution: Scheduled execution service started with 2 schedules
+2026-09-21T16:56:13.113Z [INF] scheduled-execution: Scheduled execution service stopped
+[0m[38;5;245m./integration/workflow_trigger_override_test.ts => [0mtrigger override: multiple overrides registered correctly ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_trigger_override_test.ts => [0mtrigger override: multiple overrides registered correctly ... [0m[32mok[0m [0m[38;5;245m(926µs)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.115Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ data.latest('webhook-injected-data-shell', 'result').attributes.command }
+2026-09-21T16:56:13.129Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ data.latest('webhook-injected-data-shell', 'result').attributes.command }
+2026-09-21T16:56:13.145Z [INF] serve·webhook: Webhook received on "/hooks/stripe", queued workflow "stripe-wf"
+[0m[38;5;245m./integration/tls_trust_test.ts => [0mtls_trust ordering: trust configured AFTER an import-time handshake is too late ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/tls_trust_test.ts => [0mtls_trust ordering: trust configured AFTER an import-time handshake is too late ... [0m[32mok[0m [0m[38;5;245m(145ms)[0m
+[0m[38;5;245m./integration/webhook_payload_inputs_test.ts => [0mwebhook run: data.latest() expression injected through the payload is not evaluated ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.171Z [INF] serve·webhook: Webhook workflow "stripe-wf" completed (run: "b2e5b008-e1ac-43b3-b7c8-a35cc681738a")
+2026-09-21T16:56:13.178Z [INF] worker·dispatch: Dispatch "3d71614f-e282-4b65-a7a2-fda4e3f62f0e" finished: "swamp/remote-it"."run" "succeeded" in 221ms
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a fresh valid stripe signature is accepted ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a fresh valid stripe signature is accepted ... [0m[32mok[0m [0m[38;5;245m(67ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.178Z [INF] serve·worker-gateway: Dispatch "3d71614f-e282-4b65-a7a2-fda4e3f62f0e" on worker "it-worker" "succeeded" in 230ms
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: direct-type global arguments restore unscoped parent expressions and refuse scoped ones ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: direct-type global arguments restore unscoped parent expressions and refuse scoped ones ... [0m[32mok[0m [0m[38;5;245m(113ms)[0m
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow resume: env expression written in the workflow source still resolves ... [0m[32mok[0m [0m[38;5;245m(74ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.194Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_LASTEVAL'] }
+2026-09-21T16:56:13.195Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_LASTEVAL'] }
+2026-09-21T16:56:13.196Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_LASTEVAL'] }
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a stale stripe timestamp is rejected with 401 ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/webhook_signature_schemes_test.ts => [0mwebhook scheme: a stale stripe timestamp is rejected with 401 ... [0m[32mok[0m [0m[38;5;245m(26ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.219Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_LASTEVAL'] }
+2026-09-21T16:56:13.220Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_LASTEVAL'] }
+2026-09-21T16:56:13.220Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_LASTEVAL'] }
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow --last-evaluated: env expression cached from a prior run's inputs is not resolved ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow --last-evaluated: env expression cached from a prior run's inputs is not resolved ... [0m[32mok[0m [0m[38;5;245m(54ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.247Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.identifier: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_NESTED'] }
+2026-09-21T16:56:13.247Z [WRN] swamp·expressions: Refusing to evaluate expression at identifier: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_NESTED'] }
+2026-09-21T16:56:13.247Z [WRN] swamp·expressions: Refusing to evaluate expression at identifier: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_NESTED'] }
+2026-09-21T16:56:13.250Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_NESTED'] }
+2026-09-21T16:56:13.252Z [WRN] swamp·expressions: Refusing to evaluate expression at run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_NESTED'] }
+2026-09-21T16:56:13.252Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.execute.arguments.run: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env['SWAMP_TEST_2172_NESTED'] }
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow nested: env expression injected through the parent's inputs is not resolved for the child ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow nested: env expression injected through the parent's inputs is not resolved for the child ... [0m[32mok[0m [0m[38;5;245m(38ms)[0m
+[0m[38;5;245m./integration/workflow_resume_provenance_test.ts => [0mworkflow --last-evaluated: authored env expression survives a source edit via persisted provenance ... [0m[32mok[0m [0m[38;5;245m(81ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: dynamic vault arguments survive persistence without secrets ... [0m[32mok[0m [0m[38;5;245m(185ms)[0m
+[0m[38;5;245m./integration/tls_trust_test.ts => [0mtls_trust ordering: the bootstrap import wins the race against a later import-time handshake ... [0m[32mok[0m [0m[38;5;245m(243ms)[0m
+[0m[38;5;245m./integration/tls_trust_test.ts => [0mtls_trust ordering: main.ts imports the bootstrap before any other module ... [0m[32mok[0m [0m[38;5;245m(185µs)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert: a vault secret in the failure message is redacted before persistence and events ... [0m[32mok[0m [0m[38;5;245m(57ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: cached deferred records do not grow across --last-evaluated replays ... [0m[32mok[0m [0m[38;5;245m(56ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mruntime placement: workflow inheritance resolves before dispatch ... [0m[32mok[0m [0m[38;5;245m(34ms)[0m
+[0m[38;5;245m./integration/workflow_report_data_test.ts => [0mrunWorkflowReports: auto-created model data is accessible via findByNameGlobal modelId ... [0m[32mok[0m [0m[38;5;245m(683ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mruntime placement: job inheritance resolves before dispatch ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mruntime placement: step inheritance resolves before dispatch ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.585Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ 40 + 2 }
+2026-09-21T16:56:13.585Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ 40 + 2 }
+2026-09-21T16:56:13.585Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ undefined }
+2026-09-21T16:56:13.586Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+2026-09-21T16:56:13.586Z [WRN] swamp·expressions: Refusing to evaluate expression at value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ 40 + 2 }
+2026-09-21T16:56:13.586Z [WRN] swamp·expressions: Refusing to evaluate expression at value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ undefined }
+2026-09-21T16:56:13.586Z [WRN] swamp·expressions: Refusing to evaluate expression at value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+2026-09-21T16:56:13.587Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+2026-09-21T16:56:13.606Z [WRN] swamp·expressions: Refusing to evaluate expression at inputs: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ undefined }
+2026-09-21T16:56:13.606Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ undefined }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mprovenance guards: ordinary, runtime and record CEL injected through inputs ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mprovenance guards: ordinary, runtime and record CEL injected through inputs ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.627Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mprovenance guards: ordinary, runtime and record CEL injected through data ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mprovenance guards: ordinary, runtime and record CEL injected through data ... [0m[32mok[0m [0m[38;5;245m(39ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.663Z [WRN] swamp·workflows: forEach step '"ordinary"' uses index-based naming because item is an object. Consider adding a ${{ self."item".<field> }} expression to the step name for better observability.
+2026-09-21T16:56:13.663Z [WRN] swamp·workflows: forEach step '"runtime"' uses index-based naming because item is an object. Consider adding a ${{ self."item".<field> }} expression to the step name for better observability.
+2026-09-21T16:56:13.663Z [WRN] swamp·workflows: forEach step '"record"' uses index-based naming because item is an object. Consider adding a ${{ self."item".<field> }} expression to the step name for better observability.
+2026-09-21T16:56:13.663Z [WRN] swamp·workflows: forEach step '"message"' uses index-based naming because item is an object. Consider adding a ${{ self."item".<field> }} expression to the step name for better observability.
+2026-09-21T16:56:13.664Z [WRN] swamp·expressions: Refusing to evaluate expression at value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ 40 + 2 }
+2026-09-21T16:56:13.664Z [WRN] swamp·expressions: Refusing to evaluate expression at value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+2026-09-21T16:56:13.664Z [WRN] swamp·expressions: Refusing to evaluate expression at value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ undefined }
+2026-09-21T16:56:13.666Z [WRN] swamp·expressions: Refusing to evaluate expression at methods.run.arguments.value: it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+2026-09-21T16:56:13.684Z [WRN] swamp·workflows: forEach step '"capture"' uses index-based naming because item is an object. Consider adding a ${{ self."item".<field> }} expression to the step name for better observability.
+2026-09-21T16:56:13.684Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ undefined }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mprovenance guards: ordinary, runtime and record CEL injected through forEach ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mprovenance guards: ordinary, runtime and record CEL injected through forEach ... [0m[32mok[0m [0m[38;5;245m(38ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert provenance: run preserves raw CEL through cache replay ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert provenance: evaluate preserves raw CEL through cache replay ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert provenance: array preserves raw CEL through cache replay ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert provenance: object preserves raw CEL through cache replay ... [0m[32mok[0m [0m[38;5;245m(13ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.759Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ 40 + 2 }
+2026-09-21T16:56:13.765Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ 40 + 2 }
+2026-09-21T16:56:13.773Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+2026-09-21T16:56:13.779Z [WRN] swamp·expressions: Refusing to evaluate expression at : it was not written in the definition or workflow source, so it arrived as data content. Left as literal text. Raw: ${ env.HOME }
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert provenance: substituted messages stay literal and predicates cannot become CEL ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0massert provenance: substituted messages stay literal and predicates cannot become CEL ... [0m[32mok[0m [0m[38;5;245m(56ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:13.818Z [WRN] swamp·workflows: forEach step '"call"' uses index-based naming because item is an object. Consider adding a ${{ self."item".<field> }} expression to the step name for better observability.
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: rebuilds model services and retains parent self/run/steps ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/evaluated_cache_provenance_test.ts => [0mnested runtime scope: rebuilds model services and retains parent self/run/steps ... [0m[32mok[0m [0m[38;5;245m(49ms)[0m
+[0m[38;5;245m./integration/workflow_report_data_test.ts => [0mrunWorkflowReports: pre-created model data is accessible via findByNameGlobal modelId ... [0m[32mok[0m [0m[38;5;245m(580ms)[0m
+[0m[38;5;245m./integration/workflow_report_data_test.ts => [0mrunWorkflowReports: auto-create vs pre-create modelId diagnostic ... [0m[32mok[0m [0m[38;5;245m(582ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:14.701Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["a76bf361-9947-4567-a300-5cd0d503c5ac"]
+2026-09-21T16:56:14.705Z [INF] worker·dispatch: Dispatch "a76bf361-9947-4567-a300-5cd0d503c5ac" started: "swamp/remote-it"."run"
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mCLI: model method run creates versioned Data on subsequent calls ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mCLI: model method run creates versioned Data on subsequent calls ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: evaluate all definitions in topological order ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: definition without expressions has hadExpressions=false ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: handles inputs with conditional expression ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mDefinition Lifecycle: environment variable expressions ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[0m[38;5;245m./integration/definition_lifecycle_test.ts => [0mModel creation with attributes via repository ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:14.884Z [INF] worker·dispatch: Dispatch "a76bf361-9947-4567-a300-5cd0d503c5ac" finished: "swamp/remote-it"."run" "succeeded" in 179ms
+2026-09-21T16:56:14.884Z [INF] serve·worker-gateway: Dispatch "a76bf361-9947-4567-a300-5cd0d503c5ac" on worker "it-worker" "succeeded" in 183ms
+2026-09-21T16:56:14.904Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["e444fd60-db78-4685-8fac-c3e7b280a4a5"]
+2026-09-21T16:56:14.908Z [INF] worker·dispatch: Dispatch "e444fd60-db78-4685-8fac-c3e7b280a4a5" started: "swamp/remote-it"."run"
+2026-09-21T16:56:15.235Z [INF] worker·dispatch: Dispatch "e444fd60-db78-4685-8fac-c3e7b280a4a5" finished: "swamp/remote-it"."run" "failed" in 327ms
+2026-09-21T16:56:15.235Z [INF] serve·worker-gateway: Dispatch "e444fd60-db78-4685-8fac-c3e7b280a4a5" on worker "it-worker" "failed" in 331ms
+2026-09-21T16:56:15.251Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["1e293585-9b1c-4837-8bb4-de861d64d47d"]
+2026-09-21T16:56:15.255Z [INF] worker·dispatch: Dispatch "1e293585-9b1c-4837-8bb4-de861d64d47d" started: "swamp/remote-it"."run"
+2026-09-21T16:56:15.436Z [INF] worker·dispatch: Dispatch "1e293585-9b1c-4837-8bb4-de861d64d47d" finished: "swamp/remote-it"."run" "succeeded" in 181ms
+2026-09-21T16:56:15.436Z [INF] serve·worker-gateway: Dispatch "1e293585-9b1c-4837-8bb4-de861d64d47d" on worker "it-worker" "succeeded" in 186ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ... [0m[32mok[0m [0m[38;5;245m(3s)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:15.780Z [INF] serve·worker-gateway: Worker "queue-worker" enrolled ("first-connect")
+2026-09-21T16:56:15.780Z [INF] worker·connect: Enrolled as "queue-worker"
+2026-09-21T16:56:15.785Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "queue-worker" ["b2426020-c0f5-440e-b318-984158e0e333"]
+2026-09-21T16:56:15.790Z [INF] worker·dispatch: Dispatch "b2426020-c0f5-440e-b318-984158e0e333" started: "swamp/remote-it"."run"
+2026-09-21T16:56:15.973Z [INF] worker·dispatch: Dispatch "b2426020-c0f5-440e-b318-984158e0e333" finished: "swamp/remote-it"."run" "succeeded" in 184ms
+2026-09-21T16:56:15.974Z [INF] serve·worker-gateway: Dispatch "b2426020-c0f5-440e-b318-984158e0e333" on worker "queue-worker" "succeeded" in 188ms
+2026-09-21T16:56:15.990Z [WRN] serve·worker-gateway: Failed to record disconnect for "queue-worker": "No such file or directory (os error 2): writefile '/tmp/swamp-remote-it-ce83c7bcb70bc982/.swamp/data/swamp/worker/c9c1f8b7-4996-44d5-80c9-6910dd0ca219/state-main/4/.ab1ba180-8bae-4562-b0bd-816d6b0997b1.tmp'"
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ... [0m[32mok[0m [0m[38;5;245m(520ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:16.092Z [INF] serve·worker-gateway: Worker "recon-worker" enrolled ("first-connect")
+2026-09-21T16:56:16.093Z [INF] worker·connect: Enrolled as "recon-worker"
+2026-09-21T16:56:16.117Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "recon-worker" ["767dfcd0-0e3c-427e-b638-a4005f6e1346"]
+2026-09-21T16:56:16.122Z [INF] worker·dispatch: Dispatch "767dfcd0-0e3c-427e-b638-a4005f6e1346" started: "swamp/remote-it"."run"
+2026-09-21T16:56:16.315Z [INF] worker·dispatch: Dispatch "767dfcd0-0e3c-427e-b638-a4005f6e1346" finished: "swamp/remote-it"."run" "succeeded" in 193ms
+2026-09-21T16:56:16.315Z [INF] serve·worker-gateway: Dispatch "767dfcd0-0e3c-427e-b638-a4005f6e1346" on worker "recon-worker" "succeeded" in 198ms
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: boot reconciliation marks stale records ... [0m[32mok[0m [0m[38;5;245m(356ms)[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: a wrong token is rejected and the worker stops ... [0m[32mok[0m [0m[38;5;245m(93ms)[0m
+[0m[38;5;245m------- post-test output -------[0m
+2026-09-21T16:56:16.449Z [INF] serve·worker-gateway: Reconnection grace window expired for "it-worker"
+2026-09-21T16:56:16.546Z [INF] serve·worker-gateway: Worker "fleet-pool-2a7566f8" enrolled ("first-connect")
+2026-09-21T16:56:16.547Z [INF] worker·connect: Enrolled as "fleet-pool-2a7566f8"
+2026-09-21T16:56:16.577Z [INF] serve·worker-gateway: Worker "fleet-pool-cd82f083" enrolled ("first-connect")
+2026-09-21T16:56:16.577Z [INF] worker·connect: Enrolled as "fleet-pool-cd82f083"
+2026-09-21T16:56:16.594Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-2a7566f8" ["b4e44e2d-4989-4737-986b-aacfdd985f2e"]
+2026-09-21T16:56:16.598Z [INF] worker·dispatch: Dispatch "b4e44e2d-4989-4737-986b-aacfdd985f2e" started: "swamp/remote-it"."run"
+2026-09-21T16:56:16.786Z [INF] worker·dispatch: Dispatch "b4e44e2d-4989-4737-986b-aacfdd985f2e" finished: "swamp/remote-it"."run" "succeeded" in 188ms
+2026-09-21T16:56:16.787Z [INF] serve·worker-gateway: Dispatch "b4e44e2d-4989-4737-986b-aacfdd985f2e" on worker "fleet-pool-2a7566f8" "succeeded" in 193ms
+2026-09-21T16:56:16.798Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-cd82f083" ["5eb0fe85-1926-4b78-ab78-af3e75c2b3de"]
+2026-09-21T16:56:16.803Z [INF] worker·dispatch: Dispatch "5eb0fe85-1926-4b78-ab78-af3e75c2b3de" started: "swamp/remote-it"."run"
+2026-09-21T16:56:16.982Z [INF] worker·dispatch: Dispatch "5eb0fe85-1926-4b78-ab78-af3e75c2b3de" finished: "swamp/remote-it"."run" "succeeded" in 180ms
+2026-09-21T16:56:16.983Z [INF] serve·worker-gateway: Dispatch "5eb0fe85-1926-4b78-ab78-af3e75c2b3de" on worker "fleet-pool-cd82f083" "succeeded" in 185ms
+2026-09-21T16:56:16.984Z [INF] serve·worker-gateway: Reconnection grace window expired for "queue-worker"
+2026-09-21T16:56:17.003Z [WRN] serve·worker-gateway: Failed to record disconnect for "fleet-pool-2a7566f8": "Worker 'worker-fleet-pool-2a7566f8' has no recorded state — enroll first"
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ...[0m[38;5;245m----- post-test output end -----[0m
+[0m[38;5;245m./integration/remote_execution_test.ts => [0mremote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ... [0m[32mok[0m [0m[38;5;245m(568ms)[0m
+[0m[38;5;245m./integration/telemetry_workflow_method_invocations_test.ts => [0mworkflow run persists per-step child telemetry entries with workflowContext ... [0m[32mok[0m [0m[38;5;245m(11s)[0m
+[0m[38;5;245m./integration/telemetry_invocation_context_test.ts => [0mCLI bootstrap stamps invocationContext on persisted telemetry ... [0m[32mok[0m [0m[38;5;245m(12s)[0m
+[0m[38;5;245m./integration/source_fetch_test.ts => [0mHttpSourceDownloader fetches swamp source from GitHub ... [0m[32mok[0m [0m[38;5;245m(17s)[0m
+[0m[38;5;245m./integration/source_fetch_test.ts => [0mHttpSourceDownloader preserves symlinks that point to directories ... [0m[32mok[0m [0m[38;5;245m(4s)[0m
+[0m[38;5;245m./integration/source_fetch_test.ts => [0mHttpSourceDownloader returns 404 error for non-existent version ... [0m[32mok[0m [0m[38;5;245m(1s)[0m
+
+[0m[32mok[0m | 363 passed | 0 failed [0m[38;5;245m(24s)[0m
+

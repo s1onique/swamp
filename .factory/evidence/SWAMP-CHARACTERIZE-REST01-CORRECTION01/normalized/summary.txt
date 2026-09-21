@@ -1,0 +1,62 @@
+CORRECTED primary full-suite summary
+====================================
+
+Deno:     deno 2.9.7 (stable, release, aarch64-apple-darwin)
+Subject:  a392c49e1c899fbbbbf39bf84d73a8308c048eb6
+NATURAL_COMPLETION:    true
+duration:              628s
+exit:                  1
+passed:                12287
+failed:                33
+ignored:               30
+total:                 12350
+runner summary line:
+  FAILED | 12287 passed (214 steps) | 33 failed | 30 ignored (1 step) (10m11s)
+
+Correction context (this ACT, NEW)
+==================================
+
+Run substrate:
+  HOME:        /tmp/swamp-char-rest01-correction01/home
+  DENO_DIR:    /tmp/swamp-char-rest01-correction01/deno
+  TMPDIR:      /tmp
+  PATH:        /tmp/deno-arm64:$PATH
+
+Cluster-02 controls (10 runs):
+  1a  isolated single, DENO_JOBS=1                                5/0 (4s)
+  1b  isolated single, DENO_JOBS=2                                5/0 (4s)
+  1c  isolated single, DENO_JOBS=default                          5/0 (4s)
+  1c' isolated single, --parallel, DENO_JOBS=default               5/0 (4s) x 3
+  1d-1 neighborhood co-run (cluster-01 + remote_exec) --parallel  55/1 (4s)
+  1d-2 neighborhood co-run --parallel                             56/0 (5s)
+  1d-3 neighborhood co-run --parallel                             56/0 (4s)
+  1e  worker-class co-run --parallel                               328/0 (10s)
+  1f  full integration/ tree --parallel                            363/0 (24s)
+
+Reclassification outcomes:
+  CLUSTER-01 ENVIRONMENTAL FALSIFIED_BY_CONTROL  (unchanged)
+  CLUSTER-02 UNRESOLVED      OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD
+               (was ENVIRONMENTAL REPRODUCED_REPEATEDLY)
+  CLUSTER-03 TEST_CONTRACT_AMBIGUITY (was PROJECT_DEFECT)
+               evidence REPRODUCED_REPEATEDLY unchanged
+
+Conservations (corrected):
+  runner_failed           = 33  = unclassified + classified
+  classified:
+    ENVIRONMENTAL            = 31  (CLUSTER-01)
+    UNRESOLVED               =  1  (CLUSTER-02)
+    TEST_CONTRACT_AMBIGUITY  =  1  (CLUSTER-03)
+    sum                      = 33
+  unclassified            =  0
+  no_unknown_red          = false  (one UNRESOLVED present)
+  no_production_changes   = true
+
+Readiness gate (mechanical):
+  natural completion       true
+  inventory complete       true
+  unresolved               1   (NOT 0)
+  all failures classified  true   (every failure has a category)
+  dogfood blockers:
+    cluster-02 unresolved  -> blocker
+    cluster-03 contract    -> blocker (no bounded follow-up ACT yet)
+  DOGFOOD_READY          = false  (causally earned via unresolved>0)

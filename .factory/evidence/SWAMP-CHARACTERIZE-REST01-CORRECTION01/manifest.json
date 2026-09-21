@@ -1,0 +1,22 @@
+{
+  "subject_sha": "a392c49e1c899fbbbbf39bf84d73a8308c048eb6",
+  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+  "parent_act": "SWAMP-CHARACTERIZE-REST01",
+  "parent_sha": "10d7ccae",
+  "files": [
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/MANIFEST.md",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/RESULT.md",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/CLUSTER-SUMMARY.md",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/ENVIRONMENT.md",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/failures.json",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/clusters/CLUSTER-02.md",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/clusters/CLUSTER-03.md",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/normalized/summary.txt",
+    ".factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/manifest.json",
+    ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/full/classified-inventory.json",
+    ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/prewarm/command.txt",
+    ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/prewarm/stdout.txt",
+    ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/prewarm/stderr.txt"
+  ],
+  "note": "All raw evidence files are hashed under raw-sha256.txt. The prior ACT raw evidence (SWAMP-CHARACTERIZE-REST01/**) is preserved unchanged and is referenced by this ACT."
+}
