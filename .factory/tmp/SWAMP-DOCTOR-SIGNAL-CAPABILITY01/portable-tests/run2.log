@@ -1,0 +1,40 @@
+[0m[38;5;245mrunning 24 tests from ./src/cli/commands/doctor_audit_test.ts[0m
+doctorAuditCommand module loads ... [0m[32mok[0m [0m[38;5;245m(44ms)[0m
+doctorAuditCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+doctorAuditCommand has the expected option set ... [0m[32mok[0m [0m[38;5;245m(230µs)[0m
+resolveTargetTool: returns flag tool when explicit override is provided ... [0m[32mok[0m [0m[38;5;245m(314µs)[0m
+resolveTargetTool: falls back to marker tool when no flag provided ... [0m[32mok[0m [0m[38;5;245m(78µs)[0m
+resolveTargetTool: throws NoToolConfiguredError when neither flag nor marker has a tool ... [0m[32mok[0m [0m[38;5;245m(492µs)[0m
+resolveTargetTool: flag value is validated against the AiTool union (rejects garbage) ... [0m[32mok[0m [0m[38;5;245m(91µs)[0m
+resolveTargetTool: flag wins even when marker is set ... [0m[32mok[0m [0m[38;5;245m(32µs)[0m
+resolveTargetTool: accepts the audit-skip tools (codex/none) as valid overrides ... [0m[32mok[0m [0m[38;5;245m(39µs)[0m
+resolveTargetTool: accepts copilot as a valid audit-enabled tool override ... [0m[32mok[0m [0m[38;5;245m(35µs)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+runChildWithAbort: returns normally when child exits cleanly and no abort is requested ... [0m[32mok[0m [0m[38;5;245m(331ms)[0m
+runChildWithAbort: SIGTERM PermissionDenied is surfaced explicitly, not swallowed ... [0m[32mok[0m [0m[38;5;245m(54ms)[0m
+runChildWithAbort: portable — SIGTERM delivered, child completes naturally ... [0m[32mok[0m [0m[38;5;245m(423ms)[0m
+runChildWithAbort: portable — SIGTERM PermissionDenied surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+runChildWithAbort: portable — generic SIGTERM failure surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+runChildWithAbort: portable — SIGTERM delivered then SIGKILL escalation delivered ... [0m[32mok[0m [0m[38;5;245m(132ms)[0m
+runChildWithAbort: portable — SIGTERM delivered then SIGKILL PermissionDenied surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(114ms)[0m
+runChildWithAbort: portable — terminal race returns benign already-terminal outcome, not delivery error ... [0m[32mok[0m [0m[38;5;245m(325ms)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(568µs)[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [real-signal] ...
+[0m[38;5;245m------- output -------[0m
+[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)
+[0m[38;5;245m----- output end -----[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [real-signal] ... [0m[32mok[0m [0m[38;5;245m(532ms)[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [real-signal] ...
+[0m[38;5;245m------- output -------[0m
+[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)
+[0m[38;5;245m----- output end -----[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [real-signal] ... [0m[32mok[0m [0m[38;5;245m(522ms)[0m
+capability-probe: reports CAN_SIGNAL_CHILD verdict for current substrate ...
+[0m[38;5;245m------- output -------[0m
+CAN_SIGNAL_CHILD=false reason=PermissionDenied
+[0m[38;5;245m----- output end -----[0m
+capability-probe: reports CAN_SIGNAL_CHILD verdict for current substrate ... [0m[32mok[0m [0m[38;5;245m(529ms)[0m
+runChildWithAbort: ChildSignalDeliveryError is not converted to success [caller] ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+
+[0m[32mok[0m | 24 passed | 0 failed [0m[38;5;245m(3s)[0m
+

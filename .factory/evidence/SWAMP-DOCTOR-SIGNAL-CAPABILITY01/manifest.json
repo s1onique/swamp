@@ -26,14 +26,23 @@
     "error_contract": "ChildSignalDeliveryError extends UserError (code='subprocess_signal_unavailable')"
   },
   "test_results": {
-    "total": 24,
-    "passed": 22,
-    "failed": 0,
-    "capability_gated_skip": 2,
-    "real_signal_executed": 0,
-    "real_signal_skipped_reason": "host substrate denies signal delivery",
-    "probe_verdict": "CAN_SIGNAL_CHILD=false reason=PermissionDenied",
-    "exit_code": 0
+    "runner_status": {
+      "total": 24,
+      "passed": 24,
+      "failed": 0,
+      "ignored": 0,
+      "exit_code": 0
+    },
+    "semantic_coverage": {
+      "portable_tests_executed": 22,
+      "portable_tests_expected": 22,
+      "portable_tests_skipped": 0,
+      "real_signal_total": 2,
+      "real_signal_executed": 0,
+      "real_signal_capability_unavailable": 2,
+      "probe_verdict": "CAN_SIGNAL_CHILD=false reason=PermissionDenied"
+    },
+    "note": "Runner status and semantic coverage are recorded separately because the capability-gated skip is implemented inside the test body (not as Deno t.step({ignore:true})). Both real-signal tests resolve to 'ok' from the runner's perspective; their bodies short-circuit before exercising the real signal path."
   },
   "latency": {
     "red_test_before_ms": 5285,
@@ -43,10 +52,10 @@
     "real_signal_capability_skipped_ms": 520
   },
   "conservation": {
-    "passed_plus_failed_plus_skipped_equals_total": true,
-    "real_signal_executed_plus_skipped_equals_real_signal_count": true,
-    "portable_tests_skipped": 0,
-    "terminal_outcomes_per_call": 1
+    "runner_passed_plus_failed_plus_ignored_equals_runner_total": true,
+    "real_signal_executed_plus_capability_unavailable_equals_real_signal_total": true,
+    "portable_tests_executed_equals_portable_expected": true,
+    "classified_total_equals_total_attempts_per_call": true
   },
   "negative_claims": {
     "PermissionDenied_not_swallowed": true,
@@ -59,8 +68,12 @@
   },
   "raw_evidence": {
     "directory": ".factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/",
+    "tracked": true,
+    "tracked_file_count": 13,
     "immutable": true,
     "hash_pinned_in": "raw-sha256.txt",
+    "hash_manifest_excludes_self": true,
+    "hash_manifest_subject_count": 12,
     "baseline01_sha256_preserved": "ae420afef38fea978bd6a33d0e54971547424aa2c9b8f54310d2b731a7cb9417"
   },
   "regression_checks": {

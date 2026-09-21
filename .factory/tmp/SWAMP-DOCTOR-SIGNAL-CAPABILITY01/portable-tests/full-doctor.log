@@ -1,0 +1,62 @@
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor.ts[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_audit.ts[0m
+[0m[38;5;245mrunning 24 tests from ./src/cli/commands/doctor_audit_test.ts[0m
+doctorAuditCommand module loads ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+doctorAuditCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+doctorAuditCommand has the expected option set ... [0m[32mok[0m [0m[38;5;245m(312µs)[0m
+resolveTargetTool: returns flag tool when explicit override is provided ... [0m[32mok[0m [0m[38;5;245m(95µs)[0m
+resolveTargetTool: falls back to marker tool when no flag provided ... [0m[32mok[0m [0m[38;5;245m(69µs)[0m
+resolveTargetTool: throws NoToolConfiguredError when neither flag nor marker has a tool ... [0m[32mok[0m [0m[38;5;245m(613µs)[0m
+resolveTargetTool: flag value is validated against the AiTool union (rejects garbage) ... [0m[32mok[0m [0m[38;5;245m(88µs)[0m
+resolveTargetTool: flag wins even when marker is set ... [0m[32mok[0m [0m[38;5;245m(94µs)[0m
+resolveTargetTool: accepts the audit-skip tools (codex/none) as valid overrides ... [0m[32mok[0m [0m[38;5;245m(59µs)[0m
+resolveTargetTool: accepts copilot as a valid audit-enabled tool override ... [0m[32mok[0m [0m[38;5;245m(51µs)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+runChildWithAbort: returns normally when child exits cleanly and no abort is requested ... [0m[32mok[0m [0m[38;5;245m(331ms)[0m
+runChildWithAbort: SIGTERM PermissionDenied is surfaced explicitly, not swallowed ... [0m[32mok[0m [0m[38;5;245m(54ms)[0m
+runChildWithAbort: portable — SIGTERM delivered, child completes naturally ... [0m[32mok[0m [0m[38;5;245m(424ms)[0m
+runChildWithAbort: portable — SIGTERM PermissionDenied surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+runChildWithAbort: portable — generic SIGTERM failure surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(34ms)[0m
+runChildWithAbort: portable — SIGTERM delivered then SIGKILL escalation delivered ... [0m[32mok[0m [0m[38;5;245m(133ms)[0m
+runChildWithAbort: portable — SIGTERM delivered then SIGKILL PermissionDenied surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(115ms)[0m
+runChildWithAbort: portable — terminal race returns benign already-terminal outcome, not delivery error ... [0m[32mok[0m [0m[38;5;245m(306ms)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(574µs)[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [real-signal] ...
+[0m[38;5;245m------- post-test output -------[0m
+[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)
+[0m[38;5;245m----- post-test output end -----[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [real-signal] ... [0m[32mok[0m [0m[38;5;245m(545ms)[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [real-signal] ...
+[0m[38;5;245m------- post-test output -------[0m
+[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)
+[0m[38;5;245m----- post-test output end -----[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [real-signal] ... [0m[32mok[0m [0m[38;5;245m(526ms)[0m
+capability-probe: reports CAN_SIGNAL_CHILD verdict for current substrate ...
+[0m[38;5;245m------- post-test output -------[0m
+CAN_SIGNAL_CHILD=false reason=PermissionDenied
+[0m[38;5;245m----- post-test output end -----[0m
+capability-probe: reports CAN_SIGNAL_CHILD verdict for current substrate ... [0m[32mok[0m [0m[38;5;245m(526ms)[0m
+runChildWithAbort: ChildSignalDeliveryError is not converted to success [caller] ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_datastores.ts[0m
+[0m[38;5;245mrunning 3 tests from ./src/cli/commands/doctor_datastores_test.ts[0m
+compareCatalogToDisk: reports the shortfall for a model missing from the index ... [0m[32mok[0m [0m[38;5;245m(61ms)[0m
+compareCatalogToDisk: does not modify the catalog it is measuring ... [0m[32mok[0m [0m[38;5;245m(24ms)[0m
+compareCatalogToDisk: a fully indexed catalog reports no shortfall ... [0m[32mok[0m [0m[38;5;245m(28ms)[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_extensions.ts[0m
+[0m[38;5;245mrunning 2 tests from ./src/cli/commands/doctor_extensions_test.ts[0m
+doctorExtensionsCommand module loads ... [0m[32mok[0m [0m[38;5;245m(139ms)[0m
+doctorExtensionsCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(5ms)[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_install.ts[0m
+[0m[38;5;245mrunning 2 tests from ./src/cli/commands/doctor_install_test.ts[0m
+doctorInstallCommand module loads ... [0m[32mok[0m [0m[38;5;245m(135ms)[0m
+doctorInstallCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(9ms)[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_secrets.ts[0m
+[0m[38;5;245mrunning 3 tests from ./src/cli/commands/doctor_secrets_test.ts[0m
+doctorSecretsCommand module loads ... [0m[32mok[0m [0m[38;5;245m(138ms)[0m
+doctorSecretsCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(7ms)[0m
+doctorSecretsCommand has --repo-dir option ... [0m[32mok[0m [0m[38;5;245m(224µs)[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_vaults.ts[0m
+[0m[38;5;245mrunning 0 tests from ./src/cli/commands/doctor_workflows.ts[0m
+
+[0m[32mok[0m | 34 passed | 0 failed [0m[38;5;245m(6s)[0m
+

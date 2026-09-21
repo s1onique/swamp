@@ -61,16 +61,50 @@ All portable deterministic latency targets met (< 500 ms for SIGTERM
 denials, < 1500 ms for SIGKILL denials). The 2 s real-signal bound is
 *not* weakened: those tests do not run on the sandboxed substrate at all.
 
-## Aggregate counts (ACT §24)
+## Aggregate counts (ACT §24) — runner vs. semantic coverage
+
+Two independent claims:
+
+### RUNNER_STATUS (what Deno reported)
 
 ```
-total portable tests                = 12 (T1-T8 + caller + RED + pre-aborted duplicate)
-portable passed                     = 12
-portable failed                     = 0
+total tests        = 24
+passed             = 24
+failed             = 0
+ignored            = 0
+```
+
+### SEMANTIC_COVERAGE (what the test bodies exercised)
+
+```
+total portable tests                = 22
+portable executed                   = 22
 portable skipped                    = 0
 real-signal tests                   = 2
-real-signal executed                = 0 (sandbox blocks)
-real-signal capability-skipped      = 2
-capability-probe                    = 1 (pass)
+real-signal executed                = 0  (sandbox blocks signal delivery)
+real-signal capability-unavailable  = 2
+capability-probe                    = 1  (executed; produced verdict)
 denied-signal latency target        < 2 s; measured 32-114 ms (97× improvement)
 ```
+
+### Conservation
+
+```
+runner_passed + runner_failed + runner_ignored == runner_total
+24 + 0 + 0 == 24                                           (PASS)
+
+real_signal_executed + real_signal_capability_unavailable == real_signal_total
+0 + 2 == 2                                                 (PASS)
+
+portable_executed == portable_expected
+22 == 22                                                   (PASS)
+```
+
+### Note
+
+The capability-gated early-return is implemented as a code-level
+skip inside an otherwise passing test body. To Deno's runner, both
+real-signal tests resolve to `ok`. To a coverage reader, those two
+tests' bodies short-circuited before exercising the real signal
+path. Both facts are true; the ACT records both rather than
+conflating them as "2 capability-gated SKIP".

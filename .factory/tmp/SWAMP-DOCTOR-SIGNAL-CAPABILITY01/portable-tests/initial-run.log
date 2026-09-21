@@ -1,0 +1,68 @@
+[0m[38;5;245mrunning 16 tests from ./src/cli/commands/doctor_audit_test.ts[0m
+doctorAuditCommand module loads ... [0m[32mok[0m [0m[38;5;245m(83ms)[0m
+doctorAuditCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+doctorAuditCommand has the expected option set ... [0m[32mok[0m [0m[38;5;245m(301µs)[0m
+resolveTargetTool: returns flag tool when explicit override is provided ... [0m[32mok[0m [0m[38;5;245m(71µs)[0m
+resolveTargetTool: falls back to marker tool when no flag provided ... [0m[32mok[0m [0m[38;5;245m(88µs)[0m
+resolveTargetTool: throws NoToolConfiguredError when neither flag nor marker has a tool ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+resolveTargetTool: flag value is validated against the AiTool union (rejects garbage) ... [0m[32mok[0m [0m[38;5;245m(120µs)[0m
+resolveTargetTool: flag wins even when marker is set ... [0m[32mok[0m [0m[38;5;245m(38µs)[0m
+resolveTargetTool: accepts the audit-skip tools (codex/none) as valid overrides ... [0m[32mok[0m [0m[38;5;245m(39µs)[0m
+resolveTargetTool: accepts copilot as a valid audit-enabled tool override ... [0m[32mok[0m [0m[38;5;245m(34µs)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+runChildWithAbort: returns normally when child exits cleanly and no abort is requested ... [0m[32mok[0m [0m[38;5;245m(359ms)[0m
+runChildWithAbort: SIGTERM PermissionDenied is surfaced explicitly, not swallowed ... [0m[32mok[0m [0m[38;5;245m(55ms)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(310µs)[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly ... [0m[31mFAILED[0m [0m[38;5;245m(107ms)[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM ... [0m[31mFAILED[0m [0m[38;5;245m(102ms)[0m
+
+[0m[1m[37m[41m ERRORS [0m
+
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:294:6[0m
+[0m[1m[31merror[0m: ChildSignalDeliveryError: doctor audit could not deliver SIGTERM to child process 9447: EPERM: Operation not permitted
+  return new ChildSignalDeliveryError(
+[0m[31m         ^[0m
+    at [0m[1m[3mtoDeliveryError[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m217[0m:[0m[33m10[0m)
+    at [0m[1m[3mAbortSignal.onAbort[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m312[0m:[0m[33m24[0m)
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245minnerInvokeEventListeners[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m8095[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245minvokeEventListeners[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m8506[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mdispatch[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m7177[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortSignal.dispatchEvent[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m11783[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortSignal.[[[runAbortSteps]]][0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/03_abort_signal.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m2366[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortSignal.[[[signalAbort]]][0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/03_abort_signal.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m2157[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortController.abort[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/03_abort_signal.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m3880[0m[0m[2m[38;5;245m)[0m
+    at [0m[1m[3mTimeout._onTimeout[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit_test.ts[0m:[0m[33m309[0m:[0m[33m33[0m)
+Caused by: PermissionDenied: EPERM: Operation not permitted
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mChildProcess.kill[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_process/40_process.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m7377[0m[0m[2m[38;5;245m)[0m
+    at [0m[1m[3mdefaultSignalSender[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m86[0m:[0m[33m9[0m)
+    at [0m[1m[3mattemptSignal[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m175[0m:[0m[33m5[0m)
+    at [0m[1m[3mAbortSignal.onAbort[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m304[0m:[0m[33m23[0m)
+
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:323:6[0m
+[0m[1m[31merror[0m: ChildSignalDeliveryError: doctor audit could not deliver SIGTERM to child process 9448: EPERM: Operation not permitted
+  return new ChildSignalDeliveryError(
+[0m[31m         ^[0m
+    at [0m[1m[3mtoDeliveryError[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m217[0m:[0m[33m10[0m)
+    at [0m[1m[3mAbortSignal.onAbort[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m312[0m:[0m[33m24[0m)
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245minnerInvokeEventListeners[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m8095[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245minvokeEventListeners[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m8506[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mdispatch[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m7177[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortSignal.dispatchEvent[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/02_event.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m11783[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortSignal.[[[runAbortSteps]]][0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/03_abort_signal.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m2366[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortSignal.[[[signalAbort]]][0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/03_abort_signal.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m2157[0m[0m[2m[38;5;245m)[0m
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mAbortController.abort[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_web/03_abort_signal.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m3880[0m[0m[2m[38;5;245m)[0m
+    at [0m[1m[3mTimeout._onTimeout[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit_test.ts[0m:[0m[33m338[0m:[0m[33m33[0m)
+Caused by: PermissionDenied: EPERM: Operation not permitted
+    [0m[2m[38;5;245mat [0m[0m[2m[38;5;245mChildProcess.kill[0m[0m[2m[38;5;245m ([0m[0m[2m[38;5;245mext:deno_process/40_process.js[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m1[0m[0m[2m[38;5;245m:[0m[0m[2m[38;5;245m7377[0m[0m[2m[38;5;245m)[0m
+    at [0m[1m[3mdefaultSignalSender[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m86[0m:[0m[33m9[0m)
+    at [0m[1m[3mattemptSignal[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m175[0m:[0m[33m5[0m)
+    at [0m[1m[3mAbortSignal.onAbort[0m ([0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit.ts[0m:[0m[33m304[0m:[0m[33m23[0m)
+
+[0m[1m[37m[41m FAILURES [0m
+
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:294:6[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:323:6[0m
+
+[0m[31mFAILED[0m | 14 passed | 2 failed [0m[38;5;245m(739ms)[0m
+
+[0m[1m[31merror[0m: Test failed

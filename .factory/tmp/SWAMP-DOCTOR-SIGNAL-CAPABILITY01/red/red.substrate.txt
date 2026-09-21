@@ -1,0 +1,13 @@
+=== substrate ===
+Darwin MacBook-Pro-3.local 23.6.0 Darwin Kernel Version 23.6.0: Thu Dec 19 20:47:16 PST 2024; root:xnu-10063.141.1.703.2~1/RELEASE_ARM64_T6031 arm64 arm Darwin
+/tmp/deno-bin/deno: Mach-O 64-bit executable x86_64
+---
+deno 2.9.7 (stable, release, x86_64-apple-darwin)
+v8 15.0.245.2-rusty
+typescript 6.0.3
+---
+210302b30793e9533e9751206203366142773e2c
+bcaa9695b7f27f51964a9f41587fdf112b261c89
+bcaa9695b7f27f51964a9f41587fdf112b261c89
+---
+2026-09-21T08:58:37Z

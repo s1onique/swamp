@@ -26,12 +26,35 @@ descendant processes. The substrate defect is preserved as-is; only the
 
 ## Test results
 
+Two independent claims are recorded here — runner status and
+semantic coverage — because the capability-gated skip is implemented
+inside the test body (not as a Deno `t.step({ ignore: true })`),
+so the runner counts both real-signal tests as `ok`.
+
+### RUNNER_STATUS (what Deno reported)
+
 ```
 running 24 tests from ./src/cli/commands/doctor_audit_test.ts
-... 22 passed, 2 capability-gated SKIP, 0 failed
 ok | 24 passed | 0 failed (3s)
 EXIT=0
 ```
+
+### SEMANTIC_COVERAGE (what the test bodies actually exercised)
+
+```
+portable_tests_executed                  = 22
+portable_tests_executed_expected         = 22
+real_signal_tests                        = 2
+real_signal_executed                     = 0
+real_signal_capability_unavailable       = 2
+portable_tests_skipped                   = 0
+runner_failures                          = 0
+```
+
+The real-signal tests are exercised as code (the gate runs, the
+reason is logged, the test resolves to `ok`), but their *body*
+short-circuits before exercising the real signal path because
+`probeChildSignalCapability()` returned `CAN_SIGNAL_CHILD=false`.
 
 Full breakdown in `.factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/TESTS.md`.
 

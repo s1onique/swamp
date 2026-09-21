@@ -10,22 +10,33 @@ Primary invariant achieved:
   No implicit "unknown-but-ignored" outcome.
 
 Test surface (24 tests):
-  passed                = 22
-  failed                = 0
-  capability_gated_skip = 2  (CAN_SIGNAL_CHILD=false reason=PermissionDenied)
-  portable_tests_skipped = 0
-  real_signal_executed  = 0  (probe says no)
-  real_signal_skipped   = 2
+
+RUNNER_STATUS (what Deno reported):
+  passed   = 24
+  failed   = 0
+  ignored  = 0
+  total    = 24
+
+SEMANTIC_COVERAGE (what the test bodies exercised):
+  portable_tests_executed                = 22
+  portable_tests_expected                = 22
+  portable_tests_skipped                 = 0
+  real_signal_total                      = 2
+  real_signal_executed                   = 0
+  real_signal_capability_unavailable     = 2  (CAN_SIGNAL_CHILD=false reason=PermissionDenied)
 
 Denied-signal latency:
   before ACT  : 5285 ms (waited for natural child completion)
   after ACT   :   54 ms (RED test) / 32-114 ms (T4/T7)
 
+Raw evidence: 13 files tracked in .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/
+  hash manifest excludes itself (12 subjects), all verified.
+
 Substrate fingerprint in production: zero matches (grep clean).
 
 Closure invariants: all 13 verified.
 Negative claims: all 7 verified.
-Conservation laws: all 5 verified.
+Conservation laws: all 4 verified (runner + real-signal + portable + per-call).
 
 CAUSE_OWNER       = SUBSTRATE  (unchanged)
 HANDLING_QUALITY  = ROBUST     (was DEGRADED_OR_MISLEADING)

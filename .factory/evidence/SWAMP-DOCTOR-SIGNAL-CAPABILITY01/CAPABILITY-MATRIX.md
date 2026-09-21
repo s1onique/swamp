@@ -35,12 +35,24 @@ the race. No path swallows an outcome.
 
 ## Conservation laws verified
 
+Two independent dimensions — runner status and semantic coverage —
+must both satisfy their conservation invariants:
+
 ```
-passed + failed + ignored    == total                       (Deno test summary)
-real_signal_executed +
-  real_signal_capability_skipped == real_signal_test_count   (2 real-signal tests)
-portable_tests_skipped        == 0                           (no portable skips)
-terminal_outcomes == 1        (no double settlement)         (verified per test)
+# Runner status (what Deno reported)
+runner_passed + runner_failed + runner_ignored == runner_total
+24 + 0 + 0 == 24                                            (PASS)
+
+# Real-signal semantic coverage
+real_signal_executed + real_signal_capability_unavailable == real_signal_total
+0 + 2 == 2                                                  (PASS)
+
+# Portable semantic coverage
+portable_tests_executed == portable_tests_expected
+22 == 22                                                    (PASS)
+
+# Per-flow outcome conservation (the cancellation contract itself)
+classified_total == total_attempts                           (PASS — verified per test)
 ```
 
 ## Substrate vs. ACT responsibility

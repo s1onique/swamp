@@ -1,0 +1,17 @@
+# raw-sha256.txt for ACT-SWAMP-DOCTOR-SIGNAL-CAPABILITY01
+# Hashes cover all raw evidence files in this directory EXCEPT this manifest itself.
+# Paths are relative to the repository root.
+# Regenerate with: cd <repo-root> && sha256sum -b <listed-files>
+
+52b8374355257f07dcb1aaddfa3facefeb86fb1ef72f0e08564247de334f4eab  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/capability-probe/probe.txt
+418a5c17f33c70e99b0cc0a07fce69191489cfedc94164bfa903785777c5bd4b  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/portable-tests/final.exitcode
+94024a9514bf523d12b2d73a9c905789f023f6cc25c704ca67526c8cfcdc5ff6  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/portable-tests/final.log
+75c705618e1cde044e029829f1511dc7dc46c81ec0f5c4e9716a111bb20ba24d  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/portable-tests/full-doctor.log
+7b6fe4656ac8e69252cb1297858ed81bccbe6d147f0a82d00cbb66eac7e8ef3b  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/portable-tests/initial-run.log
+89b372c06df7cac3fa376632ff29487abf4f96e4010f5f94fc98aac3b0ee0424  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/portable-tests/run1.log
+69835c0b06fc4764f8692366f8c84aa2d145fe49774f08d3bf8a6913af637ce0  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/portable-tests/run2.log
+4bf4fca02e6eeaf7f1c510b82c756e7f8a3c567a230bae1094b254adc774f38b  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/red/red.exitcode
+95a53a40b3c374841d41770463e0985932efac5ffddc3d6f5a3acbbbab102f03  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/red/red.log
+383651964038ece462bfa53bce66fb5295d7d9f224731848004ba15593f0a319  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/red/red.stderr
+3478f500ca4237bdfcb01ad5cefc6fa7ba7592e23575566b8564ec2ffdf0be4d  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/red/red.stdout
+294c50d243a8d13fa3b2b342884c7f2a413e1a89c22e7b2b0a8f0518d03cf8c4  .factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/red/red.substrate.txt
