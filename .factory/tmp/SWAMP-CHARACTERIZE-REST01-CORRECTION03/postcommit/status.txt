@@ -1,0 +1,8 @@
+ M .factory/epic-board.md
+ M .factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/build_raw_sha256.sh
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/precommit/verifier.exitcode
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/precommit/verifier.stdout
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/raw-sha256.txt
+?? .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/freeze_postcommit.sh
+?? .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/

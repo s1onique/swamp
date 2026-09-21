@@ -27,9 +27,13 @@ find "$RAW_TREE_REL" -type f \
   ! -name "verifier.stderr" \
   ! -name "verifier.exitcode" \
   ! -name "freeze_precommit.sh" \
+  ! -name "freeze_postcommit.sh" \
   ! -name "before.txt" \
   ! -name "mutated.txt" \
   ! -name "restored.txt" \
+  ! -path "*/postcommit/environment.txt" \
+  ! -path "*/postcommit/status.txt" \
+  ! -path "*/precommit/environment.txt" \
   | LC_ALL=C sort \
   | while IFS= read -r f; do
       h=$(sha256sum "$f" | awk '{print $1}')

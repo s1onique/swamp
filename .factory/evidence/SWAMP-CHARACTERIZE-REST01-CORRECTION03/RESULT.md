@@ -141,13 +141,13 @@
 ## Parent-hash negative control
 
   Run in a temporary clone at parent commit. Three runs:
-    before:    SHA matches        PASS  (50 PASS / 1 FAIL on
+    before:    SHA matches        PASS  (51 PASS / 1 FAIL on
                                        THIS_ACT_RAW_HASH_MANIFEST_EXISTS
                                        in clone; baseline confound)
     mutated:   SHA differs        FAIL  (49 PASS / 2 FAIL — additionally
                                        PARENT_CHARACTERIZATION_RAW_MANIFEST_PRESERVED
                                        fails with observed != expected)
-    restored:  SHA matches again  PASS  (50 PASS / 1 FAIL again)
+    restored:  SHA matches again  PASS  (51 PASS / 1 FAIL again)
 
   The mutation flips 1 byte (XOR 0x01 at offset 3) of the parent raw
   manifest. The mutated run's specific failure is the hash predicate,
@@ -159,7 +159,7 @@
 
   Run in a temporary clone at parent commit. Three runs:
     before:    CLUSTER-02 evidence_strength = OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD
-                                       verifier PASS (50 PASS / 1 FAIL
+                                       verifier PASS (51 PASS / 1 FAIL
                                        on raw-sha256 baseline confound)
     mutated:   CLUSTER-02 evidence_strength = REPRODUCED_REPEATEDLY (injected)
                                        verifier FAIL on the specific
