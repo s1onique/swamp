@@ -18,12 +18,15 @@
 // along with Swamp.  If not, see <https://www.gnu.org/licenses/>.
 
 import { assertEquals, assertStringIncludes } from "@std/assert";
+import { assertFalse } from "@std/assert/false";
+import { stripAnsiCode } from "@std/fmt/colors";
 import { join } from "@std/path";
 import {
   checkExtensionQuality,
   checkUpgradeChainConsistency,
   checkVersionBumpWithoutUpgrade,
   checkVersionConsistency,
+  normalizeExternalDiagnostic,
   type PublishedExtensionState,
   stripCommentsAndStrings,
 } from "./extension_quality_checker.ts";
@@ -96,6 +99,19 @@ Deno.test("checkExtensionQuality reports both fmt and lint issues together", asy
       const checks = result.issues.map((i) => i.check);
       assertEquals(checks.includes("fmt"), true);
       assertEquals(checks.includes("lint"), true);
+      // Issue count conservation: normalization must not merge or hide
+      // issues. Both producer paths must surface independently.
+      const fmtIssues = result.issues.filter((i) => i.check === "fmt");
+      const lintIssues = result.issues.filter((i) => i.check === "lint");
+      assertEquals(fmtIssues.length, 1);
+      assertEquals(lintIssues.length, 1);
+      // ANSI absence invariant for both issues from the same fixture.
+      for (const issue of result.issues) {
+        assertFalse(
+          issue.output.includes("\x1b["),
+          `${issue.check} issue unexpectedly contains ANSI escape: ${issue.output}`,
+        );
+      }
     },
   );
 });
@@ -341,6 +357,12 @@ Deno.test("checkExtensionQuality: fmt output contains no ANSI escape codes", asy
       assertEquals(fmtIssue !== undefined, true);
       // ANSI escape codes start with ESC (\x1b) followed by [
       assertEquals(fmtIssue!.output.includes("\x1b["), false);
+      // Stronger invariant: the stored output is already normalized.
+      assertEquals(stripAnsiCode(fmtIssue!.output), fmtIssue!.output);
+      // Meaningful diagnostic content retained: Deno fmt names the file
+      // and reports the unformatted file count.
+      assertStringIncludes(fmtIssue!.output, "not formatted");
+      assertStringIncludes(fmtIssue!.output, "model.ts");
     },
   );
 });
@@ -355,7 +377,13 @@ Deno.test("checkExtensionQuality: lint output contains no ANSI escape codes", as
       assertEquals(result.passed, false);
       const lintIssue = result.issues.find((i) => i.check === "lint");
       assertEquals(lintIssue !== undefined, true);
+      // ANSI escape codes start with ESC (\x1b) followed by [
       assertEquals(lintIssue!.output.includes("\x1b["), false);
+      // Stronger invariant: the stored output is already normalized.
+      assertEquals(stripAnsiCode(lintIssue!.output), lintIssue!.output);
+      // Meaningful diagnostic content retained: the unused-ignore rule
+      // name is preserved verbatim.
+      assertStringIncludes(lintIssue!.output, "ban-unused-ignore");
     },
   );
 });
@@ -775,3 +803,131 @@ Deno.test("checkVersionBumpWithoutUpgrade: nonexistent files are skipped", async
   ]);
   assertEquals(issues, []);
 });
+
+// ── normalizeExternalDiagnostic unit + semantic preservation ────────
+//
+// These tests exercise the ingestion-boundary primitive directly. They
+// do not invoke `deno fmt` / `deno lint`, so they are deterministic and
+// fast. They prove: (a) the primitive strips ANSI, (b) it preserves
+// semantic content, (c) it never over-strips ASCII that merely looks
+// ANSI-ish.
+
+Deno.test(
+  "normalizeExternalDiagnostic: removes SGR color sequences (RED, bold, reset)",
+  () => {
+    // A diagnostic decorated with red, bold, and reset, with a real
+    // meaningful message in between.
+    const raw = "\x1b[31merror: file is broken\x1b[0m\n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertFalse(normalized.includes("\x1b["));
+    assertEquals(stripAnsiCode(normalized), normalized);
+    assertStringIncludes(normalized, "error: file is broken");
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: removes 256-color and compound SGR sequences",
+  () => {
+    // 256-color and compound sequences observed in Deno 2.9.7 stderr.
+    const raw =
+      "\x1b[38;5;245m | \x1b[0m\x1b[1m\x1b[31m- export const x=1;\x1b[0m\n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertFalse(normalized.includes("\x1b["));
+    assertEquals(stripAnsiCode(normalized), normalized);
+    assertStringIncludes(normalized, "export const x=1;");
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: preserves plain text after trim",
+  () => {
+    // No ANSI at all — output must equal (trimmed) input.
+    const raw = "  simple plain diagnostic  \n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertEquals(normalized, "simple plain diagnostic");
+    assertFalse(normalized.includes("\x1b["));
+    assertEquals(stripAnsiCode(normalized), normalized);
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: preserves multiline structure",
+  () => {
+    const raw = [
+      "\x1b[31mline one: problem here\x1b[0m",
+      "\x1b[1mline two: another problem\x1b[0m",
+      "\x1b[0mline three: undecorated\x1b[0m",
+      "",
+    ].join("\n");
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertFalse(normalized.includes("\x1b["));
+    const lines = normalized.split("\n");
+    // Trailing empty line must be trimmed by `.trim()`; we have 3
+    // non-empty content lines.
+    assertEquals(lines.length, 3);
+    assertStringIncludes(lines[0], "line one: problem here");
+    assertStringIncludes(lines[1], "line two: another problem");
+    assertStringIncludes(lines[2], "line three: undecorated");
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: preserves Unicode diagnostic content",
+  () => {
+    // Non-ASCII content with ANSI decorations around it.
+    const raw = "\x1b[31mошибка: файл «α.ts» не отформатирован\x1b[0m\n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertFalse(normalized.includes("\x1b["));
+    assertStringIncludes(normalized, "ошибка");
+    assertStringIncludes(normalized, "α.ts");
+    // Visible Unicode length is preserved (one Unicode char = one JS char
+    // code unit in this case, since none are surrogate pairs).
+    assertEquals(
+      normalized.length,
+      "ошибка: файл «α.ts» не отформатирован".length,
+    );
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: does not strip ASCII that looks ANSI-ish",
+  () => {
+    // These byte sequences look ANSI-ish but contain no real ESC byte.
+    // The primitive must not touch them.
+    const raw = "[error] [31m ESC-like ordinary text without real ESC byte\n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertEquals(
+      normalized,
+      "[error] [31m ESC-like ordinary text without real ESC byte",
+    );
+    assertFalse(normalized.includes("\x1b["));
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: empty input yields empty output",
+  () => {
+    assertEquals(normalizeExternalDiagnostic(""), "");
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: ANSI-only input collapses to empty",
+  () => {
+    // Pure ANSI decoration with no semantic payload — current contract
+    // accepts this representation behavior.
+    const raw = "\x1b[31m\x1b[0m\n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertFalse(normalized.includes("\x1b["));
+    assertEquals(normalized, "");
+  },
+);
+
+Deno.test(
+  "normalizeExternalDiagnostic: trims leading/trailing whitespace",
+  () => {
+    const raw = "  \n\x1b[31mhello\x1b[0m\n  \n";
+    const normalized = normalizeExternalDiagnostic(raw);
+    assertEquals(normalized, "hello");
+  },
+);

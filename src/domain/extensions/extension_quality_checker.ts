@@ -17,11 +17,26 @@
 // You should have received a copy of the GNU Affero General Public License
 // along with Swamp.  If not, see <https://www.gnu.org/licenses/>.
 
+import { stripAnsiCode } from "@std/fmt/colors";
 import { basename } from "@std/path";
 import {
   extractLastUpgradeToVersion,
   extractModelVersion,
 } from "./extension_content_extractor.ts";
+
+/**
+ * Normalizes raw bytes from an external subprocess into a Swamp-owned
+ * diagnostic string. Removes any ANSI terminal-control sequences the
+ * subprocess may have emitted (Deno's `NO_COLOR=1` is documented as a
+ * best-effort request, not a guarantee) and trims whitespace.
+ *
+ * This is the contract boundary between external tool diagnostics and
+ * `QualityIssue.output`. Do not apply globally to other strings — only
+ * at this ingestion point.
+ */
+export function normalizeExternalDiagnostic(output: string): string {
+  return stripAnsiCode(output).trim();
+}
 
 /** A quality issue found during checking. */
 export interface QualityIssue {
@@ -301,7 +316,7 @@ export async function checkExtensionQuality(
   if (!fmtOutput.success) {
     const stderr = new TextDecoder().decode(fmtOutput.stderr);
     const stdout = new TextDecoder().decode(fmtOutput.stdout);
-    const output = (stderr + stdout).trim();
+    const output = normalizeExternalDiagnostic(stderr + stdout);
     issues.push({ check: "fmt", output });
   }
 
@@ -318,7 +333,7 @@ export async function checkExtensionQuality(
   if (!lintOutput.success) {
     const stderr = new TextDecoder().decode(lintOutput.stderr);
     const stdout = new TextDecoder().decode(lintOutput.stdout);
-    const output = (stderr + stdout).trim();
+    const output = normalizeExternalDiagnostic(stderr + stdout);
     issues.push({ check: "lint", output });
   }
 
