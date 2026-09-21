@@ -56,11 +56,11 @@ RAW SHA256 ENTRY COUNT (CORRECTION05 projection-identity scalar):
   attest_md.RAW_SHA256_ENTRY_COUNT = 12
   result_md.RAW_SHA256_ENTRY_COUNT = 12
 
-TERMINAL_RUN_ID            = 6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856
-TERMINAL_BUNDLE_HASH       = cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8
+TERMINAL_RUN_ID            = TERMINAL_RUN_ID_VALUE (recorded in C8:terminal_run/manifest.txt at C8 commit time)
+TERMINAL_BUNDLE_HASH       = TERMINAL_BUNDLE_HASH_VALUE (recorded in C8:terminal_run/manifest.txt at C8 commit time)
 
-CONTENT_COMMIT             = fd8d338619ef463bc9baa2d6947e9e91179710ec (== git HEAD~1 at D7)
-ATTESTATION_COMMIT         = 2e3f00c85e651c5ea3a1d4abea8d7e77bdb443c3 (== git rev-parse HEAD at D7 — pre-terminal_run/post_execution; later amended)
+SUBJECT_COMMIT             = (derived from git rev-parse at evaluation time; the verifier computes SUBJECT_COMMIT on every invocation) (== git HEAD~1 at A8 commit time; populated at C8 commit time)
+ATTESTOR_COMMIT          = PENDING_AT_A8_COMMIT_TIME (A8 SHA; populated at A8 commit time; the verdict authority on C8 is C8:terminal_run/verifier.stdout; we use derivation-placeholder because A8 SHA changes with every amend) (A8 SHA; never claim A8 = PASS; the verdict authority on C8 is C8:terminal_run/verifier.stdout)
 CONTESTATION_TREE_SHA      = (== git rev-parse HEAD~1^{tree} at runtime; populated at D7)
 ATTESTATION_TREE_SHA       = (== git rev-parse HEAD^{tree} at runtime; populated at D7)
 
@@ -89,4 +89,5 @@ DOCTRINE (CORRECTION07 cycle, 10 properties):
     7. semantic predicate fidelity            (CORRECTION04)
     8. projection identity                   (CORRECTION05)
     9. evidence freshness / terminal-run binding (CORRECTION06)
-   10. post-execution authority               (CORRECTION07 — this ACT)
+   10. post-execution authority               (CORRECTION07)
+ 11. attestation-acyclicity                  (CORRECTION08 — this ACT; replaces 10's framing)

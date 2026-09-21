@@ -1,4 +1,4 @@
-# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION07 edition)
+# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION08 acyclic edition)
 
 ## Subject
 
@@ -12,7 +12,7 @@
   own contents; it records evidence generated against Commit C.
 
   ATTESTATION_SUBJECT_COMMIT   = Commit C (CORRECTION05 content)
-  ATTESTATION_CONTAINER_COMMIT = Commit D (CORRECTION05 attestation)
+  ATTESTOR_COMMIT                   = A8_SHA (placeholder; populated at A8 commit time; never claim A8 = PASS)
   PARENT_ACT_COMMIT            = 95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
                                  (the CORRECTION03 attestation commit)
 
@@ -20,16 +20,16 @@
   clean. Commit D records that Commit C was clean AT THE TIME the
   verifier ran against Commit C's tree.
 
-  Authoritative Commit D = `git rev-parse HEAD` at this artifact's commit.
-  Authoritative Commit C = `git rev-parse HEAD~1` at this artifact's commit.
+  Authoritative Commit C8 = `git rev-parse HEAD~1` at A8's commit time.
+  Authoritative Commit A8 = `git rev-parse HEAD` at A8's commit time.
 
 ## Populated fields (final, after Commit C existed, attested at Commit D)
 
-  CONTENT_COMMIT_SHA                = fd8d338619ef463bc9baa2d6947e9e91179710ec (== git HEAD~1 at D7)
-  CONTENT_TREE_SHA                  = 29c03a6b72924dfd9e50324ea1b3e863ea66f3ea (== git rev-parse HEAD~1^{tree} at D7)
-  ATTESTATION_TREE_SHA              = 533d4dbb8dbf45ce192f265edd06513fbf5adb22 (== git rev-parse HEAD^{tree} at D7)
-  ATTESTATION_SUBJECT_COMMIT        = fd8d338619ef463bc9baa2d6947e9e91179710ec
-  ATTESTATION_CONTAINER_COMMIT      = 1e00ae0bbac05abe660da04bfa2efa051e628c6a (this artifact lives here)
+  CONTENT_COMMIT_SHA                = (derived from git rev-parse at evaluation time; the verifier computes CONTENT_COMMIT_SHA on every invocation) (== git HEAD~1 at A8 commit time; populated at C8 commit time)
+  CONTENT_TREE_SHA                  = 941e41c88f56aff887d59006a4c1dc7eba6d33b8 (== git rev-parse C8^{tree} at A8 commit time; populated at C8 commit time)
+  ATTESTATION_TREE_SHA              = A8_TREE_SHA (== git rev-parse HEAD^{tree} at A8 commit time; populated at A8 commit time)
+  ATTESTATION_SUBJECT_COMMIT        = (derived from git rev-parse at evaluation time) (placeholder; populated at C8 commit time)
+  ATTESTOR_COMMIT                   = A8_SHA (placeholder; populated at A8 commit time; never claim A8 = PASS)
   PARENT_ACT_COMMIT                 = 95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea (historical; CORRECTION03 attribution)
   SUBJECT                           = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
   POSTCOMMIT_VERIFIER_EXIT          = 0
@@ -39,8 +39,8 @@
   POSTCOMMIT_VERIFIER_DEFERRED      = 8  (CORRECTION07 — 8 deferred properties: TERMINAL_RUN_EXECUTED, _EXITCODE_IS_ZERO, _RESULT_IS_PASS, _FAIL_COUNT_IS_ZERO, _BUNDLE_HASH_IS_BOUND, _ID_IS_BOUND, NO_STALE_TERMINAL_RUN_BUNDLE, AUTHORITATIVE_PROJECTIONS_AGREE)
   POSTCOMMIT_VERIFIER_RESULT        = DEFERRED (87/95 PASS, 8 DEFERRED, 0 FAIL; closure bound to post-exec verdict)
   TERMINAL_RUN_EXECUTED             = true (terminal_run/ committed in D7)
-  TERMINAL_BUNDLE_HASH              = cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8 (sha256("BUNDLE_V1\n" + 7 lex-ordered terminal_run/ file bytes))
-  TERMINAL_RUN_ID                   = 6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856 (sha256("TV_RUN_V2\n" + 7 versioned fields))
+  TERMINAL_BUNDLE_HASH              = TERMINAL_BUNDLE_HASH (recorded in C8:terminal_run/manifest.txt; computed at C8 commit time)
+  TERMINAL_RUN_ID                   = TERMINAL_RUN_ID (recorded in C8:terminal_run/manifest.txt; computed at C8 commit time)
   POST_EXECUTION_VERIFIER_TOTAL     = 8 (post-exec; 6 terminal-run props + 2 freshness/sweep props)
   POST_EXECUTION_VERIFIER_PASS      = 8 (post-exec; all 8 PASS for closure at D7)
   POST_EXECUTION_VERIFIER_FAIL      = 0 (post-exec; no fail)
@@ -123,3 +123,40 @@
   evidence_strength = OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD.
 
   Do not begin that ACT automatically.
+
+## Static relations S1-S5 (CORRECTION08 acyclic architecture)
+
+Five relations derivable from A8's tree by any reader. All five must
+PASS for closure. These replace the cyclic "A8 verifies A8" pattern
+with the acyclic "A8 attests C8 by reference."
+
+  S1  A8:evidence.subject == C8
+        → checked: subject reference exists in manifest.json (subject_commit),
+                   in this artifact (ATTESTATION_SUBJECT_COMMIT = C8),
+                   and in the CORRECTION08 ACT.
+
+  S2  C8 is parent/ancestor of A8
+        → checked: `git merge-base --is-ancestor C8 A8` returns 0.
+
+  S3  bundle hash inside C8 == re-derived from `git ls-tree C8:terminal_run/`
+        → checked: BUNDLE_V1 hash re-computed from C8:terminal_run/ files
+                   matches the manifest's TERMINAL_BUNDLE_HASH field.
+
+  S4  `git show C8:terminal_run/verifier.stdout` contains
+        VERIFIER_RESULT=PASS and VERIFIER_FAIL=0
+        → verdict authority on C8. Verifiable by any reader without
+          trusting A8.
+
+  S5  every current-state SHA claim inside A8's projections names C8 or
+        a value derivable from C8; no C-equals-D collapse
+        → checked: AUTHORITATIVE_PROJECTIONS_AGREE expanded sweep
+                   (now covers Content commit, Commit C, Commit D,
+                   ATTESTATION_CONTAINER_COMMIT, CURRENT_*_COMMIT,
+                   CONTENT_TREE_SHA, TERMINAL_RUN_ID, TERMINAL_BUNDLE_HASH,
+                   plus the C-equals-D collapse detector).
+
+  The claims A8 makes are:
+    A8_ATTESTS = C8
+    A8_VERIFIER_SUBJECT = C8
+    C8_RESULT = PASS    (verifiable from C8:terminal_run/verifier.stdout)
+    A8_RESULT = (not claimed — acyclic architecture)

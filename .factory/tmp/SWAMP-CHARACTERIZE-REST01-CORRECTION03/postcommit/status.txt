@@ -1,5 +1,4 @@
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/build_raw_sha256.sh
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/environment.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt
  M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/status.txt
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/raw-sha256.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt
+?? .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/

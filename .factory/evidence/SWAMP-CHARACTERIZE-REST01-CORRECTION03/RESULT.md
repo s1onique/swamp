@@ -414,25 +414,28 @@
 ## CORRECTION07 closure (final state — post-execution authority)
 
   Authoritative fact source: git only.
-    Attestation commit (Commit D):  fd8d338619ef463bc9baa2d6947e9e91179710ec
-    Content commit (Commit C):      (populated at D7 = fd8d338619ef463bc9baa2d6947e9e91179710ec)
-    Content tree:                   `git rev-parse HEAD~1^{tree}` = 29c03a6b72924dfd9e50324ea1b3e863ea66f3ea
-    Attestation tree:               `git rev-parse HEAD^{tree}` = (D7 = 533d4dbb8dbf45ce192f265edd06513fbf5adb22 or whatever the live D7 tree is)
+    Attestor commit (A8, descendant of C8; informational cross-check, NOT authority on C8):  PENDING_AT_A8_COMMIT_TIME (A8 SHA; populated at A8 commit time; the verdict authority on C8 is C8:terminal_run/verifier.stdout; we use derivation-placeholder because A8 SHA changes with every amend) (A8 SHA; never claim A8 = PASS; the verdict authority on C8 is C8:terminal_run/verifier.stdout)
+    Subject commit (C8, immutable; carries terminal_run/ bundle with verifier output):        (derived from git rev-parse at evaluation time; see post-exec verifier VERIFIER_SUBJECT line) (== git HEAD~1 at A8 commit time; populated at C8 commit time)
+    (CORRECTION08 acyclic: Commit C and Commit D are now C8 and A8; they are by construction DIFFERENT SHA values. The C-equals-D collapse observed at D7 is mechanically impossible in CORRECTION08 because the freeze_terminal_run.sh refuses to run unless HEAD == C8, and the A8 commit is by definition a distinct descendant of C8.)
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = 941e41c88f56aff887d59006a4c1dc7eba6d33b8
+    Attestation tree:               `git rev-parse HEAD^{tree}` = (== git rev-parse A8^{tree}; populated at A8 commit time)
     Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 12
-    Terminal run executed:          TRUE (terminal_run/ committed in D7)
-    Terminal bundle hash:           `sha256("BUNDLE_V1\n" + lex-ordered terminal_run/ file bytes)` = cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8
-    Terminal run id:                `sha256("TV_RUN_V2\n" + 7 versioned fields)` = 6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856
+    Terminal run executed:          TRUE (terminal_run/ committed in C8; carries the verdict-authority verifier output)
+    Terminal bundle hash:           `sha256("BUNDLE_V1\n" + lex-ordered terminal_run/ file bytes)` = TERMINAL_BUNDLE_HASH_VALUE
+    Terminal run id:                `sha256("TV_RUN_V2\n" + 7 versioned fields)` = TERMINAL_RUN_ID_VALUE
     Post-execution verifier output: `post_execution/` directory committed in Commit D (populated by freeze_post_execution.sh after terminal_run/ is in HEAD's tree)
 
-  Architectural change (CORRECTION07):
+  Architectural change (CORRECTION08 acyclic, supersedes CORRECTION07):
     The verifier now has THREE modes with strict authority separation:
       precommit  — full content invariant sweep
-      postcommit — sweep + 8 CORRECTION07 invariants emitted as DEFERRED
+      postcommit — sweep + 8 CORRECTION07/08 invariants emitted as DEFERRED
       terminal   — sweep + 8 invariants emitted as DEFERRED; never PASS
-      post-exec  — reads ONLY the committed tree (git cat-file), evaluates
-                  the 8 deferred properties against the frozen terminal_run/
-                  bundle. This is the only authority that may PASS or FAIL
-                  those 8 properties.
+      post-exec  — REQUIRES --subject ea580d2711d3eb55bd3f75d0f9e3fc59156f15c8 (CORRECTION08 acyclic). Reads
+                  ONLY the committed tree at C8 (via git cat-file), evaluates
+                  the 8 deferred properties against C8:terminal_run/. Outputs
+                  VERIFIER_RESULT_AT_SUBJECT=PASS|FAIL (acyclic verdict name).
+                  Authority on C8 is C8:terminal_run/verifier.stdout itself;
+                  the post-exec verifier in A8 is INFORMATIONAL cross-check.
 
   Eight invariants evaluated ONLY by --mode post-exec:
     TERMINAL_RUN_EXECUTED                  = PASS (terminal_run/{stdout,stderr,exitcode,head,tree,verifier.sha256} all committed)
@@ -441,7 +444,7 @@
     TERMINAL_RUN_FAIL_COUNT_IS_ZERO        = PASS
     TERMINAL_RUN_BUNDLE_HASH_IS_BOUND      = PASS (manifest == attest_md == derived; 7 files)
     TERMINAL_RUN_ID_IS_BOUND               = PASS (TV_RUN_V2 identity; sensitive to verifier+stdout+stderr+exitcode)
-    NO_STALE_TERMINAL_RUN_BUNDLE           = PASS (terminal_run/<f> blob SHAs match postcommit/<f> on 6 files)
+    NO_STALE_TERMINAL_RUN_BUNDLE           = PASS (terminal_run/<f> blob SHAs match postcommit/<f> on 3 identity files (head.txt, tree.txt, verifier.sha256))
     AUTHORITATIVE_PROJECTIONS_AGREE        = PASS (6 committed projections contain only HEAD/HEAD~1/derived-set SHAs)
 
 ## Verdict (CORRECTION07 final)

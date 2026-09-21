@@ -3,11 +3,28 @@
   "subject": "a392c49e1c899fbbbbf39bf84d73a8308c048eb6",
   "parent_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION02",
   "parent_commit": "19d6d2e093e1bbc9e2cb160a19018444874444aa",
-  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION07",
+  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION08",
   "verdict": "POST_EXECUTION_AUTHORITY_ESTABLISHED",
-  "terminal_run_id": "6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856",
-  "terminal_bundle_hash": "cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8",
-  "terminal_run_executed": true,
+  "_comment_acyclic_architecture": "CORRECTION08: the following fields are intentionally removed from manifest.json because they belong to terminal_run/manifest.txt inside C8's tree. The post-execution verifier (running with --subject C8) reads them from terminal_run/manifest.txt, NOT from this manifest. The acyclic architecture forbids the attestation commit A8 from authoritatively carrying values that should live with C8.",
+  "_removed_in_C08": [
+    "terminal_run_id",
+    "terminal_bundle_hash",
+    "terminal_run_executed"
+  ],
+  "_subject_commit_C8": "PENDING_AT_C8_COMMIT_TIME (populated by the freeze_terminal_run.sh + amend step; the manifest committed in C8 carries the placeholder; the live value is in C8's tree once terminal_run/manifest.txt is folded in via git commit --amend)",
+  "_attestor_commit_A8": "PENDING_AT_A8_COMMIT_TIME (A8 SHA; never claim A8 = PASS; the verdict authority on C8 is C8:terminal_run/verifier.stdout; we use derivation-placeholder because A8 SHA changes with every amend)",
+  "acyclic_architecture": {
+    "model": "subject \u2192 evidence \u2192 attestation",
+    "subject": "C8 = content commit; carries terminal_run/ bundle with verifier stdout (VERIFIER_RESULT=PASS, VERIFIER_FAIL=0)",
+    "attestor": "A8 = attestation commit; carries post_execution/ bundle as INFORMATIONAL cross-check; never claims A8 = PASS",
+    "static_relations": [
+      "S1 subject reference",
+      "S2 ancestor relation",
+      "S3 bundle hash bound",
+      "S4 verifier result bound",
+      "S5 no C-equals-D collapse"
+    ]
+  },
   "canonical_classifications": {
     "CLUSTER-01": {
       "classification": "ENVIRONMENTAL",
@@ -65,7 +82,8 @@
     "semantic predicate fidelity",
     "projection identity",
     "evidence freshness (terminal-run binding)",
-    "post-execution authority"
+    "post-execution authority",
+    "attestation-acyclicity (CORRECTION08; replaces property 10's framing: A8 attests C8 by reference, not A8 = PASS)"
   ],
   "projection_identity_invariants": [
     "ATTESTATION_COMMIT_PROJECTIONS_AGREE",
@@ -80,9 +98,15 @@
     "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND",
     "TERMINAL_RUN_ID_IS_BOUND",
     "NO_STALE_TERMINAL_RUN_BUNDLE",
-    "AUTHORITATIVE_PROJECTIONS_AGREE"
+    "AUTHORITATIVE_PROJECTIONS_AGREE",
+    "STATIC_RELATION_S1 (subject reference exists in A8)",
+    "STATIC_RELATION_S2 (C8 is ancestor of A8)",
+    "STATIC_RELATION_S3 (bundle hash inside C8 == re-derived)",
+    "STATIC_RELATION_S4 (C8:terminal_run/verifier.stdout contains VERIFIER_RESULT=PASS|REJECTED VERIFIER_FAIL=0)",
+    "STATIC_RELATION_S5 (no C-equals-D collapse; every projection names C8 or derivable-from-C8 hash)"
   ],
-  "post_execution_authority_doctrine": "A computation cannot authoritatively verify properties of its own not-yet-produced output. Claims about an execution's result must be evaluated by machinery running AFTER that execution has become immutable evidence. (Producer → evidence → verifier separation.)",
+  "post_execution_authority_doctrine": "A computation cannot authoritatively verify properties of its own not-yet-produced output. Claims about an execution's result must be evaluated by machinery running AFTER that execution has become immutable evidence. (Producer \u2192 evidence \u2192 verifier separation.)",
+  "attestation_acyclicity_doctrine": "CORRECTION08: An attestation commit A8 cannot authoritatively verify itself. The cycle is broken by separating the immutable subject (C8) from the attestation commit (A8), and exposing only STATIC RELATIONS derivable from A8's tree. A8 attests C8 by reference, never claims A8 = PASS. If external verification of A8 is needed, layer signing/CI provenance/transparency log on top; do not recursively demand that A8 prove itself.",
   "projection_identity_doctrine": "A derived scalar is not actually derived if one authoritative projection still stores null, TBD, or a contradictory literal.",
   "negative_claims": [
     "NO_PRODUCTION_CODE_CHANGED",
@@ -93,6 +117,8 @@
     "NO_SELF_HASH_MANIFEST",
     "NO_SAME_COMMIT_SELF_ATTESTATION",
     "NO_PRECOMMIT_CLEANLINESS_CLAIM",
+    "NO_SELF_VERIFYING_COMMIT",
+    "NO_A8_RESULT_CLAIM",
     "PARENT_HASH_REFERENCE_INDEPENDENT",
     "PARENT_HASH_NEGATIVE_CONTROL_CAN_FAIL",
     "PROJECTION_NEGATIVE_CONTROL_CAN_FAIL",
@@ -109,6 +135,10 @@
     "TERMINAL_VERIFIER_NO_LONGER_PASSES_ITSELF",
     "TERMINAL_RUN_ID_BINDS_VERIFIER_AND_OUTPUT_NOT_STATE",
     "BUNDLE_FRESHNESS_CHECKED_AT_FILE_LEVEL_NOT_GLOBALLY",
-    "AUTHORITATIVE_PROJECTIONS_AGAINST_STALE_COMMIT_REFS"
+    "AUTHORITATIVE_PROJECTIONS_AGAINST_STALE_COMMIT_REFS",
+    "COMMIT_C_NOT_EQUAL_TO_COMMIT_D",
+    "PATCH_HYGIENE_RESTORED",
+    "ACYCLIC_ATTESTATION_ARCHITECTURE",
+    "POSTEXECUTION_VERIFIER_INFORMATIONAL_NOT_AUTHORITATIVE"
   ]
 }

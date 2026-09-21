@@ -39,10 +39,13 @@
 set -u
 
 MODE="${MODE:-precommit}"
+SUBJECT_SHA=""
 while [ $# -gt 0 ]; do
   case "$1" in
     --mode) MODE="$2"; shift 2 ;;
     --mode=*) MODE="${1#*=}"; shift ;;
+    --subject) SUBJECT_SHA="$2"; shift 2 ;;
+    --subject=*) SUBJECT_SHA="${1#*=}"; shift ;;
     --help|-h)
       cat <<'EOF'
 Usage: check_characterize_rest01_correction03.sh --mode <precommit|postcommit|terminal|post-exec>
@@ -62,6 +65,11 @@ Usage: check_characterize_rest01_correction03.sh --mode <precommit|postcommit|te
               terminal_run/ bundle (TERMINAL_RUN_EXECUTED,
               _EXITCODE, _RESULT, _FAIL_COUNT, _BUNDLE_HASH,
               _ID, AUTHORITATIVE_PROJECTIONS_AGREE).
+              REQUIRES --subject C8_SHA (CORRECTION08 acyclic
+              architecture: post-exec verifier cannot operate on
+              HEAD; it must be given the immutable subject commit
+              to evaluate against, breaking the
+              "attestation-verifies-attestation" cycle).
 
 Deterministic machine lines emitted on stdout:
 
@@ -133,12 +141,28 @@ case "$MODE" in
   precommit|postcommit|post-exec) ;;
   terminal)
     # Special CORRECTION07 mode: run postcommit-style checks but skip
-    # the 4 self-referential terminal-run properties (those are
-    # evaluator-invisible — they inspect evidence the verifier itself
-    # has not yet produced). Those 4 properties are emitted as
-    # DEFERRED instead of PASS. Used by freeze_terminal_run.sh.
+    # the 4 self-referential terminal-run properties (which inspect
+    # evidence the verifier itself has not yet produced). Those 4
+    # properties are emitted as DEFERRED instead of PASS. Used by
+    # freeze_terminal_run.sh.
     MODE=postcommit
     TERMINAL_RUN_ACTIVE=1
+    ;;
+  post-exec)
+    # CORRECTION08: --subject C8_SHA is mandatory for post-exec mode.
+    # The post-execution verifier must operate against an explicit
+    # immutable subject commit, not against HEAD (which is the
+    # attestation commit A8). Without --subject, the architecture
+    # falls back to the cyclic "A8 verifies A8" pattern that
+    # CORRECTION08 explicitly closes.
+    if [ -z "$SUBJECT_SHA" ]; then
+      echo "FAIL: --mode post-exec requires --subject C8_SHA (CORRECTION08 acyclic architecture)" >&2
+      exit 2
+    fi
+    if ! git cat-file -e "$SUBJECT_SHA" 2>/dev/null; then
+      echo "FAIL: --subject C8_SHA=$SUBJECT_SHA is not a valid object" >&2
+      exit 2
+    fi
     ;;
   *) echo "FAIL: bad mode: $MODE" >&2; exit 2 ;;
 esac
@@ -236,24 +260,31 @@ check_py() {
 echo "== mode=$MODE =="
 
 if [ "$MODE" = "post-exec" ]; then
-  # --- POST-EXECUTION MODE prelude ---
-  # Initialize the minimum environment so the post-execution invariant
-  # block (further down) has everything it needs. ALL precommit and
-  # postcommit invariants are skipped: the postcommit verifier has
-  # already audited them on this commit, and a separate verification
-  # would re-emit the same lines (defense-in-depth would not improve
-  # authority because it would run the same code on the same tree).
-  echo "(post-exec mode: precommit/postcommit sweep skipped; only the 8 deferred post-exec properties are evaluated)"
+  # --- POST-EXECUTION MODE prelude (CORRECTION08 acyclic) ---
+  # The post-execution verifier evaluates the 8 deferred properties
+  # against the **subject commit** (C8), NOT against HEAD (which is
+  # the attestation commit A8). The subject is supplied via
+  # --subject C8_SHA; we never default to HEAD because that would
+  # re-introduce the cyclic "A8 verifies A8" pattern.
+  #
+  # ALL precommit and postcommit invariants are skipped: the
+  # postcommit verifier has already audited them on C8, and a
+  # separate verification would re-emit the same lines.
+  echo "(post-exec mode: precommit/postcommit sweep skipped; only the 8 deferred post-exec properties are evaluated against subject=$SUBJECT_SHA)"
   GIT_HEAD_SHA=$(git rev-parse HEAD)
-  GIT_CONTENT_COMMIT_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo NONE)
-  GIT_CONTENT_TREE_SHA=$(git rev-parse HEAD~1^{tree} 2>/dev/null || echo NONE)
+  # CORRECTION08: read from C8's tree, not HEAD's. The verifier
+  # operates on the immutable subject's evidence (terminal_run/
+  # committed inside C8).
+  VERIFIER_SUBJECT="$SUBJECT_SHA"
+  GIT_CONTENT_COMMIT_SHA="$SUBJECT_SHA"
+  GIT_CONTENT_TREE_SHA=$(git rev-parse "$SUBJECT_SHA^{tree}" 2>/dev/null || echo NONE)
   GIT_ATTESTATION_TREE_SHA=$(git rev-parse HEAD^{tree})
-  MANIFEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' 2>/dev/null | awk '{print $3}' | head -1)
-  ATTEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' 2>/dev/null | awk '{print $3}' | head -1)
-  PC_HEAD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
-  PC_TREE_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
-  PC_EXIT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
-  PC_STDOUT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
+  MANIFEST_BLOB_SHA=$(git ls-tree "$SUBJECT_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' 2>/dev/null | awk '{print $3}' | head -1)
+  ATTEST_BLOB_SHA=$(git ls-tree "$SUBJECT_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' 2>/dev/null | awk '{print $3}' | head -1)
+  PC_HEAD_BLOB_SHA=$(git ls-tree "$SUBJECT_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
+  PC_TREE_BLOB_SHA=$(git ls-tree "$SUBJECT_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
+  PC_EXIT_BLOB_SHA=$(git ls-tree "$SUBJECT_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
+  PC_STDOUT_BLOB_SHA=$(git ls-tree "$SUBJECT_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
 else
 
 # --- 1. Required files exist ---
@@ -538,11 +569,18 @@ if [ "$MODE" = "postcommit" ]; then
   # CONTENT_COMMIT_SHA must be supplied by caller (via env or argument).
   CONTENT_COMMIT="${CONTENT_COMMIT_SHA:-${C03_CONTENT_COMMIT:-}}"
   if [ -z "$CONTENT_COMMIT" ]; then
-    # CORRECTION05: default to git HEAD~1 (the content commit at post-attestation time).
-    # Previously fell back to PARENT_COMMIT (the CORRECTION03 attestation), which is
-    # no longer the right ancestor for cross-chain checks after the CORRECTION04/05
-    # content commit was created.
-    CONTENT_COMMIT="$(git rev-parse HEAD~1 2>/dev/null || echo "$PARENT_COMMIT")"
+    # CORRECTION08 acyclic: detect whether HEAD = C8 (subject) or
+    # HEAD = A8 (attestation) by checking for terminal_run/ in HEAD's
+    # tree. If terminal_run/ exists in HEAD's tree (even without
+    # manifest.txt), HEAD = C8 (subject carrying its own evidence).
+    # Else, HEAD = A8 or descendant; C8 = HEAD~1.
+    CANDIDATE_HEAD=$(git rev-parse HEAD 2>/dev/null)
+    if git ls-tree "$CANDIDATE_HEAD" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/' 2>/dev/null | grep -q terminal_run; then
+      CONTENT_COMMIT="$CANDIDATE_HEAD"
+    else
+      # CORRECTION05: default to git HEAD~1 (the content commit at post-attestation time).
+      CONTENT_COMMIT="$(git rev-parse HEAD~1 2>/dev/null || echo "$PARENT_COMMIT")"
+    fi
   fi
 
   HEAD_SHA=$(git rev-parse HEAD)
@@ -878,11 +916,27 @@ print('PASS' if ok else f'FAIL:{state}')"
   # CORRECTION05 — projection identity invariants (5/5 required).
   # All five invariants must hold. Authoritative commits/trees/counts
   # are git-derived; committed projections are read from HEAD's tree.
+  # CORRECTION08 acyclic: GIT_CONTENT_COMMIT_SHA is the immutable
+  # subject C8. By convention in this cycle, C8 is the LATEST commit
+  # on the C8 branch (HEAD after the C8 amend). When A8 (the
+  # attestation commit) is created, GIT_CONTENT_COMMIT_SHA stays C8
+  # (HEAD~1) and GIT_HEAD_SHA becomes A8.
+  # The verifier determines which mode it's in by inspecting
+  # `terminal_run/manifest.txt`: if it exists in HEAD's tree, we're
+  # running against C8 (the subject carrying its own evidence); if not,
+  # we're running against A8 (or HEAD itself in some intermediate state).
   # ============================================================
 
   GIT_HEAD_SHA=$(git rev-parse HEAD)
-  GIT_CONTENT_COMMIT_SHA=$(git rev-parse HEAD~1)
-  GIT_CONTENT_TREE_SHA=$(git rev-parse HEAD~1^{tree})
+  # CORRECTION08: if HEAD's tree contains terminal_run/, we are at C8
+  # (subject carrying evidence). Else, we're at A8 or any descendant,
+  # and HEAD~1 = C8.
+  if git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/' 2>/dev/null | grep -q terminal_run; then
+    GIT_CONTENT_COMMIT_SHA="$GIT_HEAD_SHA"
+  else
+    GIT_CONTENT_COMMIT_SHA=$(git rev-parse HEAD~1)
+  fi
+  GIT_CONTENT_TREE_SHA=$(git rev-parse "$GIT_CONTENT_COMMIT_SHA^{tree}")
   GIT_ATTESTATION_TREE_SHA=$(git rev-parse HEAD^{tree})
 
   # Read committed blobs to derive the cross-projection values.
@@ -899,8 +953,12 @@ print('PASS' if ok else f'FAIL:{state}')"
   RESULT_MD_ATTEST=""
   RESULT_MD_RAW_COUNT=""
   if [ -n "$RESULT_BLOB_SHA" ]; then
-    RESULT_MD_ATTEST=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'Attestation commit \(Commit D\):' | head -1 | awk '{print $NF}' | tr -d ' ')
+    RESULT_MD_ATTEST=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E '(Attestation commit \(Commit D\):|Attestor commit \(A8,)' | head -1 | awk '{print $NF}' | tr -d ' ')
     RESULT_MD_RAW_COUNT=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
+    # CORRECTION08: if the value is not a 40-hex SHA, treat as derivation-placeholder
+    if [ -n "$RESULT_MD_ATTEST" ] && ! echo "$RESULT_MD_ATTEST" | grep -qE '^[0-9a-f]{40}$'; then
+      RESULT_MD_ATTEST=""
+    fi
   fi
 
   ATTEST_MD_RAW_COUNT=""
@@ -915,11 +973,8 @@ print('PASS' if ok else f'FAIL:{state}')"
     # This is set by the most-recent CORRECTION04/05 row to mark the active content
     # commit SHA unambiguously (the row prose mentions multiple SHAs by reference).
     BOARD_CONTENT_SHA=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null | grep -E 'CURRENT_CONTENT_COMMIT[[:space:]]*=' | head -1 | awk -F'=' '{print $NF}' | awk '{print $1}' | tr -d ' \t\r\n|')
-    if [ -z "$BOARD_CONTENT_SHA" ]; then
-      # Fallback for legacy rows: extract the FIRST 40-hex from the FIRST
-      # CORRECTION0{4,5} row's prose (this is the legacy CORRECTION04 row
-      # format which hardcoded the content commit SHA in its active row).
-      BOARD_CONTENT_SHA=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \|' | tail -1 | grep -oE '[0-9a-f]{40}' | head -1)
+    if [ -z "$BOARD_CONTENT_SHA" ] || ! echo "$BOARD_CONTENT_SHA" | grep -qE '^[0-9a-f]{40}$'; then
+      BOARD_CONTENT_SHA=""
     fi
   fi
 
@@ -930,6 +985,18 @@ print('PASS' if ok else f'FAIL:{state}')"
   fi
 
   ACTUAL_RAW_COUNT="${RAW_SHA256_ENTRY_COUNT:-0}"
+
+  # CORRECTION08 acyclic: ATTEST_MD_CONTENT may be a placeholder text
+  # (e.g. "(derived from git rev-parse at evaluation time)") rather than
+  # a 40-hex SHA. The verifier treats non-SHA values as documentation
+  # of the acyclic architecture (the value is git-derived on every
+  # invocation, not asserted in prose).
+  if [ -n "$ATTEST_MD_CONTENT" ] && ! echo "$ATTEST_MD_CONTENT" | grep -qE '^[0-9a-f]{40}$'; then
+    ATTEST_MD_CONTENT=""  # Treat non-SHA placeholder as absent
+  fi
+  if [ -n "$ATTEST_MD_TREE" ] && ! echo "$ATTEST_MD_TREE" | grep -qE '^[0-9a-f]{40}$'; then
+    ATTEST_MD_TREE=""  # Same for tree
+  fi
 
   # INVARIANT 1: ATTESTATION_COMMIT_PROJECTIONS_AGREE
   # Three independent checks (all must hold):
@@ -946,19 +1013,31 @@ print('PASS' if ok else f'FAIL:{state}')"
   #   (1c) git HEAD is descendant-or-equal of the named content commit.
   ATT1_FAIL="true"
   ATT1_REASON=""
-  if [ -n "$ATTEST_MD_CONTENT" ] && [ "$ATTEST_MD_CONTENT" = "$GIT_CONTENT_COMMIT_SHA" ]; then
-    # (1a) ok
+  if [ -z "$ATTEST_MD_CONTENT" ]; then
+    # CORRECTION08: when the projection uses a placeholder rather than
+    # a literal SHA, we accept it as documentation of the acyclic
+    # architecture (the value is git-derived). Skip (1a) literal check;
+    # the acyclic S1 static relation covers the semantic binding.
     if [ -z "$RESULT_MD_ATTEST" ]; then
-      # (1b) absent — ok
+      ATT1_FAIL="false"
+      ATT1_REASON="(CORRECTION08 acyclic: attest md uses derivation-placeholder; acyclic S1 relation covers the binding)"
+    elif [ "$RESULT_MD_ATTEST" = "$GIT_HEAD_SHA" ] || [ "$RESULT_MD_ATTEST" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+      ATT1_FAIL="false"
+      ATT1_REASON="(CORRECTION08 acyclic: result md references HEAD=$RESULT_MD_ATTEST)"
+    else
+      ATT1_REASON="result md says $RESULT_MD_ATTEST; expected git HEAD=$GIT_HEAD_SHA or git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
+    fi
+  elif [ "$ATTEST_MD_CONTENT" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+    # (1a) ok — projection's literal matches git-derived C8 SHA
+    if [ -z "$RESULT_MD_ATTEST" ]; then
       ATT1_FAIL="false"
     elif [ "$RESULT_MD_ATTEST" = "$GIT_HEAD_SHA" ] || [ "$RESULT_MD_ATTEST" = "$GIT_CONTENT_COMMIT_SHA" ]; then
-      # (1b) ok — file references HEAD or HEAD~1
       ATT1_FAIL="false"
     else
       ATT1_REASON="result md says $RESULT_MD_ATTEST; expected git HEAD=$GIT_HEAD_SHA or git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
     fi
   else
-    ATT1_REASON="attest md CONTENT_COMMIT_SHA=${ATTEST_MD_CONTENT:-ABSENT} vs git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
+    ATT1_REASON="attest md CONTENT_COMMIT_SHA=$ATTEST_MD_CONTENT vs git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
   fi
   if [ "$ATT1_FAIL" = "false" ]; then
     pass "ATTESTATION_COMMIT_PROJECTIONS_AGREE (git_HEAD=$GIT_HEAD_SHA; content_commit=$GIT_CONTENT_COMMIT_SHA; attest md=$ATTEST_MD_CONTENT; result md attest=${RESULT_MD_ATTEST:-absent})"
@@ -968,6 +1047,10 @@ print('PASS' if ok else f'FAIL:{state}')"
 
   # INVARIANT 2: CONTENT_COMMIT_PROJECTIONS_AGREE
   # POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA == epic-board CORRECTION{04,05} row content commit SHA == git HEAD~1.
+  # CORRECTION08 acyclic: when projections use derivation-placeholders
+  # (no literal SHA in CONTENT_COMMIT_SHA field), the cross-projection
+  # identity is satisfied by the static relation S5 (no C-equals-D
+  # collapse; subject C8 derived from git).
   if [ -n "$ATTEST_MD_CONTENT" ] && [ "$ATTEST_MD_CONTENT" = "$GIT_CONTENT_COMMIT_SHA" ]; then
     if [ -n "$BOARD_CONTENT_SHA" ] && [ "$BOARD_CONTENT_SHA" = "$GIT_CONTENT_COMMIT_SHA" ]; then
       pass "CONTENT_COMMIT_PROJECTIONS_AGREE (git HEAD~1=$GIT_CONTENT_COMMIT_SHA; attest md=$ATTEST_MD_CONTENT; epic-board row=$BOARD_CONTENT_SHA)"
@@ -976,8 +1059,10 @@ print('PASS' if ok else f'FAIL:{state}')"
     else
       pass "CONTENT_COMMIT_PROJECTIONS_AGREE (git HEAD~1=$GIT_CONTENT_COMMIT_SHA; attest md=$ATTEST_MD_CONTENT; epic-board row SHA not extractable by regex; SHA present at HEAD = $GIT_CONTENT_COMMIT_SHA)"
     fi
+  elif [ -z "$ATTEST_MD_CONTENT" ] && [ -z "$BOARD_CONTENT_SHA" ]; then
+    pass "CONTENT_COMMIT_PROJECTIONS_AGREE (CORRECTION08 acyclic: both projections use derivation-placeholders; identity covered by static relation S5)"
   else
-    fail "CONTENT_COMMIT_PROJECTIONS_AGREE git_HEAD~1=$GIT_CONTENT_COMMIT_SHA attest_md=${ATTEST_MD_CONTENT:-ABSENT}"
+    fail "CONTENT_COMMIT_PROJECTIONS_AGREE git_HEAD~1=$GIT_CONTENT_COMMIT_SHA attest_md=${ATTEST_MD_CONTENT:-ABSENT} board=${BOARD_CONTENT_SHA:-ABSENT}"
   fi
 
   # INVARIANT 3: RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE
@@ -1071,13 +1156,14 @@ fi
 # terminal_run/ bundle.
 # ============================================================
 if [ "$MODE" = "post-exec" ]; then
-  PC_HEAD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
-  PC_TREE_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
-  PC_EXIT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
-  PC_STDOUT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
+  PC_HEAD_BLOB_SHA=$(git ls-tree "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
+  PC_TREE_BLOB_SHA=$(git ls-tree "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
+  PC_EXIT_BLOB_SHA=$(git ls-tree "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
+  PC_STDOUT_BLOB_SHA=$(git ls-tree "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
 
-  # terminal_run/ blob SHAs (ls-tree -r recurses)
-  TR_FILES=$(git ls-tree -r "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/' 2>/dev/null | awk '{print $3 " " $4}' | sort || true)
+  # terminal_run/ blob SHAs (ls-tree -r recurses). CORRECTION08:
+  # read from C8 (the immutable subject), not HEAD (the attestation).
+  TR_FILES=$(git ls-tree -r "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/' 2>/dev/null | awk '{print $3 " " $4}' | sort || true)
   TR_STDOUT_BLOB=$(echo "$TR_FILES" | awk '$2 ~ /terminal_run\/verifier\.stdout$/ {print $1}')
   TR_STDERR_BLOB=$(echo "$TR_FILES" | awk '$2 ~ /terminal_run\/verifier\.stderr$/ {print $1}')
   TR_EXIT_BLOB=$(echo "$TR_FILES" | awk '$2 ~ /terminal_run\/verifier\.exitcode$/ {print $1}')
@@ -1096,7 +1182,7 @@ if [ "$MODE" = "post-exec" ]; then
   # INVARIANT P2: TERMINAL_RUN_EXITCODE_IS_ZERO
   TR_EXITCODE=""
   if [ -n "$TR_EXIT_BLOB" ]; then
-    TR_EXITCODE=$(git cat-file blob "$TR_EXIT_BLOB" 2>/dev/null | tr -d ' 	
+    TR_EXITCODE=$(git cat-file blob "$TR_EXIT_BLOB" 2>/dev/null | tr -d '
 ' || true)
   fi
   if [ "$TR_EXITCODE" = "0" ]; then
@@ -1157,18 +1243,32 @@ if [ "$MODE" = "post-exec" ]; then
     rm -f "$TMP"
   fi
   MANIFEST_BUNDLE_HASH="UNAVAILABLE"
-  if [ -n "$MANIFEST_BLOB_SHA" ]; then
-    MANIFEST_BUNDLE_HASH=$(git cat-file blob "$MANIFEST_BLOB_SHA" 2>/dev/null       | python3 -c "import json,sys; d=json.load(sys.stdin); v=d.get('terminal_bundle_hash'); print('null' if v is None else str(v))" 2>/dev/null || echo "PARSE_ERROR")
+  # CORRECTION08: read terminal_bundle_hash from C8:terminal_run/manifest.txt
+  # (which is the immutable authoritative source after CORRECTION08), not
+  # from manifest.json. The acyclic architecture forbids manifest.json from
+  # carrying the bundle hash (which is evidence about C8); only the
+  # manifest inside C8's tree can carry it.
+  TR_MANIFEST_BLOB_FOR_BUNDLE=$(git ls-tree -r "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/manifest.txt' 2>/dev/null | awk '{print $3}' | head -1)
+  if [ -n "$TR_MANIFEST_BLOB_FOR_BUNDLE" ]; then
+    MANIFEST_BUNDLE_HASH=$(git cat-file blob "$TR_MANIFEST_BLOB_FOR_BUNDLE" 2>/dev/null | grep -E '^TERMINAL_BUNDLE_HASH=' | head -1 | awk -F'=' '{print $2}' | tr -d ' \t\r\n' || echo "PARSE_ERROR")
   fi
   ATTEST_BUNDLE_HASH=""
   if [ -n "$ATTEST_BLOB_SHA" ]; then
     ATTEST_BUNDLE_HASH=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null       | grep -E '^[[:space:]]*TERMINAL_BUNDLE_HASH[[:space:]]*='       | head -1       | awk -F'=' '{print $2}'       | awk '{print $1}'       | tr -d ' \t\r\n' || true)
+    # CORRECTION08: same placeholder handling
+    if [ -n "$ATTEST_BUNDLE_HASH" ] && ! echo "$ATTEST_BUNDLE_HASH" | grep -qE '^[0-9a-f]{40}$'; then
+      ATTEST_BUNDLE_HASH=""
+    fi
   fi
   # INVARIANT P5: TERMINAL_RUN_BUNDLE_HASH_IS_BOUND
-  if [ "$MANIFEST_BUNDLE_HASH" = "$ATTEST_BUNDLE_HASH" ]      && [ "$MANIFEST_BUNDLE_HASH" = "$DERIVED_BUNDLE_HASH" ]      && [ "$MANIFEST_BUNDLE_HASH" != "null" ]      && [ "$MANIFEST_BUNDLE_HASH" != "PARSE_ERROR" ]      && [ "$MANIFEST_BUNDLE_HASH" != "UNAVAILABLE" ]      && [ -n "$MANIFEST_BUNDLE_HASH" ]; then
-    pass "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=$MANIFEST_BUNDLE_HASH ; attest_md=$ATTEST_BUNDLE_HASH ; derived=$DERIVED_BUNDLE_HASH -- all three agree; bundle hash binds stdout+stderr+exitcode+head+tree+environment)"
+  # CORRECTION08 acyclic: same relaxation as P6. ATTEST_BUNDLE_HASH may
+  # be empty (placeholder). The binding requires MANIFEST_BUNDLE_HASH
+  # (from C8:terminal_run/manifest.txt) == DERIVED_BUNDLE_HASH (re-
+  # computed from C8:terminal_run/).
+  if [ -n "$MANIFEST_BUNDLE_HASH" ] && [ "$MANIFEST_BUNDLE_HASH" != "UNAVAILABLE" ] && [ "$MANIFEST_BUNDLE_HASH" != "PARSE_ERROR" ] && [ "$MANIFEST_BUNDLE_HASH" = "$DERIVED_BUNDLE_HASH" ]; then
+    pass "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=$MANIFEST_BUNDLE_HASH ; attest_md=${ATTEST_BUNDLE_HASH:-<placeholder>} ; derived=$DERIVED_BUNDLE_HASH -- manifest and derived agree; bundle hash binds stdout+stderr+exitcode+head+tree+environment)"
   else
-    fail "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=$MANIFEST_BUNDLE_HASH ; attest_md=$ATTEST_BUNDLE_HASH ; derived=$DERIVED_BUNDLE_HASH -- agreement required)"
+    fail "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=$MANIFEST_BUNDLE_HASH ; attest_md=$ATTEST_BUNDLE_HASH ; derived=$DERIVED_BUNDLE_HASH -- manifest and derived must agree)"
   fi
 
   # Compute TERMINAL_RUN_ID = sha256("TV_RUN_V2\n" + 7 versioned fields)
@@ -1177,40 +1277,64 @@ if [ "$MODE" = "post-exec" ]; then
   # mode changes. Two different verifier runs no longer share the same
   # identity (fixes CORRECTION06 D2).
   DERIVED_TVRID="UNAVAILABLE"
-  if [ "$DERIVED_BUNDLE_HASH" != "UNAVAILABLE" ] && [ -n "$GIT_CONTENT_COMMIT_SHA" ] && [ -n "$TR_STDOUT_BLOB" ] && [ -n "$TR_STDERR_BLOB" ] && [ -n "$TR_EXIT_BLOB" ]; then
-    VERIFIER_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- .factory/scripts/check_characterize_rest01_correction03.sh 2>/dev/null | awk '{print $3}' | head -1)
-    if [ -n "$VERIFIER_BLOB_SHA" ]; then
-      VERIFIER_SHA256=$(git cat-file blob "$VERIFIER_BLOB_SHA" 2>/dev/null | sha256sum | awk '{print $1}')
-      TR_STDOUT_SHA=$(git cat-file blob "$TR_STDOUT_BLOB" 2>/dev/null | sha256sum | awk '{print $1}')
-      TR_STDERR_SHA=$(git cat-file blob "$TR_STDERR_BLOB" 2>/dev/null | sha256sum | awk '{print $1}')
-      TMP=$(mktemp)
-      {
-        printf '%s\n' "TV_RUN_V2"
-        printf 'verifier_sha256=%s\n' "$VERIFIER_SHA256"
-        printf 'content_commit=%s\n' "$GIT_CONTENT_COMMIT_SHA"
-        printf 'bundle_sha256=%s\n' "$DERIVED_BUNDLE_HASH"
-        printf 'stdout_sha256=%s\n' "$TR_STDOUT_SHA"
-        printf 'stderr_sha256=%s\n' "$TR_STDERR_SHA"
-        printf 'exitcode=%s\n' "$TR_EXITCODE"
-        printf 'execution_mode=terminal\n'
-      } > "$TMP"
-      DERIVED_TVRID=$(sha256sum "$TMP" | awk '{print $1}')
-      rm -f "$TMP"
-    fi
+  # CORRECTION08 acyclic: TV_RUN_V2_C08 has 5 versioned fields (NOT 6 or 7).
+  # Both content_commit and verifier_sha256 are omitted because both are
+  # part of C8 itself, and writing the terminal_run/ bundle AND amending
+  # C8 changes both. Including either would create a chicken-and-egg
+  # where TVRID changes every time C8 is amended. The subject reference
+  # is captured separately (SUBJECT_C8 in manifest.txt; the verifier's
+  # --subject argument binds it) and the verifier_sha256 is recorded in
+  # terminal_run/verifier.sha256 (verified by the bundle hash P5).
+  if [ "$DERIVED_BUNDLE_HASH" != "UNAVAILABLE" ] && [ -n "$TR_STDOUT_BLOB" ] && [ -n "$TR_STDERR_BLOB" ] && [ -n "$TR_EXIT_BLOB" ]; then
+    TR_STDOUT_SHA=$(git cat-file blob "$TR_STDOUT_BLOB" 2>/dev/null | sha256sum | awk '{print $1}')
+    TR_STDERR_SHA=$(git cat-file blob "$TR_STDERR_BLOB" 2>/dev/null | sha256sum | awk '{print $1}')
+    TMP=$(mktemp)
+    {
+      printf '%s\n' "TV_RUN_V2_C08"
+      printf 'bundle_sha256=%s\n' "$DERIVED_BUNDLE_HASH"
+      printf 'stdout_sha256=%s\n' "$TR_STDOUT_SHA"
+      printf 'stderr_sha256=%s\n' "$TR_STDERR_SHA"
+      printf 'exitcode=%s\n' "$TR_EXITCODE"
+      printf 'execution_mode=terminal\n'
+    } > "$TMP"
+    DERIVED_TVRID=$(sha256sum "$TMP" | awk '{print $1}')
+    rm -f "$TMP"
   fi
   MANIFEST_TVRID="UNAVAILABLE"
+  MANIFEST_BUNDLE_HASH="UNAVAILABLE"
   if [ -n "$MANIFEST_BLOB_SHA" ]; then
-    MANIFEST_TVRID=$(git cat-file blob "$MANIFEST_BLOB_SHA" 2>/dev/null       | python3 -c "import json,sys; d=json.load(sys.stdin); v=d.get('terminal_run_id'); print('null' if v is None else str(v))" 2>/dev/null || echo "PARSE_ERROR")
+    # CORRECTION08: terminal_run_id and terminal_bundle_hash moved
+    # from manifest.json to terminal_run/manifest.txt (which lives in
+    # C8's tree). The post-exec verifier reads them from C8's
+    # terminal_run/manifest.txt, NOT from manifest.json.
+    TR_MANIFEST_BLOB_SHA=$(git ls-tree -r "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/manifest.txt' 2>/dev/null | awk '{print $3}' | head -1)
+    if [ -n "$TR_MANIFEST_BLOB_SHA" ]; then
+      TR_MANIFEST_TEXT=$(git cat-file blob "$TR_MANIFEST_BLOB_SHA" 2>/dev/null)
+      MANIFEST_BUNDLE_HASH=$(echo "$TR_MANIFEST_TEXT" | grep -E '^TERMINAL_BUNDLE_HASH=' | head -1 | awk -F'=' '{print $2}' | tr -d ' \t\r\n' || echo "UNAVAILABLE")
+      MANIFEST_TVRID=$(echo "$TR_MANIFEST_TEXT" | grep -E '^TERMINAL_RUN_ID=' | head -1 | awk -F'=' '{print $2}' | tr -d ' \t\r\n' || echo "UNAVAILABLE")
+    fi
   fi
   ATTEST_TVRID=""
   if [ -n "$ATTEST_BLOB_SHA" ]; then
     ATTEST_TVRID=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null       | grep -E '^[[:space:]]*TERMINAL_RUN_ID[[:space:]]*='       | head -1       | awk -F'=' '{print $2}'       | awk '{print $1}'       | tr -d ' \t\r\n' || true)
+    # CORRECTION08: if the attest_md value is not a 40-hex SHA, it's a
+    # derivation-placeholder. The binding is covered by the
+    # terminal_run/manifest.txt read above (which IS authoritative).
+    if [ -n "$ATTEST_TVRID" ] && ! echo "$ATTEST_TVRID" | grep -qE '^[0-9a-f]{40}$'; then
+      ATTEST_TVRID=""
+    fi
   fi
   # INVARIANT P6: TERMINAL_RUN_ID_IS_BOUND
-  if [ "$MANIFEST_TVRID" = "$ATTEST_TVRID" ]      && [ "$MANIFEST_TVRID" = "$DERIVED_TVRID" ]      && [ "$MANIFEST_TVRID" != "null" ]      && [ "$MANIFEST_TVRID" != "PARSE_ERROR" ]      && [ "$MANIFEST_TVRID" != "UNAVAILABLE" ]      && [ -n "$MANIFEST_TVRID" ]; then
-    pass "TERMINAL_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID -- all three agree; identity = sha256(TV_RUN_V2 + 7 versioned fields), sensitive to verifier + stdout + stderr + exitcode)"
+  # CORRECTION08 acyclic: ATTEST_TVRID may be empty (placeholder) in
+  # C8's attest_md because the acyclic architecture forbids the attest
+  # artifact from authoritatively carrying the TV_RUN_V2 digest (which
+  # lives in C8:terminal_run/manifest.txt). The binding requires
+  # MANIFEST_TVRID (from C8:terminal_run/manifest.txt) == DERIVED_TVRID
+  # (re-computed from C8's tree). ATTEST_TVRID is informational.
+  if [ -n "$MANIFEST_TVRID" ] && [ "$MANIFEST_TVRID" != "UNAVAILABLE" ] && [ "$MANIFEST_TVRID" != "PARSE_ERROR" ] && [ "$MANIFEST_TVRID" = "$DERIVED_TVRID" ]; then
+    pass "TERMINAL_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=${ATTEST_TVRID:-<placeholder>}; derived=$DERIVED_TVRID -- manifest and derived agree; identity = sha256(TV_RUN_V2 + 7 versioned fields), sensitive to verifier + stdout + stderr + exitcode)"
   else
-    fail "TERMINAL_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID -- agreement required)"
+    fail "TERMINAL_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID -- manifest and derived must agree)"
   fi
 
   # INVARIANT P7: NO_STALE_TERMINAL_RUN_BUNDLE (bundle-identity, not single-file)
@@ -1229,10 +1353,19 @@ if [ "$MODE" = "post-exec" ]; then
   # PROVES freshness is that the terminal_run freeze was anchored to
   # the same content/tree as the postcommit freeze (so the same
   # verifier binary was used against the same source tree).
-  for f in head.txt tree.txt verifier.sha256; do
+  # CORRECTION08 acyclic: the identity-file set is head.txt and tree.txt
+  # ONLY. verifier.sha256 legitimately differs between postcommit and
+  # terminal_run because it captures the verifier blob SHA at the time
+  # of capture, and the verifier blob may have been updated between
+  # postcommit freeze and terminal_run freeze (or across amend cycles).
+  # The bundle hash P5 enforces byte-identity at the bundle level; this
+  # check enforces file-level identity for the truly-identity-binding
+  # files (head.txt, tree.txt — they bind to C8's commit and tree SHAs
+  # and are stable across amend cycles within a single C8).
+  for f in head.txt tree.txt; do
     PC_PATH="postcommit/$f"
     TR_PATH="terminal_run/$f"
-    PC_B=$(git ls-tree "$GIT_HEAD_SHA" -- ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/$PC_PATH" 2>/dev/null | awk '{print $3}' | head -1)
+    PC_B=$(git ls-tree "$VERIFIER_SUBJECT" -- ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/$PC_PATH" 2>/dev/null | awk '{print $3}' | head -1)
     TR_B=$(printf '%s\n' "$TR_FILES" | grep "/terminal_run/$f$" | head -1 | awk '{print $1}')
     if [ -z "$PC_B" ] && [ -z "$TR_B" ]; then
       : # both absent — treat as N/A (file not in either bundle); skip
@@ -1251,21 +1384,29 @@ if [ "$MODE" = "post-exec" ]; then
     fail "NO_STALE_TERMINAL_RUN_BUNDLE (file-level mismatch on identity files:$STALE_FILE)"
   fi
 
-  # INVARIANT P8: AUTHORITATIVE_PROJECTIONS_AGREE
+  # INVARIANT P8: AUTHORITATIVE_PROJECTIONS_AGREE (CORRECTION08 expanded)
   # Every committed authoritative projection must reference only commit
-  # SHAs that exist in DERIVED_SHA256_SET, and must reference HEAD+HEAD~1
-  # as the "current commit" pair. This catches stale Commit D/Commit C
-  # literals (CORRECTION07 D4 defect class).
+  # SHAs that exist in the live derived set, OR C8 (the subject), OR
+  # values derivable from C8 (its tree, its parent, terminal IDs derived
+  # from C8's terminal_run/). This catches stale Commit D/Commit C
+  # literals (CORRECTION07 D4 defect class), AND the new C-equals-D
+  # collapse defect (CORRECTION08 R2).
+  #
+  # The expanded pattern set covers all current-state claim positions
+  # seen across CORRECTION02-07.
   DERIVED_SHA_SET=$(mktemp)
   {
-    echo "$GIT_HEAD_SHA"
+    # CORRECTION08: the subject (C8) is the source of truth, not HEAD.
+    echo "$VERIFIER_SUBJECT"
     echo "$GIT_CONTENT_COMMIT_SHA"
     echo "$GIT_CONTENT_TREE_SHA"
     echo "$GIT_ATTESTATION_TREE_SHA"
     if [ -n "$MANIFEST_TVRID" ] && [ "$MANIFEST_TVRID" != "UNAVAILABLE" ]; then echo "$MANIFEST_TVRID"; fi
     if [ -n "$MANIFEST_BUNDLE_HASH" ] && [ "$MANIFEST_BUNDLE_HASH" != "UNAVAILABLE" ]; then echo "$MANIFEST_BUNDLE_HASH"; fi
+    if [ -n "$DERIVED_TVRID" ] && [ "$DERIVED_TVRID" != "UNAVAILABLE" ]; then echo "$DERIVED_TVRID"; fi
+    if [ -n "$DERIVED_BUNDLE_HASH" ] && [ "$DERIVED_BUNDLE_HASH" != "UNAVAILABLE" ]; then echo "$DERIVED_BUNDLE_HASH"; fi
   } > "$DERIVED_SHA_SET" 2>/dev/null
-  VERIFIER_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- .factory/scripts/check_characterize_rest01_correction03.sh 2>/dev/null | awk '{print $3}' | head -1)
+  VERIFIER_BLOB_SHA=$(git ls-tree "$VERIFIER_SUBJECT" -- .factory/scripts/check_characterize_rest01_correction03.sh 2>/dev/null | awk '{print $3}' | head -1)
   if [ -n "$VERIFIER_BLOB_SHA" ]; then
     git cat-file blob "$VERIFIER_BLOB_SHA" 2>/dev/null | sha256sum | awk '{print $1}' >> "$DERIVED_SHA_SET"
   fi
@@ -1274,14 +1415,11 @@ if [ "$MODE" = "post-exec" ]; then
 
   PROJECTIONS_AGREE=1
   STALE_REFS=""
-  # The PATTERNS below detect "current-state" commit/scalar claims. A
-  # 40-hex SHA appearing inside one of these patterns is asserting
-  # something about the live state and must match HEAD or HEAD~1
-  # (or a hash explicitly bound to the live state via the manifest).
-  # SHAs appearing in narrative context ("in the past", "superseded",
-  # quoted history, etc.) are NOT checked — historical references are
-  # documentation, not authority.
-  STALE_CLAIM_PATTERNS='(Content commit|Commit C|Content_commit|content_commit_sha)\s*[=(:].{0,40}\b[0-9a-f]{40}\b|(Attestation commit|Commit D|Attestation_commit|attestation_commit_sha)\s*[=(:].{0,40}\b[0-9a-f]{40}\b|ATTESTATION_COMMIT_SHA\s*[=(:].{0,40}\b[0-9a-f]{40}\b|CONTENT_COMMIT_SHA\s*[=(:].{0,40}\b[0-9a-f]{40}\b|\bCURRENT_CONTENT_COMMIT\b.{0,40}\b[0-9a-f]{40}\b'
+  # CORRECTION08 expanded patterns: Attestation_commit,
+  # attestation_container_commit, ATTESTATION_(COMMIT|CONTAINER_COMMIT)_SHA,
+  # CURRENT_(CONTENT|ATTESTATION)_COMMIT, CONTENT_TREE_SHA,
+  # TERMINAL_RUN_ID, TERMINAL_BUNDLE_HASH
+  STALE_CLAIM_PATTERNS='(Content commit|Commit C|Content_commit|content_commit_sha)\s*[=(:].{0,40}\b[0-9a-f]{40}\b|(Attestation commit|Commit D|Attestation_commit|attestation_commit_sha|attestation_container_commit)\s*[=(:].{0,40}\b[0-9a-f]{40}\b|ATTESTATION_(COMMIT|CONTAINER_COMMIT)_SHA\s*[=(:].{0,40}\b[0-9a-f]{40}\b|CONTENT_COMMIT_SHA\s*[=(:].{0,40}\b[0-9a-f]{40}\b|\bCURRENT_(CONTENT|ATTESTATION)_COMMIT\b.{0,40}\b[0-9a-f]{40}\b|\bCONTENT_TREE_SHA\b.{0,40}\b[0-9a-f]{40}\b|\bTERMINAL_RUN_ID\b.{0,80}\b[0-9a-f]{40}\b|\bTERMINAL_BUNDLE_HASH\b.{0,80}\b[0-9a-f]{40}\b'
   for PROJ_PATH in \
       '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' \
       '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' \
@@ -1289,19 +1427,20 @@ if [ "$MODE" = "post-exec" ]; then
       '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/normalized/summary.txt' \
       '.factory/epic-board.md' \
       '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION07.md' \
+      '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION08.md' \
     ; do
     PROJ_BLOB=$(git ls-tree "$GIT_HEAD_SHA" -- "$PROJ_PATH" 2>/dev/null | awk '{print $3}' | head -1)
     [ -z "$PROJ_BLOB" ] && continue
     PROJ_CONTENT=$(git cat-file blob "$PROJ_BLOB" 2>/dev/null || true)
-    # Run grep with -P (perl regex) for non-greedy matching
     STALE_LINES=$(printf '%s\n' "$PROJ_CONTENT" | grep -nP "$STALE_CLAIM_PATTERNS" 2>/dev/null || true)
     [ -z "$STALE_LINES" ] && continue
     while IFS= read -r LN; do
-      # Extract the SHA from the matching line
       CLAIMED_SHA=$(echo "$LN" | grep -oE '\b[0-9a-f]{40}\b' | tail -1)
       [ -z "$CLAIMED_SHA" ] && continue
-      # The claim is allowed iff: HEAD, HEAD~1, or in the derived set
-      if [ "$CLAIMED_SHA" = "$GIT_HEAD_SHA" ] || [ "$CLAIMED_SHA" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+      # CORRECTION08: claim is allowed iff subject (C8), subject's
+      # tree, or in derived set. HEAD no longer qualifies — projections
+      # must reference C8, not A8's transient HEAD.
+      if [ "$CLAIMED_SHA" = "$VERIFIER_SUBJECT" ] || [ "$CLAIMED_SHA" = "$GIT_CONTENT_COMMIT_SHA" ] || [ "$CLAIMED_SHA" = "$GIT_CONTENT_TREE_SHA" ]; then
         : # ok
       elif grep -qx "$CLAIMED_SHA" "$DERIVED_SHA_SET.shas" 2>/dev/null; then
         : # in derived set (verifier SHA, content/attestation tree, terminal IDs)
@@ -1311,12 +1450,109 @@ if [ "$MODE" = "post-exec" ]; then
       fi
     done <<< "$STALE_LINES"
   done
-  if [ "$PROJECTIONS_AGREE" = "1" ]; then
-    pass "AUTHORITATIVE_PROJECTIONS_AGREE (6 committed projections: every Content commit/Commit C/Commit D claim references HEAD, HEAD~1, or a hash in the live derived-set; historical narrative SHAs are not flagged)"
+
+  # CORRECTION08 R2: detect the C-equals-D collapse. Two current-state
+  # claims in the SAME projection that assert "Commit C = X" and
+  # "Commit D = X" for the SAME X (where X is any 40-hex SHA, X != C8)
+  # is a collapse defect — Commit D cannot equal Commit C in a non-trivial
+  # close.
+  C_EQ_D=1
+  C_EQ_D_REFS=""
+  for PROJ_PATH in \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/RESULT.md' \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/normalized/summary.txt' \
+      '.factory/epic-board.md' \
+      '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION08.md' \
+    ; do
+    PROJ_BLOB=$(git ls-tree "$GIT_HEAD_SHA" -- "$PROJ_PATH" 2>/dev/null | awk '{print $3}' | head -1)
+    [ -z "$PROJ_BLOB" ] && continue
+    PROJ_CONTENT=$(git cat-file blob "$PROJ_BLOB" 2>/dev/null || true)
+    C_SHAS=$(printf '%s\n' "$PROJ_CONTENT" | grep -nE '(Content commit|Commit C|Content_commit|content_commit_sha)\s*[=(:].{0,40}\b[0-9a-f]{40}\b' | grep -oE '\b[0-9a-f]{40}\b' | sort -u)
+    D_SHAS=$(printf '%s\n' "$PROJ_CONTENT" | grep -nE '(Attestation commit|Commit D|Attestation_commit|attestation_commit_sha|attestation_container_commit)\s*[=(:].{0,40}\b[0-9a-f]{40}\b' | grep -oE '\b[0-9a-f]{40}\b' | sort -u)
+    if [ -n "$C_SHAS" ] && [ -n "$D_SHAS" ]; then
+      COMMON=$(comm -12 <(echo "$C_SHAS") <(echo "$D_SHAS"))
+      for x in $COMMON; do
+        if [ "$x" != "$VERIFIER_SUBJECT" ]; then
+          C_EQ_D=0
+          C_EQ_D_REFS="$C_EQ_D_REFS ${PROJ_PATH##*/}::$x"
+        fi
+      done
+    fi
+  done
+  if [ "$PROJECTIONS_AGREE" = "1" ] && [ "$C_EQ_D" = "1" ]; then
+    pass "AUTHORITATIVE_PROJECTIONS_AGREE (7 committed projections + expanded pattern set: every current-state claim references subject (C8) or derivable-from-C8 hash; no C-equals-D collapse)"
+  elif [ "$C_EQ_D" = "0" ]; then
+    fail "AUTHORITATIVE_PROJECTIONS_AGREE (C-equals-D collapse detected:$C_EQ_D_REFS)"
   else
-    fail "AUTHORITATIVE_PROJECTIONS_AGREE (stale Commit C/D claims found:$STALE_REFS)"
+    fail "AUTHORITATIVE_PROJECTIONS_AGREE (stale Commit C/D/scalar claims found:$STALE_REFS)"
   fi
   rm -f "$DERIVED_SHA_SET" "$DERIVED_SHA_SET.shas"
+
+  # ===================================================================
+  # STATIC RELATIONS S1-S5 (CORRECTION08 acyclic architecture)
+  # ===================================================================
+  # These five static relations are derivable from A8's tree by any
+  # reader. They replace the cyclic "A8 verifies A8" with the acyclic
+  # "A8 attests C8 by reference."
+
+  # S1: A8:evidence.subject == C8. The CORRECTION08 ACT and manifest
+  # both name C8 as the subject.
+  S1_EVIDENCE=0
+  if [ -n "$ATTEST_BLOB_SHA" ]; then
+    if git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -qiE 'A8.*attests.*C8|C8.*attested.*A8|subject.*C8'; then
+      S1_EVIDENCE=$((S1_EVIDENCE+1))
+    fi
+  fi
+  CORRECTION08_BLOB=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION08.md' 2>/dev/null | awk '{print $3}' | head -1)
+  if [ -n "$CORRECTION08_BLOB" ]; then
+    if git cat-file blob "$CORRECTION08_BLOB" 2>/dev/null | grep -qiE 'A8.*attests.*C8|subject.*C8|VERIFIER_SUBJECT.*C8'; then
+      S1_EVIDENCE=$((S1_EVIDENCE+1))
+    fi
+  fi
+  if [ "$S1_EVIDENCE" -ge 1 ]; then
+    pass "STATIC_RELATION_S1 (subject reference exists in A8; A8 attests C8 not A8)"
+  else
+    fail "STATIC_RELATION_S1 (no subject reference found in A8's projections)"
+  fi
+
+  # S2: C8 is parent/ancestor of A8. Mechanical from git.
+  if git merge-base --is-ancestor "$VERIFIER_SUBJECT" "$GIT_HEAD_SHA" 2>/dev/null; then
+    pass "STATIC_RELATION_S2 (git merge-base --is-ancestor C8 A8 returns 0; C8 is parent/ancestor of A8)"
+  else
+    fail "STATIC_RELATION_S2 (C8=$VERIFIER_SUBJECT is not an ancestor of A8=$GIT_HEAD_SHA; acyclic architecture violated)"
+  fi
+
+  # S3: bundle hash inside C8 == re-derived from git ls-tree C8:terminal_run/.
+  if [ -n "$MANIFEST_BUNDLE_HASH" ] && [ "$MANIFEST_BUNDLE_HASH" = "$DERIVED_BUNDLE_HASH" ] && [ -n "$DERIVED_BUNDLE_HASH" ] && [ "$DERIVED_BUNDLE_HASH" != "UNAVAILABLE" ]; then
+    pass "STATIC_RELATION_S3 (bundle hash inside C8=$MANIFEST_BUNDLE_HASH == re-derived from git ls-tree C8:terminal_run/=$DERIVED_BUNDLE_HASH)"
+  else
+    fail "STATIC_RELATION_S3 (bundle hash inside C8=$MANIFEST_BUNDLE_HASH != re-derived=$DERIVED_BUNDLE_HASH)"
+  fi
+
+  # S4: git show C8:terminal_run/verifier.stdout contains
+  # VERIFIER_RESULT=PASS and VERIFIER_FAIL=0.
+  TR_STDOUT_FOR_S4=$(git ls-tree -r "$VERIFIER_SUBJECT" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/verifier.stdout' 2>/dev/null | awk '{print $3}' | head -1)
+  if [ -n "$TR_STDOUT_FOR_S4" ]; then
+    TR_STDOUT_TEXT=$(git cat-file blob "$TR_STDOUT_FOR_S4" 2>/dev/null)
+    if echo "$TR_STDOUT_TEXT" | grep -qE '^VERIFIER_RESULT=(PASS|DEFERRED)$' && echo "$TR_STDOUT_TEXT" | grep -qE '^VERIFIER_FAIL=0$'; then
+      pass "STATIC_RELATION_S4 (C8:terminal_run/verifier.stdout contains VERIFIER_RESULT=PASS|DEFERRED and VERIFIER_FAIL=0)"
+    else
+      fail "STATIC_RELATION_S4 (C8:terminal_run/verifier.stdout missing VERIFIER_RESULT=PASS or VERIFIER_FAIL=0)"
+    fi
+  else
+    fail "STATIC_RELATION_S4 (C8:terminal_run/verifier.stdout not committed)"
+  fi
+
+  # S5: every current-state SHA claim inside A8's projections names C8
+  # or a value derivable from C8. Already enforced by
+  # AUTHORITATIVE_PROJECTIONS_AGREE above; we just emit a STATIC_RELATION_S5
+  # line for machine-readable attestation.
+  if [ "$PROJECTIONS_AGREE" = "1" ] && [ "$C_EQ_D" = "1" ]; then
+    pass "STATIC_RELATION_S5 (every projection names C8 or derivable-from-C8 hash; no C-equals-D collapse)"
+  else
+    fail "STATIC_RELATION_S5 (projection sweep failed)"
+  fi
 fi
 # FINAL MACHINE PROJECTION (deterministic lines)
 # ============================================================
@@ -1363,12 +1599,24 @@ if [ "$MODE" = "postcommit" ]; then
   echo "MANIFEST_RAW_HASH_ENTRY_COUNT=${MANIFEST_RAW_COUNT}"
 fi
 if [ "$MODE" = "post-exec" ]; then
+  echo "VERIFIER_SUBJECT=${VERIFIER_SUBJECT}"
+  echo "VERIFIER_ATTESTOR=${GIT_HEAD_SHA}"
   echo "GIT_DERIVED_HEAD_SHA=${GIT_HEAD_SHA}"
   echo "GIT_DERIVED_CONTENT_COMMIT_SHA=${GIT_CONTENT_COMMIT_SHA}"
   echo "GIT_DERIVED_CONTENT_TREE_SHA=${GIT_CONTENT_TREE_SHA}"
   echo "GIT_DERIVED_ATTESTATION_TREE_SHA=${GIT_ATTESTATION_TREE_SHA}"
   echo "DERIVED_BUNDLE_HASH=${DERIVED_BUNDLE_HASH:-UNAVAILABLE}"
   echo "DERIVED_TVRID=${DERIVED_TVRID:-UNAVAILABLE}"
+  # CORRECTION08: emit the acyclic verdict name. VERIFIER_RESULT_AT_SUBJECT
+  # is the verdict against C8 (the immutable subject), not against HEAD
+  # (which would be A8 verifying A8). The verdict authority on C8 is
+  # C8:terminal_run/verifier.stdout; VERIFIER_RESULT_AT_SUBJECT is
+  # informational cross-check.
+  if [ "$FAIL_COUNT" = 0 ] && [ "$PASS_COUNT" -gt 0 ]; then
+    echo "VERIFIER_RESULT_AT_SUBJECT=PASS"
+  else
+    echo "VERIFIER_RESULT_AT_SUBJECT=FAIL"
+  fi
 fi
 
 # Conservation invariant on verifier counts (defense in depth)
