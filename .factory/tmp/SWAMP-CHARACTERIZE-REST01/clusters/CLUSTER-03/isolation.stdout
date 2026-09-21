@@ -1,0 +1,61 @@
+[0m[38;5;245mrunning 24 tests from ./src/cli/commands/doctor_audit_test.ts[0m
+doctorAuditCommand module loads ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+doctorAuditCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(12ms)[0m
+doctorAuditCommand has the expected option set ... [0m[32mok[0m [0m[38;5;245m(98µs)[0m
+resolveTargetTool: returns flag tool when explicit override is provided ... [0m[32mok[0m [0m[38;5;245m(40µs)[0m
+resolveTargetTool: falls back to marker tool when no flag provided ... [0m[32mok[0m [0m[38;5;245m(32µs)[0m
+resolveTargetTool: throws NoToolConfiguredError when neither flag nor marker has a tool ... [0m[32mok[0m [0m[38;5;245m(139µs)[0m
+resolveTargetTool: flag value is validated against the AiTool union (rejects garbage) ... [0m[32mok[0m [0m[38;5;245m(46µs)[0m
+resolveTargetTool: flag wins even when marker is set ... [0m[32mok[0m [0m[38;5;245m(20µs)[0m
+resolveTargetTool: accepts the audit-skip tools (codex/none) as valid overrides ... [0m[32mok[0m [0m[38;5;245m(19µs)[0m
+resolveTargetTool: accepts copilot as a valid audit-enabled tool override ... [0m[32mok[0m [0m[38;5;245m(18µs)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+runChildWithAbort: returns normally when child exits cleanly and no abort is requested ... [0m[32mok[0m [0m[38;5;245m(70ms)[0m
+runChildWithAbort: SIGTERM PermissionDenied is surfaced explicitly, not swallowed ... [0m[32mok[0m [0m[38;5;245m(53ms)[0m
+runChildWithAbort: portable — SIGTERM delivered, child completes naturally ... [0m[32mok[0m [0m[38;5;245m(173ms)[0m
+runChildWithAbort: portable — SIGTERM PermissionDenied surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+runChildWithAbort: portable — generic SIGTERM failure surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(32ms)[0m
+runChildWithAbort: portable — SIGTERM delivered then SIGKILL escalation delivered ... [0m[32mok[0m [0m[38;5;245m(136ms)[0m
+runChildWithAbort: portable — SIGTERM delivered then SIGKILL PermissionDenied surfaces ChildSignalDeliveryError ... [0m[32mok[0m [0m[38;5;245m(116ms)[0m
+runChildWithAbort: portable — terminal race returns benign already-terminal outcome, not delivery error ... [0m[31mFAILED[0m [0m[38;5;245m(50ms)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(138µs)[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [real-signal] ...
+[0m[38;5;245m------- output -------[0m
+[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)
+[0m[38;5;245m----- output end -----[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [real-signal] ... [0m[32mok[0m [0m[38;5;245m(271ms)[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [real-signal] ...
+[0m[38;5;245m------- output -------[0m
+[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)
+[0m[38;5;245m----- output end -----[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [real-signal] ... [0m[32mok[0m [0m[38;5;245m(274ms)[0m
+capability-probe: reports CAN_SIGNAL_CHILD verdict for current substrate ...
+[0m[38;5;245m------- output -------[0m
+CAN_SIGNAL_CHILD=false reason=PermissionDenied
+[0m[38;5;245m----- output end -----[0m
+capability-probe: reports CAN_SIGNAL_CHILD verdict for current substrate ... [0m[32mok[0m [0m[38;5;245m(279ms)[0m
+runChildWithAbort: ChildSignalDeliveryError is not converted to success [caller] ... [0m[32mok[0m [0m[38;5;245m(33ms)[0m
+
+[0m[1m[37m[41m ERRORS [0m
+
+runChildWithAbort: portable — terminal race returns benign already-terminal outcome, not delivery error [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:603:6[0m
+[0m[1m[31merror[0m: AssertionError: Values are not equal.
+
+
+    [90m[1m[Diff][22m[39m [31m[1mActual[22m[39m / [32m[1mExpected[22m[39m
+
+
+[31m[1m-   0[22m[39m
+[32m[1m+   1[22m[39m
+
+  throw new AssertionError(message);
+[0m[31m        ^[0m
+    at [0m[1m[3massertEquals[0m ([0m[36mhttps://jsr.io/@std/assert/1.0.19/equals.ts[0m:[0m[33m67[0m:[0m[33m9[0m)
+    at [0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit_test.ts[0m:[0m[33m632[0m:[0m[33m5[0m
+
+[0m[1m[37m[41m FAILURES [0m
+
+runChildWithAbort: portable — terminal race returns benign already-terminal outcome, not delivery error [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:603:6[0m
+
+[0m[31mFAILED[0m | 23 passed | 1 failed [0m[38;5;245m(1s)[0m
+

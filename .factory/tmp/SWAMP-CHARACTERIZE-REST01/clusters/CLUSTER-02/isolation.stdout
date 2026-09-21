@@ -1,0 +1,70 @@
+[0m[38;5;245mrunning 5 tests from ./integration/remote_execution_test.ts[0m
+remote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ...
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:35:13.150Z [INF] serve·worker-gateway: Worker "it-worker" enrolled ("first-connect")
+2026-09-21T16:35:13.151Z [INF] worker·connect: Enrolled as "it-worker"
+2026-09-21T16:35:13.175Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["37274705-dddd-4125-83a0-ba43e9e4ffbe"]
+2026-09-21T16:35:13.184Z [INF] worker·dispatch: Dispatch "37274705-dddd-4125-83a0-ba43e9e4ffbe" started: "swamp/remote-it"."run"
+2026-09-21T16:35:13.369Z [INF] worker·dispatch: Dispatch "37274705-dddd-4125-83a0-ba43e9e4ffbe" finished: "swamp/remote-it"."run" "succeeded" in 185ms
+2026-09-21T16:35:13.370Z [INF] serve·worker-gateway: Dispatch "37274705-dddd-4125-83a0-ba43e9e4ffbe" on worker "it-worker" "succeeded" in 195ms
+2026-09-21T16:35:13.422Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["2528020b-e88c-41ee-b7b7-6fd6fbb4075c"]
+2026-09-21T16:35:13.427Z [INF] worker·dispatch: Dispatch "2528020b-e88c-41ee-b7b7-6fd6fbb4075c" started: "swamp/remote-it"."run"
+2026-09-21T16:35:13.597Z [INF] worker·dispatch: Dispatch "2528020b-e88c-41ee-b7b7-6fd6fbb4075c" finished: "swamp/remote-it"."run" "succeeded" in 170ms
+2026-09-21T16:35:13.597Z [INF] serve·worker-gateway: Dispatch "2528020b-e88c-41ee-b7b7-6fd6fbb4075c" on worker "it-worker" "succeeded" in 175ms
+2026-09-21T16:35:15.129Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["666c4193-c23a-4122-b6a5-14a4225d7d05"]
+2026-09-21T16:35:15.133Z [INF] worker·dispatch: Dispatch "666c4193-c23a-4122-b6a5-14a4225d7d05" started: "swamp/remote-it"."run"
+2026-09-21T16:35:15.296Z [INF] worker·dispatch: Dispatch "666c4193-c23a-4122-b6a5-14a4225d7d05" finished: "swamp/remote-it"."run" "succeeded" in 163ms
+2026-09-21T16:35:15.296Z [INF] serve·worker-gateway: Dispatch "666c4193-c23a-4122-b6a5-14a4225d7d05" on worker "it-worker" "succeeded" in 167ms
+2026-09-21T16:35:15.317Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["a8b81951-70a2-4971-9362-14e2a1bf0361"]
+2026-09-21T16:35:15.321Z [INF] worker·dispatch: Dispatch "a8b81951-70a2-4971-9362-14e2a1bf0361" started: "swamp/remote-it"."run"
+2026-09-21T16:35:15.663Z [INF] worker·dispatch: Dispatch "a8b81951-70a2-4971-9362-14e2a1bf0361" finished: "swamp/remote-it"."run" "failed" in 341ms
+2026-09-21T16:35:15.663Z [INF] serve·worker-gateway: Dispatch "a8b81951-70a2-4971-9362-14e2a1bf0361" on worker "it-worker" "failed" in 346ms
+2026-09-21T16:35:15.676Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "it-worker" ["9aa0d7ab-6a43-4469-90ac-287937acc08d"]
+2026-09-21T16:35:15.680Z [INF] worker·dispatch: Dispatch "9aa0d7ab-6a43-4469-90ac-287937acc08d" started: "swamp/remote-it"."run"
+2026-09-21T16:35:15.845Z [INF] worker·dispatch: Dispatch "9aa0d7ab-6a43-4469-90ac-287937acc08d" finished: "swamp/remote-it"."run" "succeeded" in 164ms
+2026-09-21T16:35:15.845Z [INF] serve·worker-gateway: Dispatch "9aa0d7ab-6a43-4469-90ac-287937acc08d" on worker "it-worker" "succeeded" in 168ms
+[0m[38;5;245m----- output end -----[0m
+remote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel ... [0m[32mok[0m [0m[38;5;245m(2s)[0m
+remote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ...
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:35:16.190Z [INF] serve·worker-gateway: Worker "queue-worker" enrolled ("first-connect")
+2026-09-21T16:35:16.190Z [INF] worker·connect: Enrolled as "queue-worker"
+2026-09-21T16:35:16.195Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "queue-worker" ["42fe5a34-6d2e-41ed-b3d7-84952964b96c"]
+2026-09-21T16:35:16.200Z [INF] worker·dispatch: Dispatch "42fe5a34-6d2e-41ed-b3d7-84952964b96c" started: "swamp/remote-it"."run"
+2026-09-21T16:35:16.378Z [INF] worker·dispatch: Dispatch "42fe5a34-6d2e-41ed-b3d7-84952964b96c" finished: "swamp/remote-it"."run" "succeeded" in 178ms
+2026-09-21T16:35:16.378Z [INF] serve·worker-gateway: Dispatch "42fe5a34-6d2e-41ed-b3d7-84952964b96c" on worker "queue-worker" "succeeded" in 183ms
+[0m[38;5;245m----- output end -----[0m
+remote execution: elastic queueing — empty pool queues, worker enrolls, step dispatches ... [0m[32mok[0m [0m[38;5;245m(519ms)[0m
+remote execution: boot reconciliation marks stale records ...
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:35:16.502Z [INF] serve·worker-gateway: Worker "recon-worker" enrolled ("first-connect")
+2026-09-21T16:35:16.502Z [INF] worker·connect: Enrolled as "recon-worker"
+2026-09-21T16:35:16.527Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "recon-worker" ["374c2458-1a9a-4ed2-a785-e0128b3acabc"]
+2026-09-21T16:35:16.531Z [INF] worker·dispatch: Dispatch "374c2458-1a9a-4ed2-a785-e0128b3acabc" started: "swamp/remote-it"."run"
+2026-09-21T16:35:16.706Z [INF] worker·dispatch: Dispatch "374c2458-1a9a-4ed2-a785-e0128b3acabc" finished: "swamp/remote-it"."run" "succeeded" in 175ms
+2026-09-21T16:35:16.707Z [INF] serve·worker-gateway: Dispatch "374c2458-1a9a-4ed2-a785-e0128b3acabc" on worker "recon-worker" "succeeded" in 180ms
+[0m[38;5;245m----- output end -----[0m
+remote execution: boot reconciliation marks stale records ... [0m[32mok[0m [0m[38;5;245m(347ms)[0m
+remote execution: a wrong token is rejected and the worker stops ... [0m[32mok[0m [0m[38;5;245m(100ms)[0m
+remote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ...
+[0m[38;5;245m------- output -------[0m
+2026-09-21T16:35:16.856Z [INF] serve·worker-gateway: Reconnection grace window expired for "it-worker"
+2026-09-21T16:35:16.945Z [INF] serve·worker-gateway: Worker "fleet-pool-34e00777" enrolled ("first-connect")
+2026-09-21T16:35:16.946Z [INF] worker·connect: Enrolled as "fleet-pool-34e00777"
+2026-09-21T16:35:16.976Z [INF] serve·worker-gateway: Worker "fleet-pool-921c7ce8" enrolled ("first-connect")
+2026-09-21T16:35:16.976Z [INF] worker·connect: Enrolled as "fleet-pool-921c7ce8"
+2026-09-21T16:35:17.001Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-34e00777" ["5037bf76-00a8-446b-8742-6e5714da3e6c"]
+2026-09-21T16:35:17.005Z [INF] worker·dispatch: Dispatch "5037bf76-00a8-446b-8742-6e5714da3e6c" started: "swamp/remote-it"."run"
+2026-09-21T16:35:17.181Z [INF] worker·dispatch: Dispatch "5037bf76-00a8-446b-8742-6e5714da3e6c" finished: "swamp/remote-it"."run" "succeeded" in 176ms
+2026-09-21T16:35:17.182Z [INF] serve·worker-gateway: Dispatch "5037bf76-00a8-446b-8742-6e5714da3e6c" on worker "fleet-pool-34e00777" "succeeded" in 181ms
+2026-09-21T16:35:17.193Z [INF] serve·worker-gateway: Dispatching "swamp/remote-it"."run" (step "it-step") to worker "fleet-pool-921c7ce8" ["c42717cd-1f84-468a-9cac-71a9aefc3fdf"]
+2026-09-21T16:35:17.197Z [INF] worker·dispatch: Dispatch "c42717cd-1f84-468a-9cac-71a9aefc3fdf" started: "swamp/remote-it"."run"
+2026-09-21T16:35:17.376Z [INF] worker·dispatch: Dispatch "c42717cd-1f84-468a-9cac-71a9aefc3fdf" finished: "swamp/remote-it"."run" "succeeded" in 178ms
+2026-09-21T16:35:17.376Z [INF] serve·worker-gateway: Dispatch "c42717cd-1f84-468a-9cac-71a9aefc3fdf" on worker "fleet-pool-921c7ce8" "succeeded" in 183ms
+2026-09-21T16:35:17.389Z [INF] serve·worker-gateway: Reconnection grace window expired for "queue-worker"
+2026-09-21T16:35:17.393Z [WRN] serve·worker-gateway: Failed to record disconnect for "fleet-pool-34e00777": "Worker 'worker-fleet-pool-34e00777' has no recorded state — enroll first"
+[0m[38;5;245m----- output end -----[0m
+remote execution: fleet token enrolls two workers with distinct pool identities, both dispatchable ... [0m[32mok[0m [0m[38;5;245m(550ms)[0m
+
+[0m[32mok[0m | 5 passed | 0 failed [0m[38;5;245m(4s)[0m
+

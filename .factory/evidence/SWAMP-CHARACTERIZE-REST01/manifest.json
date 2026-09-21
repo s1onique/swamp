@@ -1,0 +1,46 @@
+{
+  "act_id": "SWAMP-CHARACTERIZE-REST01",
+  "verdict": "REMAINING_FAILURE_SURFACE_MIXED",
+  "dogfood_ready": false,
+  "subject_sha": "a392c49e1c899fbbbbf39bf84d73a8308c048eb6",
+  "deno_version": "deno 2.9.7 (stable, release, aarch64-apple-darwin)",
+  "deno_binary": "/tmp/deno-arm64/deno",
+  "deno_arch": "aarch64-apple-darwin",
+  "kernel_arch": "arm64",
+  "os": "Darwin 23.6.0",
+  "home": "/tmp/swamp-char-rest01.ipyvth/home",
+  "deno_dir": "/tmp/swamp-char-rest01.ipyvth/deno",
+  "tmpdir": "/tmp",
+  "cache_state": "VERIFIED_PREWARMED",
+  "natural_completion": true,
+  "exit_code": 1,
+  "runner_passed": 12287,
+  "runner_failed": 33,
+  "runner_ignored": 30,
+  "runner_total": 12350,
+  "duration_seconds": 628,
+  "runner_summary_line": "FAILED | 12287 passed (214 steps) | 33 failed | 30 ignored (1 step) (10m11s)",
+  "classification_counts": {
+    "ENVIRONMENTAL": 32,
+    "PROJECT_DEFECT": 1
+  },
+  "cluster_sizes": {
+    "CLUSTER-01": 31,
+    "CLUSTER-02": 1,
+    "CLUSTER-03": 1
+  },
+  "conservation_check": {
+    "sum_classifications_equals_runner_failed": true,
+    "sum_cluster_sizes_equals_runner_failed": true,
+    "passed_plus_failed_plus_ignored_equals_total": true
+  },
+  "raw_files_hashed": 30,
+  "raw_files_hash_verified": 30,
+  "raw_evidence_sha256_manifest_self_referential": false,
+  "no_unknown_red": true,
+  "all_failures_classified": true,
+  "no_production_code_changed": true,
+  "scratch_root": "/tmp/swamp-char-rest01.ipyvth",
+  "no_repo_local_scratch": true,
+  "recommended_next_act": "SWAMP-DOCTOR-PORTABLE-TIMING01"
+}

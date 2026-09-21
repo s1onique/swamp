@@ -1,0 +1,7 @@
+exit_code=0
+duration_seconds=7
+command=deno cache --reload main.ts
+DENO_DIR=/tmp/swamp-char-rest01.ipyvth/deno
+cache_size_after=218M
+network=available
+status=VERIFIED_PREWARMED

@@ -1,0 +1,31 @@
+=== UNAME ===
+Darwin MacBook-Pro-3.local 23.6.0 Darwin Kernel Version 23.6.0: Thu Dec 19 20:47:16 PST 2024; root:xnu-10063.141.1.703.2~1/RELEASE_ARM64_T6031 arm64 arm Darwin
+arm64
+
+=== DENO (primary native arm64) ===
+deno not found
+(not on PATH)
+/tmp/deno-arm64/deno: Mach-O 64-bit executable arm64
+deno 2.9.7 (stable, release, aarch64-apple-darwin)
+v8 15.0.245.2-rusty
+typescript 6.0.3
+
+=== DENO (x86_64 Rosetta fallback at /tmp/deno-bin/deno) ===
+/tmp/deno-bin/deno: Mach-O 64-bit executable x86_64
+deno 2.9.7 (stable, release, x86_64-apple-darwin)
+v8 15.0.245.2-rusty
+typescript 6.0.3
+
+=== ARCH ===
+arm64
+=== ENVIRONMENT (selected keys) ===
+HOME=/Volumes/UserData/Users/chistyakov
+LOGNAME=chistyakov
+PATH=/Volumes/UserData/Users/chistyakov/.nix-profile/bin:/etc/profiles/per-user//bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+PWD=/Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp
+TERM=screen-256color
+TMPDIR=/private/var/folders/0g/mpt_55f524ndzxymkp20wjfc0000gn/T/clinemm-sandbox-temp-3Yv004
+
+=== NETWORK ===
+network=available
+jsr_status=200

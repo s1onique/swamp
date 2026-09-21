@@ -1,0 +1,98 @@
+ACT-SWAMP-CHARACTERIZE-REST01 normalized summary
+
+Run
+  subject_sha                       = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
+  deno_version                      = 2.9.7 (stable, release, aarch64-apple-darwin)
+  deno_binary                       = /tmp/deno-arm64/deno
+  kernel_arch                       = arm64
+  os                                = Darwin 23.6.0
+  home                              = /tmp/swamp-char-rest01.ipyvth/home
+  deno_dir                          = /tmp/swamp-char-rest01.ipyvth/deno
+  tmpdir                            = /tmp
+  cache_state                       = VERIFIED_PREWARMED
+  parallel                          = true
+  natural_completion                = true
+  exit_code                         = 1
+
+Runner
+  passed                            = 12 287
+  failed                            =     33
+  ignored                           =     30
+  total                             = 12 350
+  passed + failed + ignored == total = TRUE
+  duration_seconds                  = 628
+
+Classification conservation
+  ENVIRONMENTAL                     =     32
+  PROJECT_DEFECT                    =      1
+  DEPENDENCY_BEHAVIOR               =      0
+  FLAKY                             =      0
+  ALREADY_REPAIRED                  =      0
+  UNRESOLVED                        =      0
+  sum                               =     33  (== runner_failed)
+
+Cluster conservation
+  CLUSTER-01 = 31
+  CLUSTER-02 =  1
+  CLUSTER-03 =  1
+  sum        = 33
+
+Verdict
+  primary                           = REMAINING_FAILURE_SURFACE_MIXED
+  dogfood_ready                     = false
+  no_unknown_red                    = true
+  all_failures_classified           = true
+
+Mechanism
+  CLUSTER-01 (n=31) ENVIRONMENTAL   = "NotFound: Failed to spawn 'deno': entity not found" - deno not on PATH
+  CLUSTER-02 (n=1)  ENVIRONMENTAL   = "RPC channel is closed" - only under full-suite parallel load
+  CLUSTER-03 (n=1)  PROJECT_DEFECT  = "assertEquals(calls.length, 1) actual=0" - 30ms child / 100ms abort timing edge
+
+Falsification of CLUSTER-01
+  PATH="/tmp/deno-arm64:$PATH" deno test <5 affected test files>
+  => ok | 51 passed | 0 failed (1s)
+
+Reproduction of CLUSTER-03
+  deno test src/cli/commands/doctor_audit_test.ts
+  run 1: ok | 23 passed | 1 failed (1s)
+  run 2: ok | 23 passed | 1 failed (1s)
+  run 3: ok | 23 passed | 1 failed (1s)
+  NOT FLAKY (deterministic)
+
+Reproduction of CLUSTER-02
+  isolated: deno test integration/remote_execution_test.ts
+  run 1: ok | 5 passed | 0 failed (4s)
+  run 2: ok | 5 passed | 0 failed (4s)
+  run 3: ok | 5 passed | 0 failed (4s)
+  run 4 with --parallel: ok | 5 passed | 0 failed (4s)
+  FAILS only under full-suite parallel load
+
+Evidence
+  raw files tracked                  = 30
+  hashes                             = 30/30 OK
+  manifest self-reference            = false
+  authored hygiene                   = .factory/scripts/check_evidence_hygiene.sh PASS
+
+Scratch
+  repo-local scratch                 = none
+  external scratch                   = /tmp/swamp-char-rest01.ipyvth
+  cleanup at exit                    = ACT_SCRATCH_CLEANED_AT_CLOSURE=true
+
+Production diff
+  src/         changed               = no
+  integration/ changed               = no
+  extensions/  changed                = no
+  packages/    changed               = no
+  .factory/**  changed               = yes (this ACT only)
+
+Recommended next ACT
+  exactly one                        = SWAMP-DOCTOR-PORTABLE-TIMING01
+
+Negative claims
+  NO_PRODUCTION_CODE_CHANGED         = true
+  NO_REPO_LOCAL_SCRATCH              = true
+  NO_UNKNOWN_RED                     = true
+  FULL_SUITE_COMPLETED_NATURALLY     = true
+  ALL_FAILURES_CLASSIFIED            = true
+  BOARD_STATE_AGREES_WITH_ACT_STATE  = true   (updated at closure)
+  POLICY_EQUALS_VERIFIER_SCOPE_EQUALS_CLAIM = true

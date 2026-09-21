@@ -1,0 +1,350 @@
+{
+  "natural_completion": true,
+  "runner_summary_line": "FAILED | 12287 passed (214 steps) | 33 failed | 30 ignored (1 step) (10m11s)",
+  "passed": 12287,
+  "failed": 33,
+  "ignored": 30,
+  "total": 12350,
+  "filtered_out": 0,
+  "duration_seconds": 611,
+  "failures": [
+    {
+      "test_name": "runChildWithAbort: portable — terminal race returns benign already-terminal outcome, not delivery error",
+      "test_file": "./src/cli/commands/doctor_audit_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/cli/commands/doctor_audit_test.ts => runChildWithAbort: throws AbortError without spawning when signal is already aborted ... ok (261µs)",
+        "./integration/evaluated_cache_provenance_test.ts => nested runtime scope: dynamic vault arguments survive persistence without secrets ... ok (934ms)",
+        "./src/cli/commands/hidden_aliases_test.ts => model search has list as a native alias ... ok (584ms)",
+        "./src/cli/commands/config_test.ts => config set: rejects invalid cadence ... ok (1s)",
+        "------- post-test output -------",
+        "[capability-gated skip] CAN_SIGNAL_CHILD=false reason=PermissionDenied (host substrate denies process signal delivery)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader - loads valid datastore from temp directory",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/datastore/user_datastore_loader_test.ts => UserDatastoreLoader - skips files without datastore export ... ok (1ms)",
+        "./src/domain/datastore/user_datastore_loader_test.ts => UserDatastoreLoader - skips test files ... ok (1ms)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findAllForWorkflowRun returns data from run artifacts ... ok (23ms)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findAllForWorkflowRun skips GC'd data ... ok (1ms)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findAllForWorkflowRun returns empty for runs with no artifacts ... ok (419µs)",
+        "./src/domain/datastore/user_datastore_loader_test.ts => UserDatastoreLoader - reports validation failure for invalid export ... ok (3ms)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader - loads valid non-@ datastore type",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findByNameInWorkflowRun: falls back to specName tag when instance name differs ... ok (444µs)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findByNameInWorkflowRun: exact name match takes priority over specName ... ok (1ms)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findByNameInWorkflowRun: specName fallback skips data without specName tag ... ok (517µs)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findAllForWorkflowRun resolves workflow-scope artifacts ... ok (749µs)",
+        "./src/domain/data/workflow_data_service_test.ts => WorkflowDataService.findAllForWorkflowRun returns both step and workflow-scope artifacts ... ok (824µs)",
+        "./src/domain/events/event_bus_test.ts => EventBus handles async handlers ... ok (19ms)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader - invalidates bundle cache when dependency changes",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/events/event_bus_test.ts => EventBus supports multiple handlers for same event ... ok (170µs)",
+        "./src/domain/data/data_query_service_test.ts => DataQueryService: backfill preserves catalog rows the walk cannot see ... ok (18ms)",
+        "------- post-test output -------",
+        "2026-09-21T16:21:50.807Z [INF] swamp·domain·access·policy-snapshot: Loaded policy snapshot: 0 active grant(s), 1 group(s)",
+        "./src/domain/definitions/definition_property_test.ts => property: path traversal is always rejected ...----- post-test output end -----",
+        "./src/domain/definitions/definition_property_test.ts => property: path traversal is always rejected ... ok (13ms)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader buildIndex rebundles when source content changes with preserved mtime (#128)",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/data/data_query_service_test.ts => DataQueryService: backfill stamps the repo namespace onto rebuilt rows ... ok (15ms)",
+        "./src/domain/data/data_query_service_test.ts => DataQueryService: predicate without version or isLatest returns latest only ... ok (9ms)",
+        "./src/domain/datastore/user_datastore_loader_test.ts => UserDatastoreLoader buildIndex rebundles when transitive dep content changes with preserved mtime (#128) ... FAILED (15ms)",
+        "./src/domain/data/data_query_service_test.ts => DataQueryService: predicate referencing version opts into history ... ok (12ms)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies finds input dependencies ... ok (975µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies finds resource dependencies ... ok (99µs)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader buildIndex rebundles when transitive dep content changes with preserved mtime (#128)",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/data/data_query_service_test.ts => DataQueryService: predicate referencing version opts into history ... ok (12ms)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies finds input dependencies ... ok (975µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies finds resource dependencies ... ok (99µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies finds multiple dependencies ... ok (86µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies deduplicates same reference ... ok (87µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractDependencies handles model names with hyphens ... ok (100µs)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader: registerLazyFromCatalog skips validation_failed rows (swamp-club#209)",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/data/data_query_service_test.ts => DataQueryService: isLatest in predicate composes with version filter ... ok (8ms)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractArtifactDependencies returns file dep for file.contents() ... ok (66µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractFileContentsDependencies returns model name ... ok (103µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => extractFileContentsDependencies returns empty for no file.contents() ... ok (148µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => hasFileContentsDependency returns true for file.contents() ... ok (74µs)",
+        "./src/domain/expressions/dependency_extractor_test.ts => hasFileContentsDependency returns false for other expressions ... ok (89µs)"
+      ]
+    },
+    {
+      "test_name": "UserDatastoreLoader.bundleAndIndexOne: returns datastore metadata without writing catalog rows (Pin 1)",
+      "test_file": "./src/domain/datastore/user_datastore_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/datastore/user_datastore_loader_test.ts => datastoreKindAdapter.extractTypeFromSource: ignores type in helper objects above the export ... ok (350µs)",
+        "./src/domain/expressions/errors_test.ts => ExpressionError stores message and optional fields ... ok (1ms)",
+        "./src/domain/datastore/user_datastore_loader_test.ts => datastoreKindAdapter.extractTypeFromSource: handles inline structural type annotation ... ok (169µs)",
+        "./src/domain/expressions/errors_test.ts => ExpressionError handles undefined optional fields ... ok (152µs)",
+        "./src/domain/expressions/errors_test.ts => ExpressionError stores cause ... ok (86µs)",
+        "./src/domain/expressions/errors_test.ts => ModelNotFoundError contains model ref in message ... ok (185µs)"
+      ]
+    },
+    {
+      "test_name": "module-reload(model): distinct fingerprints see fresh module",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "module-reload(vault): distinct fingerprints see fresh module",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "module-reload(datastore): distinct fingerprints see fresh module",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "module-reload(report): distinct fingerprints see fresh module",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "fingerprint-collision: same fingerprint returns same cached module",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "fingerprint-divergence: same path different fingerprints are distinct",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "empty-fingerprint: no query parameter produces bare URL import",
+      "test_file": "./src/domain/extensions/extension_loader_subprocess_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/extensions/extension_manifest_test.ts => parseExtensionManifest: visibility is optional and accepts public or private ... ok (8ms)",
+        "./src/domain/extensions/extension_manifest_test.ts => resolvePublishVisibility: CLI then manifest then registry default ... ok (1ms)",
+        "./src/domain/extensions/extension_manifest_test.ts => parseExtensionManifest parses valid manifest with models ... ok (865µs)",
+        "./src/domain/extensions/extension_package_cache_test.ts => computePackageCacheHash: identical inputs produce identical hashes ... ok (9ms)",
+        "./src/domain/extensions/extension_manifest_test.ts => parseExtensionManifest parses valid manifest with workflows ... ok (426µs)",
+        "./src/domain/extensions/extension_manifest_test.ts => parseExtensionManifest parses valid manifest with additionalFiles ... ok (290µs)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader - loads valid vault from temp directory",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... addSecret: returns unique sentinel tokens ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... addSecret: sentinel matches pattern ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... isEmpty: true when no secrets added ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... isEmpty: false after adding a secret ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveRaw: replaces sentinel with raw value ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveRaw: replaces multiple sentinels ... ok (0ms)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader - allows @swamp/* namespace for local vaults",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveForShell: replaces sentinel with env var reference ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveForShell: handles multiple secrets ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveForShell: secret with shell metacharacters goes to env ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveForShell: skips secrets not in command ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveForShell: no secrets returns original command ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... resolveForShell: inside double quotes uses bare env var ref ... ok (0ms)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader - loads valid non-@ vault type",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/models/user_model_loader_test.ts => UserModelLoader extension with method name conflict fails gracefully ... ok (106ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... findSingleQuotedSentinels: does not flag sentinel in double quotes ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... findSingleQuotedSentinels: does not flag unquoted sentinel ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... findSingleQuotedSentinels: detects only the single-quoted one among mixed ... ok (0ms)",
+        "./src/domain/vaults/user_vault_loader_test.ts => UserVaultLoader - allows swamp/* namespace for local vaults ... FAILED (4ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... findSingleQuotedSentinels: returns empty when no secrets exist ... ok (0ms)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader - allows swamp/* namespace for local vaults",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... findSingleQuotedSentinels: returns empty when no secrets exist ... ok (0ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... findSingleQuotedSentinels: handles multi-line scripts ... ok (0ms)",
+        "./src/domain/vaults/user_vault_loader_test.ts => UserVaultLoader - invalidates bundle cache when dependency changes ... FAILED (28ms)",
+        "./src/domain/vaults/user_vault_loader_test.ts => UserVaultLoader - allows si/* namespace for local vaults ... FAILED (4ms)",
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... ok (75ms)",
+        "./src/domain/vaults/user_vault_loader_test.ts => UserVaultLoader buildIndex rebundles when source content changes with preserved mtime (#128) ... FAILED (18ms)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader - invalidates bundle cache when dependency changes",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "UserVaultLoader - allows si/* namespace for local vaults",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/vaults/vault_secret_bag_test.ts => VaultSecretBag ... ok (75ms)",
+        "./src/domain/vaults/user_vault_loader_test.ts => UserVaultLoader buildIndex rebundles when source content changes with preserved mtime (#128) ... FAILED (18ms)",
+        "./src/domain/vaults/user_vault_loader_test.ts => UserVaultLoader buildIndex rebundles when transitive dep content changes with preserved mtime (#128) ... FAILED (15ms)",
+        "./src/cli/remote_run_test.ts => remote run: handles run.elsewhere by retrying through load balancer ... ok (4s)",
+        "------- post-test output -------",
+        "Remote   ws://127.0.0.1:56516"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader buildIndex rebundles when source content changes with preserved mtime (#128)",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "UserVaultLoader buildIndex rebundles when transitive dep content changes with preserved mtime (#128)",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/cli/remote_run_test.ts => remote run: handles run.elsewhere by retrying through load balancer ... ok (4s)",
+        "------- post-test output -------",
+        "Remote   ws://127.0.0.1:56516",
+        "----- post-test output end -----",
+        "./src/domain/vaults/vault_type_registry_test.ts => VaultTypeRegistry - register and get ... ok (618µs)",
+        "./src/domain/vaults/vault_type_registry_test.ts => VaultTypeRegistry - get is case-insensitive ... ok (190µs)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader: registerLazyFromCatalog skips validation_failed rows (swamp-club#209)",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/vaults/vault_types_test.ts => getVaultTypes contains expected built-in types ... ok (700µs)",
+        "./src/domain/vaults/vault_types_test.ts => getVaultTypes returns at least 1 built-in type ... ok (158µs)",
+        "./src/domain/vaults/vault_types_test.ts => getVaultType returns vault type by identifier ... ok (137µs)",
+        "./src/domain/vaults/vault_types_test.ts => getVaultType is case-insensitive ... ok (134µs)",
+        "./src/domain/vaults/vault_types_test.ts => getVaultType returns undefined for unknown type ... ok (108µs)",
+        "./src/domain/vaults/vault_type_registry_test.ts => VaultTypeRegistry.ensureTypeLoaded: concurrent callers share same promise ... ok (19ms)"
+      ]
+    },
+    {
+      "test_name": "UserVaultLoader.bundleAndIndexOne: returns vault metadata without writing catalog rows (Pin 1)",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "loadSingleType: promotes lazy vault entry to fully loaded",
+      "test_file": "./src/domain/vaults/user_vault_loader_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/domain/vaults/user_vault_loader_test.ts => vaultKindAdapter.extractTypeFromSource: ignores type in helper objects above the export ... ok (368µs)",
+        "./src/domain/vaults/user_vault_loader_test.ts => vaultKindAdapter.extractTypeFromSource: handles inline structural type annotation ... ok (246µs)",
+        "./src/domain/models/user_model_loader_test.ts => UserModelLoader extension with duplicate method names within array fails ... ok (127ms)",
+        "./src/domain/models/bundle_test.ts => bundleExtension resolves and inlines https: specifiers ... ok (292ms)",
+        "./src/domain/vaults/vault_service_test.ts => VaultService - missing vault configuration error handling ... should provide helpful error when no vaults configured ... ok (1ms)",
+        "./src/domain/vaults/vault_service_test.ts => VaultService - missing vault configuration error handling ... should provide helpful error when specific vault not found ... ok (0ms)"
+      ]
+    },
+    {
+      "test_name": "defaultCommandResolver: resolves a binary that exists (deno)",
+      "test_file": "./src/infrastructure/process/resolve_command_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/infrastructure/persistence/yaml_workflow_run_repository_test.ts => findAllSummariesByWorkflowId: returns projections sorted startedAt desc ... ok (5ms)",
+        "./src/infrastructure/persistence/yaml_workflow_run_repository_test.ts => findAllSummariesByWorkflowId: returns empty for a workflow with no runs ... ok (829µs)",
+        "./src/infrastructure/process/resolve_command_test.ts => defaultCommandResolver: returns null for a binary that does not exist ... ok (3ms)",
+        "./src/infrastructure/process/resolve_command_test.ts => defaultCommandResolver: returns first non-empty line of multi-line output ... ok (299µs)",
+        "./src/infrastructure/process/resolve_command_test.ts => defaultCommandResolver: skips leading blank lines ... ok (166µs)",
+        "./src/infrastructure/process/resolve_command_test.ts => defaultCommandResolver: returns null when lookup process fails ... ok (131µs)"
+      ]
+    },
+    {
+      "test_name": "spawnExtensionProcess: starts subprocess and imports a bundle",
+      "test_file": "./src/infrastructure/testing/subprocess_harness_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "importInSubprocess: distinct fingerprints produce distinct modules",
+      "test_file": "./src/infrastructure/testing/subprocess_harness_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "importInSubprocess: same fingerprint returns cached module",
+      "test_file": "./src/infrastructure/testing/subprocess_harness_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "importInSubprocess: empty fingerprint produces bare URL",
+      "test_file": "./src/infrastructure/testing/subprocess_harness_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": []
+    },
+    {
+      "test_name": "measureHeap: returns heap size",
+      "test_file": "./src/infrastructure/testing/subprocess_harness_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "./src/infrastructure/persistence/catalog_store_test.ts => latestRowCountsByType: returns an empty map for an empty catalog ... ok (12ms)",
+        "./src/infrastructure/persistence/repository_factory_test.ts => writeCatalogExport: yields event loop between pages ... ok (1s)",
+        "./src/domain/repo/repo_service_test.ts => RepoService.upgrade manages .gitignore when marker has gitignoreManaged from init ... ok (220ms)",
+        "./src/infrastructure/source/http_source_downloader_test.ts => downloadAndExtract throws on download failure ... ok (65ms)",
+        "./src/infrastructure/persistence/catalog_store_test.ts => bulkUpsertForeign: upserts foreign rows and records lastSynced ... ok (10ms)",
+        "./src/infrastructure/persistence/repository_factory_test.ts => writeCatalogExport: no temp files left after successful write ... ok (11ms)"
+      ]
+    },
+    {
+      "test_name": "remote execution: enroll over a real socket, dispatch, verbs, leases, scheduling, cancel",
+      "test_file": "./integration/remote_execution_test.ts",
+      "runner_status": "FAILED",
+      "error_lines": [
+        "------- post-test output -------",
+        "2026-09-21T16:31:44.658Z [INF] serve·worker-gateway: Worker \"queue-worker\" enrolled (\"first-connect\")",
+        "2026-09-21T16:31:44.659Z [INF] worker·connect: Enrolled as \"queue-worker\"",
+        "2026-09-21T16:31:44.667Z [INF] serve·worker-gateway: Dispatching \"swamp/remote-it\".\"run\" (step \"it-step\") to worker \"queue-worker\" [\"87a25ac1-e321-434a-a8b0-02898fd5be90\"]",
+        "2026-09-21T16:31:44.674Z [INF] worker·dispatch: Dispatch \"87a25ac1-e321-434a-a8b0-02898fd5be90\" started: \"swamp/remote-it\".\"run\"",
+        "2026-09-21T16:31:45.005Z [INF] worker·dispatch: Dispatch \"87a25ac1-e321-434a-a8b0-02898fd5be90\" finished: \"swamp/remote-it\".\"run\" \"succeeded\" in 332ms"
+      ]
+    }
+  ]
+}

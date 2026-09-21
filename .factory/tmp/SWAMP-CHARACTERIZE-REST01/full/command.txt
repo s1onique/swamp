@@ -1,0 +1,7 @@
+HOME=/tmp/swamp-char-rest01.ipyvth/home
+DENO_DIR=/tmp/swamp-char-rest01.ipyvth/deno
+TMPDIR=/tmp
+SWAMP_NO_TELEMETRY=1
+Deno=deno 2.9.7 (stable, release, aarch64-apple-darwin)
+command=deno task test
+started=1790007678
