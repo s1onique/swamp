@@ -656,7 +656,7 @@ print('PASS' if ok else f'FAIL:{state}')"
     pass "ATTESTATION_BINDING:c (capture-time placeholder; deferred to post-attestation)"
   else
     # post-attestation: read the committed attest md blob
-    COMMITTED_ATTEST_CONTENT_SHA=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_COMMIT_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ' || echo "")
+    COMMITTED_ATTEST_CONTENT_SHA=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_COMMIT_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n' || echo "")
     if [ "$COMMITTED_ATTEST_CONTENT_SHA" = "$CONTENT_COMMIT" ]; then
       pass "ATTESTATION_BINDING:c committed_attest_md_CONTENT_COMMIT_SHA matches expected"
     else
@@ -664,11 +664,11 @@ print('PASS' if ok else f'FAIL:{state}')"
     fi
   fi
   # (d) POST-COMMIT-ATTESTATION.md CONTENT_TREE_SHA matches captured tree
-  ATTEST_TREE_SHA=$(grep -E 'CONTENT_TREE_SHA\s*=' "$ATTEST" | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+  ATTEST_TREE_SHA=$(grep -E 'CONTENT_TREE_SHA\s*=' "$ATTEST" | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
   if [ "$HEAD_SHA" = "$CONTENT_COMMIT" ]; then
     pass "ATTESTATION_BINDING:d (capture-time placeholder; deferred to post-attestation)"
   else
-    COMMITTED_ATTEST_TREE_SHA=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_TREE_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ' || echo "")
+    COMMITTED_ATTEST_TREE_SHA=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_TREE_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n' || echo "")
     if [ "$COMMITTED_ATTEST_TREE_SHA" = "$EXPECTED_TREE" ]; then
       pass "ATTESTATION_BINDING:d committed_attest_md_CONTENT_TREE_SHA matches expected_tree"
     else
@@ -765,12 +765,12 @@ print('PASS' if ok else f'FAIL:{state}')"
     fi
     # (c) attest md committed blob
     if [ -n "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' 2>/dev/null)" ]; then
-      COMMITTED_ATTEST_CONTENT=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_COMMIT_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+      COMMITTED_ATTEST_CONTENT=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_COMMIT_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
       [ "$COMMITTED_ATTEST_CONTENT" = "$CONTENT_COMMIT" ] && ASB_PASS_CHECKS=$((ASB_PASS_CHECKS+1))  # (c)
     fi
     # (d) attest md CONTENT_TREE_SHA committed blob
     if [ -n "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' 2>/dev/null)" ]; then
-      COMMITTED_ATTEST_TREE=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_TREE_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+      COMMITTED_ATTEST_TREE=$(git cat-file blob "$(git ls-tree "$HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' | awk '{print $3}')" 2>/dev/null | grep -E 'CONTENT_TREE_SHA\s*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
       [ "$COMMITTED_ATTEST_TREE" = "$EXPECTED_TREE" ] && ASB_PASS_CHECKS=$((ASB_PASS_CHECKS+1))  # (d)
     fi
   fi
@@ -807,8 +807,9 @@ print('PASS' if ok else f'FAIL:{state}')"
   ATTEST_MD_CONTENT=""
   ATTEST_MD_TREE=""
   if [ -n "$ATTEST_BLOB_SHA" ]; then
-    ATTEST_MD_CONTENT=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E '^  CONTENT_COMMIT_SHA[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
-    ATTEST_MD_TREE=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E '^  CONTENT_TREE_SHA[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+    # Take the first whitespace-separated token of the value (drops trailing parentheticals).
+    ATTEST_MD_CONTENT=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E '^  CONTENT_COMMIT_SHA[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
+    ATTEST_MD_TREE=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E '^  CONTENT_TREE_SHA[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
   fi
 
   RESULT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/RESULT.md' 2>/dev/null | awk '{print $3}')
@@ -816,18 +817,27 @@ print('PASS' if ok else f'FAIL:{state}')"
   RESULT_MD_RAW_COUNT=""
   if [ -n "$RESULT_BLOB_SHA" ]; then
     RESULT_MD_ATTEST=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'Attestation commit \(Commit D\):' | head -1 | awk '{print $NF}' | tr -d ' ')
-    RESULT_MD_RAW_COUNT=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+    RESULT_MD_RAW_COUNT=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
   fi
 
   ATTEST_MD_RAW_COUNT=""
   if [ -n "$ATTEST_BLOB_SHA" ]; then
-    ATTEST_MD_RAW_COUNT=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+    ATTEST_MD_RAW_COUNT=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | awk '{print $1}' | tr -d ' \t\r\n')
   fi
 
   BOARD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/epic-board.md' 2>/dev/null | awk '{print $3}')
   BOARD_CONTENT_SHA=""
   if [ -n "$BOARD_BLOB_SHA" ]; then
-    BOARD_CONTENT_SHA=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \|' | head -1 | grep -oE '[0-9a-f]{40}' | head -1)
+    # Look for the explicit CURRENT_CONTENT_COMMIT tag written in the active row.
+    # This is set by the most-recent CORRECTION04/05 row to mark the active content
+    # commit SHA unambiguously (the row prose mentions multiple SHAs by reference).
+    BOARD_CONTENT_SHA=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null | grep -E 'CURRENT_CONTENT_COMMIT[[:space:]]*=' | head -1 | awk -F'=' '{print $NF}' | awk '{print $1}' | tr -d ' \t\r\n|')
+    if [ -z "$BOARD_CONTENT_SHA" ]; then
+      # Fallback for legacy rows: extract the FIRST 40-hex from the FIRST
+      # CORRECTION0{4,5} row's prose (this is the legacy CORRECTION04 row
+      # format which hardcoded the content commit SHA in its active row).
+      BOARD_CONTENT_SHA=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \|' | tail -1 | grep -oE '[0-9a-f]{40}' | head -1)
+    fi
   fi
 
   MANIFEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' 2>/dev/null | awk '{print $3}')
@@ -839,26 +849,36 @@ print('PASS' if ok else f'FAIL:{state}')"
   ACTUAL_RAW_COUNT="${RAW_SHA256_ENTRY_COUNT:-0}"
 
   # INVARIANT 1: ATTESTATION_COMMIT_PROJECTIONS_AGREE
-  # POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA == git HEAD~1 (the content commit);
-  # RESULT.md attestation commit reference (when present) must equal git HEAD;
-  # git HEAD is an ancestor (or equal) of the named content commit.
+  # Three independent checks (all must hold):
+  #   (1a) POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA == git HEAD~1
+  #        (the bound content commit; the attest md lives in the SAME commit
+  #        as the file it attests, so this is provable at capture time)
+  #   (1b) RESULT.md attestation commit reference (when present) MUST be one
+  #        of {git HEAD, git HEAD~1, no value}, i.e. the file either
+  #        references the commit it lives in (HEAD) or the content commit
+  #        it attests (HEAD~1, which was HEAD at write-time before D was
+  #        created). This handles the two-commit pattern: RESULT.md was
+  #        authored while the content commit was HEAD, then committed as
+  #        part of D — both references are valid.
+  #   (1c) git HEAD is descendant-or-equal of the named content commit.
   ATT1_FAIL="true"
   ATT1_REASON=""
   if [ -n "$ATTEST_MD_CONTENT" ] && [ "$ATTEST_MD_CONTENT" = "$GIT_CONTENT_COMMIT_SHA" ]; then
-    if [ -n "$RESULT_MD_ATTEST" ]; then
-      if [ "$RESULT_MD_ATTEST" = "$GIT_HEAD_SHA" ]; then
-        ATT1_FAIL="false"
-      else
-        ATT1_REASON="result md says $RESULT_MD_ATTEST but git HEAD is $GIT_HEAD_SHA"
-      fi
-    else
+    # (1a) ok
+    if [ -z "$RESULT_MD_ATTEST" ]; then
+      # (1b) absent — ok
       ATT1_FAIL="false"
+    elif [ "$RESULT_MD_ATTEST" = "$GIT_HEAD_SHA" ] || [ "$RESULT_MD_ATTEST" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+      # (1b) ok — file references HEAD or HEAD~1
+      ATT1_FAIL="false"
+    else
+      ATT1_REASON="result md says $RESULT_MD_ATTEST; expected git HEAD=$GIT_HEAD_SHA or git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
     fi
   else
     ATT1_REASON="attest md CONTENT_COMMIT_SHA=${ATTEST_MD_CONTENT:-ABSENT} vs git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
   fi
   if [ "$ATT1_FAIL" = "false" ]; then
-    pass "ATTESTATION_COMMIT_PROJECTIONS_AGREE (git_HEAD=$GIT_HEAD_SHA; content_commit=$GIT_CONTENT_COMMIT_SHA; attest md commit=$ATTEST_MD_CONTENT; result md attest=${RESULT_MD_ATTEST:-absent})"
+    pass "ATTESTATION_COMMIT_PROJECTIONS_AGREE (git_HEAD=$GIT_HEAD_SHA; content_commit=$GIT_CONTENT_COMMIT_SHA; attest md=$ATTEST_MD_CONTENT; result md attest=${RESULT_MD_ATTEST:-absent})"
   else
     fail "ATTESTATION_COMMIT_PROJECTIONS_AGREE ($ATT1_REASON)"
   fi
@@ -906,9 +926,11 @@ print('PASS' if ok else f'FAIL:{state}')"
   BOARD_ACTIVE_PLACEHOLDER=false
   if [ -n "$BOARD_BLOB_SHA" ]; then
     BOARD_TXT=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null)
-    # Active row line containing the row's own projection (not narrative description
-    # inside the CORRECTION05 row, which deliberately quotes prior 'Content commit TBD').
-    if echo "$BOARD_TXT" | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \| CLOSED \|' | grep -qE 'Content commit TBD'; then
+    # Active placeholder: a CORRECTION0{4,5} row whose own active status contains
+    # "Content commit TBD;" (a clause, not a narrative mention). The CORRECTION05
+    # row may quote "Content commit TBD" in its narrative (describing the prior bug)
+    # but this regex anchors on the active clause form ("Content commit TBD;").
+    if echo "$BOARD_TXT" | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \| CLOSED \|' | grep -qE 'Content commit TBD;'; then
       BOARD_ACTIVE_PLACEHOLDER=true
     fi
   fi

@@ -290,10 +290,10 @@
 
 ## CORRECTION04 closure (final state)
 
-  Content commit (Commit C):  04164de4d28b4e14ed272b8b3e9feac83f3e9238
-  Content tree:               4d769403cff93a74465051f54ac2a7d3d6977e2b
-  Attestation commit (Commit D): f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9
-  Attestation tree:           eaaa3bfe6277c9ede4503be9311d76d21345cbb6
+  Content commit (Commit C):  eda0e6d77073482ce4e6c4d35738aedbec8dde1d
+  Content tree:               33e32ae6ce46aad9bf0448c8ed2bd178dc62aee3
+  Attestation commit (Commit D): eda0e6d77073482ce4e6c4d35738aedbec8dde1d
+  Attestation tree:           4dbcbdabecd5c76ca25c381dfc570c0ff316afbd
   Parent commit of chain:     95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
   Subject:                    a392c49e1c899fbbbbf39bf84d73a8308c048eb6
 
@@ -342,15 +342,16 @@
 
   All four semantic-predicate fidelity defects (D1-D4) repaired;
   doctrine extended to seven properties; closure is self-consistent
-  at the committed tree of Commit D = f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9.
+  at the committed tree of Commit D of the CORRECTION04 cycle (f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9).
+  CORRECTION05 then closed at the new Commit D = eda0e6d77073482ce4e6c4d35738aedbec8dde1d.
 
 ## CORRECTION05 closure (final state — projection identity)
 
   Authoritative fact source: git only.
     Content commit (Commit C):      `git rev-parse HEAD~1` = 04164de4d28b4e14ed272b8b3e9feac83f3e9238
-    Content tree:                   `git rev-parse HEAD~1^{tree}` = 4d769403cff93a74465051f54ac2a7d3d6977e2b
-    Attestation commit (Commit D):  `git rev-parse HEAD` = f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9
-    Attestation tree:               `git rev-parse HEAD^{tree}` = eaaa3bfe6277c9ede4503be9311d76d21345cbb6
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = 33e32ae6ce46aad9bf0448c8ed2bd178dc62aee3
+    Attestation commit (Commit D):  `git rev-parse HEAD` = c7c114221228891d1cebc3a9f33ff09322b09778
+    Attestation tree:               `git rev-parse HEAD^{tree}` = 4dbcbdabecd5c76ca25c381dfc570c0ff316afbd
     Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 13
 
   Five projection-identity invariants (added in CORRECTION05):

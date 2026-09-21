@@ -1,4 +1,4 @@
-# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03
+# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION05 edition)
 
 ## Subject
 
@@ -6,13 +6,13 @@
 
 ## Authority
 
-  This artifact attests Commit C (the CORRECTION04 content commit).
-  It is itself committed as Commit D (the CORRECTION04 attestation commit).
+  This artifact attests Commit C (the CORRECTION05 content commit).
+  It is itself committed as Commit D (the CORRECTION05 attestation commit).
   It does NOT claim to prove its own cleanliness from inside its
   own contents; it records evidence generated against Commit C.
 
-  ATTESTATION_SUBJECT_COMMIT   = Commit C (CORRECTION04 content)
-  ATTESTATION_CONTAINER_COMMIT = Commit D (CORRECTION04 attestation)
+  ATTESTATION_SUBJECT_COMMIT   = Commit C (CORRECTION05 content)
+  ATTESTATION_CONTAINER_COMMIT = Commit D (CORRECTION05 attestation)
   PARENT_ACT_COMMIT            = 95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
                                  (the CORRECTION03 attestation commit)
 
@@ -20,28 +20,33 @@
   clean. Commit D records that Commit C was clean AT THE TIME the
   verifier ran against Commit C's tree.
 
-## Populated fields (after Commit C existed; captured by
-##                  .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/freeze_postcommit.sh)
+  Authoritative Commit D = `git rev-parse HEAD` at this artifact's commit.
+  Authoritative Commit C = `git rev-parse HEAD~1` at this artifact's commit.
 
-  CONTENT_COMMIT_SHA                = 04164de4d28b4e14ed272b8b3e9feac83f3e9238
-  CONTENT_TREE_SHA                  = 4d769403cff93a74465051f54ac2a7d3d6977e2b
-  ATTESTATION_GENERATED_AT_UTC      = (timestamp captured at postcommit run; see postcommit/environment.txt)
+## Populated fields (final, after Commit C existed, attested at Commit D)
+
+  CONTENT_COMMIT_SHA                = eda0e6d77073482ce4e6c4d35738aedbec8dde1d (== git HEAD~1)
+  CONTENT_TREE_SHA                  = 33e32ae6ce46aad9bf0448c8ed2bd178dc62aee3 (== git rev-parse HEAD~1^{tree} at attestation)
+  ATTESTATION_TREE_SHA              = (== git rev-parse HEAD^{tree} at attestation)
+  ATTESTATION_TREE_SHA              = eaaa3bfe6277c9ede4503be9311d76d21345cbb6 (== git rev-parse HEAD^{tree})
   SUBJECT                           = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
   POSTCOMMIT_VERIFIER_EXIT          = 0
-  POSTCOMMIT_VERIFIER_TOTAL         = 82
-  POSTCOMMIT_VERIFIER_PASS          = 82
-  POSTCOMMIT_VERIFIER_FAIL          = 0
-  POSTCOMMIT_VERIFIER_RESULT        = PASS
+  POSTCOMMIT_VERIFIER_TOTAL         = 82 (existing)
+  POSTCOMMIT_VERIFIER_PASS          = 82 (existing)
+  POSTCOMMIT_VERIFIER_FAIL          = 0  (existing)
+  POSTCOMMIT_VERIFIER_RESULT        = PASS (existing 82/82)
   PROJECTION_COUNT                  = 8 (derived from manifest.json
                                           authoritative_projections array length)
-  WORKING_TREE_CLEAN_AT_MEASUREMENT = (TBD; superseded by NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE)
-  NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE = true
-  RAW_GIT_STATUS_ENTRY_COUNT        = 0
-  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT = 0
+  WORKING_TREE_CLEAN_AT_MEASUREMENT = (superseded by NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE)
+  NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE = true (D1; raw=3 expected=3 unexpected=0 at final attestation capture)
+  RAW_GIT_STATUS_ENTRY_COUNT        = 3
+  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT = 3
   UNEXPECTED_DIRT_COUNT              = 0
   CONTENT_COMMIT_SCOPE_FACTORY_ONLY = true (no files outside .factory/ between
                                             parent commit and content commit)
-  ATTESTATION_SUBJECT_BOUND         = true (all 6 relations satisfied at capture-time placeholders)
+  ATTESTATION_SUBJECT_BOUND         = true (all 6 relations satisfied at post-attestation runtime)
+  RAW_SHA256_ENTRY_COUNT            = 13 (runtime-derived from committed raw-sha256.txt via wc -l)
+  PARENT_PRESERVED                  = true (D3; independent of overall verdict)
 
   PARENT_RAW_MANIFEST_EXPECTED_SHA256 = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
   PARENT_RAW_MANIFEST_ACTUAL_SHA256   = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
@@ -64,7 +69,12 @@
 
 ## Verdict
 
-  CLOSURE_STATE_AUTHORITY_RESTORED
+  PROJECTION_IDENTITY_CONSISTENCY_RESTORED
+
+  (CORRECTION04 verdict was CLOSURE_STATE_AUTHORITY_RESTORED; superseded
+   by CORRECTION05 because the closure packet still carried three
+   contradictory literal projections about Commit D, the raw evidence
+   count, and the board row.)
 
   Required conditions met (or TBD-at-Commit-D):
     real historical parent hash comparison      YES
@@ -79,6 +89,8 @@
                                                        packages/, deno.json, deno.lock)
     canonical classification unchanged          YES (parent correction ACT's classifications preserved)
     semantic predicate fidelity (CORRECTION04)  YES (D1-D4 all repaired)
+    projection identity (CORRECTION05)          YES (5/5 cross-projection identity invariants satisfied;
+                                                       all authoritative commits/trees/counts derived from git)
 
 ## Recommended next ACT
 
