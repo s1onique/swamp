@@ -1,0 +1,6 @@
+[0m[32mCheck[0m src/libswamp/extensions/quality_test.ts
+[0m[32mCheck[0m src/domain/extensions/extension_quality_checker_test.ts
+[0m[32mCheck[0m src/domain/extensions/extension_collective_validator_test.ts
+[0m[32mCheck[0m src/domain/extensions/extension_content_extractor_test.ts
+[0m[32mCheck[0m integration/extension_publish_visibility_test.ts
+[0m[32mCheck[0m integration/extension_kind_sync_test.ts

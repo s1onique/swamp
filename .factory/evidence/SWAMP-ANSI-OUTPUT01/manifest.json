@@ -1,0 +1,93 @@
+{
+  "act": "SWAMP-ANSI-OUTPUT01",
+  "verdict": "ANSI_OUTPUT_NORMALIZATION_REPAIRED",
+  "factory_state": "CLOSED",
+  "act_start_sha": "d21b7d240b4dbcccd1b5d0db43a6c9343de765ba",
+  "upstream_sha": "bcaa9695b7f27f51964a9f41587fdf112b261c89",
+  "baseline01_raw_sha_preserved": true,
+  "production_commit": "fix(extensions): normalize external quality diagnostics",
+  "factory_commit": "factory(swamp): qualify ANSI diagnostic normalization",
+  "cause_owner": "DEPENDENCY_BEHAVIOR",
+  "handling_quality_before": "UNNORMALIZED",
+  "handling_quality_after": "ROBUST",
+  "normalization_boundary": {
+    "primitive": "stripAnsiCode from @std/fmt/colors (already in import map)",
+    "applied_to": ["fmt stderr+stdout", "lint stderr+stdout"],
+    "no_color_preserved": true,
+    "no_color_sufficient_for_contract": false,
+    "swamp_normalization_required": true
+  },
+  "scope": {
+    "production_files_changed": [
+      "src/domain/extensions/extension_quality_checker.ts",
+      "src/domain/extensions/extension_quality_checker_test.ts"
+    ],
+    "deno_json_diff": false,
+    "deno_lock_diff": false,
+    "agents_md_diff": false,
+    "verification_diff": false,
+    "infrastructure_diff": false,
+    "cli_diff": false,
+    "other_extension_diff": false
+  },
+  "deno": {
+    "version": "2.9.7",
+    "release": "stable",
+    "target": "x86_64-apple-darwin",
+    "typescript": "6.0.3",
+    "v8": "15.0.245.2-rusty"
+  },
+  "system": {
+    "os": "Darwin MacBook-Pro-3.local 23.6.0",
+    "kernel_arch": "arm64",
+    "deno_binary_arch": "x86_64"
+  },
+  "red": {
+    "real_dependency_red": true,
+    "synthetic_contract_red": false,
+    "red_not_reproduced": false,
+    "fmt_ansi_fail": true,
+    "lint_ansi_fail": true
+  },
+  "green": {
+    "fmt_ansi_pass": true,
+    "lint_ansi_pass": true,
+    "direct_normalization_tests": 9,
+    "semantic_preservation_tests": 9,
+    "issue_count_conservation": true
+  },
+  "runner": {
+    "focused_exit": 0,
+    "focused_summary": "ok | 58 passed | 0 failed (6s)",
+    "broader_extension_exit": 0,
+    "broader_extension_summary": "ok | 129 passed | 0 failed (8s)"
+  },
+  "checks": {
+    "deno_check_exit": 0,
+    "deno_lint_exit": 0,
+    "deno_fmt_exit": 0
+  },
+  "evidence": {
+    "raw_evidence_root": ".factory/tmp/SWAMP-ANSI-OUTPUT01/",
+    "authored_evidence_root": ".factory/evidence/SWAMP-ANSI-OUTPUT01/",
+    "raw_files_hashed": 38,
+    "raw_files_hash_verified": 38,
+    "raw_manifest_self_referential": false,
+    "baseline01_raw_sha_preserved": true
+  },
+  "negative_claims": {
+    "no_test_relaxation": true,
+    "no_deno_patch": true,
+    "no_deno_version_special_case": true,
+    "no_os_special_case": true,
+    "no_tty_special_case": true,
+    "no_custom_ansi_regex_if_std_utility_available": true,
+    "no_diagnostic_semantics_changed": true,
+    "no_fmt_lint_exit_semantics_changed": true,
+    "no_raw_evidence_mutated": true,
+    "all_authoritative_raw_evidence_tracked": true,
+    "runner_status_separate_from_semantic_coverage": true,
+    "board_state_agrees_with_act_state": true
+  },
+  "recommended_next_act": "ACT-SWAMP-CHARACTERIZE-REST01"
+}

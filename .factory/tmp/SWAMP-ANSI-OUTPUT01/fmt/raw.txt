@@ -1,0 +1,6 @@
+[0m[1mfrom[0m /tmp/e67f5bd13896ec3c/model.ts:
+1[0m[38;5;245m |[0m [0m[1m[31m-[0m[0m[37m[41mexport const x=1;[0m
+ [0m[38;5;245m |[0m [0m[38;5;245m\ No newline at end of file[0m
+1[0m[38;5;245m |[0m [0m[1m[32m+[0m[0m[30m[42mexport const x = 1;[0m
+
+[0m[1m[31merror[0m: Found 1 not formatted file in 1 file

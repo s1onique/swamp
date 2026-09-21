@@ -1,0 +1,14 @@
+# Re-derivation of raw-sha256.txt (proves the file list is derived, not hard-coded).
+# Mon Sep 21 12:37:21 MSK 2026
+
+# Files in the raw evidence tree:
+38
+
+# Lines in raw-sha256.txt:
+37 raw-sha256.txt
+
+# shasum verification result:
+./unit/unit.stdout: OK
+
+# Pass count from shasum verification:
+37

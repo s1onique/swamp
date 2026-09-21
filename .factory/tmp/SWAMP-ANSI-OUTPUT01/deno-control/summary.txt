@@ -1,0 +1,67 @@
+=== METADATA ===
+Deno:
+deno 2.9.7 (stable, release, x86_64-apple-darwin)
+v8 15.0.245.2-rusty
+typescript 6.0.3
+
+Arch:
+arm64OS:
+Darwin MacBook-Pro-3.local 23.6.0 Darwin Kernel Version 23.6.0: Thu Dec 19 20:47:16 PST 2024; root:xnu-10063.141.1.703.2~1/RELEASE_ARM64_T6031 arm64 arm Darwin
+
+NO_COLOR=1 TERM=dumb (forced)
+stdin/stdout/stderr all piped (non-TTY)
+
+=== FMT RAW STDERR (cat -v, bytes) ===
+
+^[[0m^[[1mfrom^[[0m /private/tmp/deno-control/model.ts:
+1^[[0m^[[38;5;245m |^[[0m ^[[0m^[[1m^[[31m-^[[0m^[[0m^[[37m^[[41mexport const x=1;^[[0m
+ ^[[0m^[[38;5;245m |^[[0m ^[[0m^[[38;5;245m\ No newline at end of file^[[0m
+1^[[0m^[[38;5;245m |^[[0m ^[[0m^[[1m^[[32m+^[[0m^[[0m^[[30m^[[42mexport const x = 1;^[[0m
+
+^[[0m^[[1m^[[31merror^[[0m: Found 1 not formatted file in 1 file
+
+=== LINT (ban-unused-ignore) RAW STDERR ===
+^[[0m^[[1m^[[31merror[ban-unused-ignore]^[[0m: ^[[0m^[[1mIgnore for code "no-explicit-any" was not used.^[[0m
+ ^[[0m^[[38;5;12m-->^[[0m ^[[0m^[[36m/private/tmp/deno-control/model.ts^[[0m^[[0m^[[33m:1:1^[[0m
+ ^[[0m^[[38;5;12m | ^[[0m
+^[[0m^[[38;5;12m1 | ^[[0m// deno-lint-ignore no-explicit-any
+ ^[[0m^[[38;5;12m | ^[[0m^[[0m^[[1m^[[31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[[0m
+
+  ^[[0m^[[38;5;12mdocs^[[0m: https://docs.deno.com/lint/rules/ban-unused-ignore
+
+
+Found 1 problem
+Checked 1 file
+
+=== LINT (no-explicit-any) RAW STDERR ===
+^[[0m^[[1m^[[31merror[no-explicit-any]^[[0m: ^[[0m^[[1m`any` type is not allowed^[[0m
+ ^[[0m^[[38;5;12m-->^[[0m ^[[0m^[[36m/private/tmp/deno-control/model.ts^[[0m^[[0m^[[33m:1:17^[[0m
+ ^[[0m^[[38;5;12m | ^[[0m
+^[[0m^[[38;5;12m1 | ^[[0mexport const x: any = 1;
+ ^[[0m^[[38;5;12m | ^[[0m                ^[[0m^[[1m^[[31m^^^^[[0m
+  ^[[0m^[[38;5;12m=^[[0m ^[[0m^[[1mhint^[[0m: Use a specific type other than `any`
+
+  ^[[0m^[[38;5;12mdocs^[[0m: https://docs.deno.com/lint/rules/no-explicit-any
+
+
+^[[0m^[[1m^[[31merror[ban-unused-ignore]^[[0m: ^[[0m^[[1mIgnore for code "no-explicit-any" was not used.^[[0m
+ ^[[0m^[[38;5;12m-->^[[0m ^[[0m^[[36m/private/tmp/deno-control/model.ts^[[0m^[[0m^[[33m:2:1^[[0m
+ ^[[0m^[[38;5;12m | ^[[0m
+^[[0m^[[38;5;12m2 | ^[[0m// deno-lint-ignore no-explicit-any
+ ^[[0m^[[38;5;12m | ^[[0m^[[0m^[[1m^[[31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[[0m
+
+  ^[[0m^[[38;5;12mdocs^[[0m: https://docs.deno.com/lint/rules/ban-unused-ignore
+
+
+Found 2 problems
+Checked 1 file
+
+=== EXIT CODES ===
+FMT_EXIT=1
+LINT_EXIT=1
+LINT_UNUSED_IGNORE_EXIT=1
+
+=== ANSI BYTE COUNT ===
+fmt-raw.stderr ESC count: 5
+lint-raw.stderr ESC count: 13
+lint-raw3.stderr ESC count: 6

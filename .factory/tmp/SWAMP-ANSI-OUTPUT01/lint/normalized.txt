@@ -1,0 +1,11 @@
+error[ban-unused-ignore]: Ignore for code "no-explicit-any" was not used.
+ --> /tmp/cc207d69a96c8942/model.ts:1:1
+  | 
+1 | // deno-lint-ignore no-explicit-any
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+  docs: https://docs.deno.com/lint/rules/ban-unused-ignore
+
+
+Found 1 problem
+Checked 1 file

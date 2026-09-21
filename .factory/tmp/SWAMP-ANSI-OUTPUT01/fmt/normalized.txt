@@ -1,0 +1,6 @@
+from /tmp/e67f5bd13896ec3c/model.ts:
+1 | -export const x=1;
+  | \ No newline at end of file
+1 | +export const x = 1;
+
+error: Found 1 not formatted file in 1 file

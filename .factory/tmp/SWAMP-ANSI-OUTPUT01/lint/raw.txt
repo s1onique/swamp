@@ -1,0 +1,11 @@
+[0m[1m[31merror[ban-unused-ignore][0m: [0m[1mIgnore for code "no-explicit-any" was not used.[0m
+ [0m[38;5;12m-->[0m [0m[36m/tmp/cc207d69a96c8942/model.ts[0m[0m[33m:1:1[0m
+ [0m[38;5;12m | [0m
+[0m[38;5;12m1 | [0m// deno-lint-ignore no-explicit-any
+ [0m[38;5;12m | [0m[0m[1m[31m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+
+  [0m[38;5;12mdocs[0m: https://docs.deno.com/lint/rules/ban-unused-ignore
+
+
+Found 1 problem
+Checked 1 file

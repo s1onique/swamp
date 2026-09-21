@@ -1,0 +1,66 @@
+ACT-SWAMP-ANSI-OUTPUT01 — Summary
+
+Verdict                       = ANSI_OUTPUT_NORMALIZATION_REPAIRED
+Cause owner                   = DEPENDENCY_BEHAVIOR
+Handling quality (before)     = UNNORMALIZED
+Handling quality (after)      = ROBUST
+
+Production diff scope         = src/domain/extensions/extension_quality_checker.ts
+                                src/domain/extensions/extension_quality_checker_test.ts
+deno.json diff                = none
+deno.lock diff                = none
+AGENTS.md diff                = none
+verification/** diff          = none
+
+Normalization primitive       = stripAnsiCode from @std/fmt/colors
+                                (already in import map; no dependency declaration change)
+Applied to                    = fmt stderr+stdout, lint stderr+stdout
+NO_COLOR preserved            = true (still in env: { ...baseEnv, NO_COLOR: "1" })
+
+RED
+  fmt ANSI test               = FAIL (RED captured; raw run exit=1)
+  lint ANSI test              = FAIL (RED captured; raw run exit=1)
+  Real-dependency RED           = reproduced
+  Dependency ANSI evidence     = fmt stderr ESC count = 5
+                                lint stderr ESC count = 6
+                                (NO_COLOR=1 TERM=dumb piped non-TTY)
+  Synthetic-contract fallback = not needed
+
+GREEN
+  fmt ANSI test               = PASS
+  lint ANSI test              = PASS
+  Direct normalization tests  = 9/9 PASS
+  Semantic preservation tests = 9/9 PASS (N1 plain, N2 colored,
+                                N3 multiline, N4 Unicode,
+                                N5 not-stripped)
+  Combined fixture conservation
+                              = PASS (1 fmt + 1 lint issue retained)
+
+Runner status (focused)       = 58 passed | 0 failed (6s); exit=0
+Runner status (broader ext.)  = 129 passed | 0 failed (8s); exit=0
+
+Deno check                    = exit=0
+Deno lint                     = exit=0
+Deno fmt --check              = exit=0
+
+Evidence
+  Raw files tracked           = 38
+  Hash manifest               = .factory/tmp/SWAMP-ANSI-OUTPUT01/raw-sha256.txt
+  Manifest self-referential   = false (38 entries; manifest excluded)
+  Hashes verify               = 38/38 OK
+
+Negative claims
+  No test relaxation          = true
+  No Deno patch               = true
+  No version special case     = true
+  No OS special case          = true
+  No TTY special case         = true
+  Std utility used            = true
+  Diagnostics semantics unchanged = true
+  fmt/lint exit semantics unchanged = true
+  Raw evidence not mutated    = true
+  All raw tracked             = true
+  Runner status separated from semantic coverage = true
+  Board state agrees with ACT state = true
+
+Recommended next ACT          = ACT-SWAMP-CHARACTERIZE-REST01 (one only)
