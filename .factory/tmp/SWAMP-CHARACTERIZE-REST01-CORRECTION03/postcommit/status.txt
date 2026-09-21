@@ -1,4 +1,7 @@
- M .factory/scripts/check_characterize_rest01_correction03.sh
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/environment.txt
  M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt
  M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/status.txt
  M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.sha256
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/raw-sha256.txt

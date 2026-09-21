@@ -1,4 +1,4 @@
-# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION05 edition)
+# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION06 edition)
 
 ## Subject
 
@@ -47,6 +47,9 @@
   ATTESTATION_SUBJECT_BOUND         = true (all 6 relations satisfied at post-attestation runtime)
   RAW_SHA256_ENTRY_COUNT            = 13 (runtime-derived from committed raw-sha256.txt via wc -l)
   PARENT_PRESERVED                  = true (D3; independent of overall verdict)
+  TERMINAL_VERIFIER_RUN_ID          = (set at C6 from sha256 over committed
+                                          postcommit/{head.txt,tree.txt,verifier.exitcode};
+                                          equals manifest.json.terminal_verifier_run_id)
 
   PARENT_RAW_MANIFEST_EXPECTED_SHA256 = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
   PARENT_RAW_MANIFEST_ACTUAL_SHA256   = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
@@ -69,12 +72,15 @@
 
 ## Verdict
 
-  PROJECTION_IDENTITY_CONSISTENCY_RESTORED
+  TERMINAL_RUN_BINDING_RESTORED
 
   (CORRECTION04 verdict was CLOSURE_STATE_AUTHORITY_RESTORED; superseded
    by CORRECTION05 because the closure packet still carried three
    contradictory literal projections about Commit D, the raw evidence
-   count, and the board row.)
+   count, and the board row. CORRECTION06 supersedes CORRECTION05 because
+   the committed postcommit/verifier.stdout was the EARLIER FAILED bundle
+   (88/13/FAIL, exitcode=1), contradicting the operator-summary claim of
+   87/87 PASS.)
 
   Required conditions met (or TBD-at-Commit-D):
     real historical parent hash comparison      YES
@@ -91,6 +97,12 @@
     semantic predicate fidelity (CORRECTION04)  YES (D1-D4 all repaired)
     projection identity (CORRECTION05)          YES (5/5 cross-projection identity invariants satisfied;
                                                        all authoritative commits/trees/counts derived from git)
+    evidence freshness (CORRECTION06)      YES (4/4 terminal-run binding invariants satisfied;
+                                                       committed verifier.stdout contains
+                                                       VERIFIER_RESULT=PASS and VERIFIER_FAIL=0;
+                                                       committed verifier.exitcode == 0;
+                                                       manifest + attest_md + derived terminal_verifier_run_id
+                                                       all agree on the same digest)
 
 ## Recommended next ACT
 

@@ -23,11 +23,9 @@ trap "rm -f $TMP_HASHES" EXIT
 find "$RAW_TREE_REL" -type f \
   ! -name "raw-sha256.txt" \
   ! -name "build_raw_sha256.sh" \
-  ! -name "verifier.stdout" \
-  ! -name "verifier.stderr" \
-  ! -name "verifier.exitcode" \
   ! -name "freeze_precommit.sh" \
   ! -name "freeze_postcommit.sh" \
+  ! -name "freeze_terminal_run.sh" \
   ! -name "before.txt" \
   ! -name "mutated.txt" \
   ! -name "restored.txt" \
