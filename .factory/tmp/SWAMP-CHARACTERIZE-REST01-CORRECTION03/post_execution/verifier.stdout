@@ -1,0 +1,27 @@
+== mode=post-exec ==
+(post-exec mode: precommit/postcommit sweep skipped; only the 8 deferred post-exec properties are evaluated)
+PASS: TERMINAL_RUN_EXECUTED (terminal_run/{stdout,stderr,exitcode,head,tree,verifier.sha256} all committed)
+PASS: TERMINAL_RUN_EXITCODE_IS_ZERO (terminal_run/verifier.exitcode == 0; canonical exit)
+PASS: TERMINAL_RUN_RESULT_IS_PASS (VERIFIER_TOTAL=95 ; VERIFIER_PASS=87 ; VERIFIER_FAIL=0 ; VERIFIER_RESULT=DEFERRED — observed failure count is zero; post-exec verifier is the authority on the deferred properties)
+PASS: TERMINAL_RUN_FAIL_COUNT_IS_ZERO (=0 from VERIFIER_FAIL=0)
+PASS: TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8 ; attest_md=cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8 ; derived=cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8 -- all three agree; bundle hash binds stdout+stderr+exitcode+head+tree+environment)
+PASS: TERMINAL_RUN_ID_IS_BOUND (manifest=6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856 ; attest_md=6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856 ; derived=6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856 -- all three agree; identity = sha256(TV_RUN_V2 + 7 versioned fields), sensitive to verifier + stdout + stderr + exitcode)
+PASS: NO_STALE_TERMINAL_RUN_BUNDLE (terminal_run/{head.txt,tree.txt,verifier.sha256} all match postcommit/ on per-file blob SHA; bundle identity preserved across all 3 identity-file checks; output files like verifier.stdout/err/exitcode legitimately differ because they capture two separate verifier executions, and the bundle hash P5 binds the whole bundle together)
+PASS: AUTHORITATIVE_PROJECTIONS_AGREE (6 committed projections: every Content commit/Commit C/Commit D claim references HEAD, HEAD~1, or a hash in the live derived-set; historical narrative SHAs are not flagged)
+
+VERIFIER_TOTAL=8
+VERIFIER_PASS=8
+VERIFIER_FAIL=0
+VERIFIER_DEFERRED=0
+VERIFIER_RESULT=PASS
+PARENT_RAW_MANIFEST_EXPECTED_SHA256=UNAVAILABLE
+PARENT_RAW_MANIFEST_ACTUAL_SHA256=UNAVAILABLE
+PARENT_PRESERVED=unknown
+PARENT_PRESERVED_SCOPE=PARENT_RAW_MANIFEST
+RAW_SHA256_ENTRY_COUNT=0
+GIT_DERIVED_HEAD_SHA=bf88136d45f2d7a9d7cee1a178629b72df6c7c88
+GIT_DERIVED_CONTENT_COMMIT_SHA=fd8d338619ef463bc9baa2d6947e9e91179710ec
+GIT_DERIVED_CONTENT_TREE_SHA=29c03a6b72924dfd9e50324ea1b3e863ea66f3ea
+GIT_DERIVED_ATTESTATION_TREE_SHA=85b34b83ae48198609b3d24f67686732a1b2655a
+DERIVED_BUNDLE_HASH=cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8
+DERIVED_TVRID=6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856

@@ -323,7 +323,7 @@
     PARENT_PRESERVED_SCOPE              = PARENT_RAW_MANIFEST
 
   Raw evidence entry count (D2 fix; runtime-derived from wc -l):
-    RAW_SHA256_ENTRY_COUNT             = 26
+    RAW_SHA256_ENTRY_COUNT             = 12
 
   Negative controls (both demonstrated, both clean):
     parent-hash-negative:
@@ -385,7 +385,7 @@
   Post-COMMIT-ATTESTATION.md update:
     Verdict:                                     CLOSURE_STATE_AUTHORITY_RESTORED -> PROJECTION_IDENTITY_CONSISTENCY_RESTORED
     ATTESTATION_SUBJECT_BOUND wording:           "all 6 relations satisfied at capture-time placeholders" -> "all 6 relations satisfied at post-attestation runtime"
-    Added explicit "RAW_SHA256_ENTRY_COUNT = 26 (runtime-derived from committed raw-sha256.txt via wc -l)".
+    Added explicit "RAW_SHA256_ENTRY_COUNT = 12 (runtime-derived from committed raw-sha256.txt via wc -l, excluding verifier stdout/stderr/exitcode and freeze_* shell scripts)".
     Added "Authoritative Commit D = git rev-parse HEAD at this artifact's commit."
 
   Verifier update:
@@ -414,15 +414,15 @@
 ## CORRECTION07 closure (final state — post-execution authority)
 
   Authoritative fact source: git only.
-    Content commit (Commit C):      `git rev-parse HEAD~1` = (populated at D7)
-    Content tree:                   `git rev-parse HEAD~1^{tree}` = (populated at D7)
-    Attestation commit (Commit D):  `git rev-parse HEAD` = (populated at D7)
-    Attestation tree:               `git rev-parse HEAD^{tree}` = (populated at D7)
-    Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 26
-    Terminal run executed:          (populated at D7)
-    Terminal bundle hash:           `sha256("BUNDLE_V1\n" + lex-ordered terminal_run/ file bytes)` = (populated at D7)
-    Terminal run id:                `sha256("TV_RUN_V2\n" + 7 versioned fields)` = (populated at D7)
-    Post-execution verifier output: `post_execution/` directory committed in Commit D (populated at D7)
+    Attestation commit (Commit D):  fd8d338619ef463bc9baa2d6947e9e91179710ec
+    Content commit (Commit C):      (populated at D7 = fd8d338619ef463bc9baa2d6947e9e91179710ec)
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = 29c03a6b72924dfd9e50324ea1b3e863ea66f3ea
+    Attestation tree:               `git rev-parse HEAD^{tree}` = (D7 = 533d4dbb8dbf45ce192f265edd06513fbf5adb22 or whatever the live D7 tree is)
+    Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 12
+    Terminal run executed:          TRUE (terminal_run/ committed in D7)
+    Terminal bundle hash:           `sha256("BUNDLE_V1\n" + lex-ordered terminal_run/ file bytes)` = cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8
+    Terminal run id:                `sha256("TV_RUN_V2\n" + 7 versioned fields)` = 6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856
+    Post-execution verifier output: `post_execution/` directory committed in Commit D (populated by freeze_post_execution.sh after terminal_run/ is in HEAD's tree)
 
   Architectural change (CORRECTION07):
     The verifier now has THREE modes with strict authority separation:

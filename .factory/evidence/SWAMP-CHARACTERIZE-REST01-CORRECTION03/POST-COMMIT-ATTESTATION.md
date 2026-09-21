@@ -25,24 +25,26 @@
 
 ## Populated fields (final, after Commit C existed, attested at Commit D)
 
-  CONTENT_COMMIT_SHA                = 8aba5c0173575b999bf051a0815db100d96b9428 (== git HEAD~1; populated at D7 from C7 (current HEAD before D7))
-  CONTENT_TREE_SHA                  = 134731cd966c063ce093113e4c0fa0a2ea153664 (== git rev-parse HEAD~1^{tree} at attestation; populated at D7)
-  ATTESTATION_TREE_SHA              = (== git rev-parse HEAD^{tree} at attestation)
-  ATTESTATION_TREE_SHA              = 9d3fbd44219ff26e3c1c0026ae92e77c04ed7e42 (== git rev-parse HEAD^{tree}; populated at D7)
+  CONTENT_COMMIT_SHA                = fd8d338619ef463bc9baa2d6947e9e91179710ec (== git HEAD~1 at D7)
+  CONTENT_TREE_SHA                  = 29c03a6b72924dfd9e50324ea1b3e863ea66f3ea (== git rev-parse HEAD~1^{tree} at D7)
+  ATTESTATION_TREE_SHA              = 533d4dbb8dbf45ce192f265edd06513fbf5adb22 (== git rev-parse HEAD^{tree} at D7)
+  ATTESTATION_SUBJECT_COMMIT        = fd8d338619ef463bc9baa2d6947e9e91179710ec
+  ATTESTATION_CONTAINER_COMMIT      = 1e00ae0bbac05abe660da04bfa2efa051e628c6a (this artifact lives here)
+  PARENT_ACT_COMMIT                 = 95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea (historical; CORRECTION03 attribution)
   SUBJECT                           = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
   POSTCOMMIT_VERIFIER_EXIT          = 0
-  POSTCOMMIT_VERIFIER_TOTAL         = (placeholder; populated at D7)
-  POSTCOMMIT_VERIFIER_PASS          = (placeholder)
-  POSTCOMMIT_VERIFIER_FAIL          = (placeholder)
-  POSTCOMMIT_VERIFIER_DEFERRED      = (placeholder; CORRECTION07 — 8 deferred properties)
-  POSTCOMMIT_VERIFIER_RESULT        = (placeholder)
-  TERMINAL_RUN_EXECUTED             = (placeholder; populated at D7 by freeze_terminal_run.sh)
-  TERMINAL_BUNDLE_HASH              = (placeholder; sha256(BUNDLE_V1 + 7 files lex-ordered by name))
-  TERMINAL_RUN_ID                   = (placeholder; sha256(TV_RUN_V2 + 7 versioned fields: verifier_sha256 + content_commit + bundle_sha256 + stdout_sha256 + stderr_sha256 + exitcode + execution_mode))
-  POST_EXECUTION_VERIFIER_TOTAL     = (placeholder; populated at D7 by freeze_post_execution.sh)
-  POST_EXECUTION_VERIFIER_PASS      = (placeholder; 8 properties)
-  POST_EXECUTION_VERIFIER_FAIL      = (placeholder)
-  POST_EXECUTION_VERIFIER_RESULT    = (placeholder)
+  POSTCOMMIT_VERIFIER_TOTAL         = 95 (postcommit; 95 = pre-CORRECTION05 81 + 5 identity + 4 === + 1 THIS_ACT tied to manifest entries + 4 deferred duplicates)
+  POSTCOMMIT_VERIFIER_PASS          = 87 (postcommit; all observable properties PASS at C7 commit-time)
+  POSTCOMMIT_VERIFIER_FAIL          = 0  (postcommit; no fail)
+  POSTCOMMIT_VERIFIER_DEFERRED      = 8  (CORRECTION07 — 8 deferred properties: TERMINAL_RUN_EXECUTED, _EXITCODE_IS_ZERO, _RESULT_IS_PASS, _FAIL_COUNT_IS_ZERO, _BUNDLE_HASH_IS_BOUND, _ID_IS_BOUND, NO_STALE_TERMINAL_RUN_BUNDLE, AUTHORITATIVE_PROJECTIONS_AGREE)
+  POSTCOMMIT_VERIFIER_RESULT        = DEFERRED (87/95 PASS, 8 DEFERRED, 0 FAIL; closure bound to post-exec verdict)
+  TERMINAL_RUN_EXECUTED             = true (terminal_run/ committed in D7)
+  TERMINAL_BUNDLE_HASH              = cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8 (sha256("BUNDLE_V1\n" + 7 lex-ordered terminal_run/ file bytes))
+  TERMINAL_RUN_ID                   = 6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856 (sha256("TV_RUN_V2\n" + 7 versioned fields))
+  POST_EXECUTION_VERIFIER_TOTAL     = 8 (post-exec; 6 terminal-run props + 2 freshness/sweep props)
+  POST_EXECUTION_VERIFIER_PASS      = 8 (post-exec; all 8 PASS for closure at D7)
+  POST_EXECUTION_VERIFIER_FAIL      = 0 (post-exec; no fail)
+  POST_EXECUTION_VERIFIER_RESULT    = PASS (8/8 PASS; post-exec verdict is the final closure authority)
   PROJECTION_COUNT                  = 8 (derived from manifest.json
                                           authoritative_projections array length)
   WORKING_TREE_CLEAN_AT_MEASUREMENT = (superseded by NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE)
@@ -53,7 +55,7 @@
   CONTENT_COMMIT_SCOPE_FACTORY_ONLY = true (no files outside .factory/ between
                                             parent commit and content commit)
   ATTESTATION_SUBJECT_BOUND         = true (all 6 relations satisfied at post-attestation runtime)
-  RAW_SHA256_ENTRY_COUNT            = (postcommit; populated at D7 from committed raw-sha256.txt)
+  RAW_SHA256_ENTRY_COUNT            = 12 (runtime-derived from committed raw-sha256.txt via wc -l at D7 capture-time; raw-sha256.txt excludes verifier stdout/stderr/exitcode and freeze_* shell scripts to prevent chicken-and-egg with the verifier)
   PARENT_PRESERVED                  = true (D3; independent of overall verdict)
 
   PARENT_RAW_MANIFEST_EXPECTED_SHA256 = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9

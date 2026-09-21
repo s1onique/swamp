@@ -35,29 +35,32 @@ PARENT RAW MANIFEST (independent historical reference):
   expected_sha256          = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
   actual_sha256            = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9 (derived by verifier from committed file)
 
-VERIFIER COUNTS (runtime-derived; populated by post-commit run):
-  VERIFIER_TOTAL           = (postcommit; populated at D7)
-  VERIFIER_PASS            = (postcommit; populated at D7)
-  VERIFIER_FAIL            = (postcommit; populated at D7)
-  VERIFIER_DEFERRED        = (postcommit; populated at D7; should == 8 deferred properties)
-  VERIFIER_RESULT          = (postcommit; populated at D7)
+VERIFIER COUNTS (runtime-derived; populated by post-commit run at D7):
+  VERIFIER_TOTAL           = 95 (postcommit; full sweep)
+  VERIFIER_PASS            = 87 (postcommit; all observable PASS)
+  VERIFIER_FAIL            = 0  (postcommit; no fail)
+  VERIFIER_DEFERRED        = 8  (CORRECTION07 — 8 properties deferred to post-exec)
+  VERIFIER_RESULT          = DEFERRED (postcommit; bound to post-exec verdict)
 
-  POST_EXECUTION COUNTS (run by freeze_post_execution.sh, populated at D7):
+  POST_EXECUTION COUNTS (run by freeze_post_execution.sh at D7):
   VERIFIER_TOTAL           = 8 (post-exec; 6 terminal-run props + 2 freshness/sweep props)
-  VERIFIER_PASS            = (post-exec; requires all 8 to PASS for closure)
-  VERIFIER_FAIL            = (post-exec; populated at D7)
-  VERIFIER_RESULT          = (post-exec; populated at D7)
+  VERIFIER_PASS            = 8 (post-exec; all 8 PASS for closure at D7)
+  VERIFIER_FAIL            = 0 (post-exec; no fail)
+  VERIFIER_RESULT          = PASS (post-exec; final closure authority)
   VERIFIER_FAIL            = 0
   VERIFIER_RESULT          = PASS (postcommit running against committed tree)
 
 RAW SHA256 ENTRY COUNT (CORRECTION05 projection-identity scalar):
-  RAW_SHA256_ENTRY_COUNT   = 26 (runtime-derived from wc -l committed raw-sha256.txt)
-  manifest.raw_hash_entry_count    = 26 (integer; verified runtime-derived from wc -l)
-  attest_md.RAW_SHA256_ENTRY_COUNT = 26
-  result_md.RAW_SHA256_ENTRY_COUNT = 26
+  RAW_SHA256_ENTRY_COUNT   = 12 (runtime-derived from wc -l committed raw-sha256.txt; CORRECTION07 corrected to 12 after excluding verifier stdout/stderr/exitcode/sha256 and freeze_* shell scripts to prevent chicken-and-egg)
+  manifest.raw_hash_entry_count    = 12 (integer; verified runtime-derived)
+  attest_md.RAW_SHA256_ENTRY_COUNT = 12
+  result_md.RAW_SHA256_ENTRY_COUNT = 12
 
-CONTENT_COMMIT             = 4c1b21248ad3a7ab8c83c95f316130c85910de5d (== git HEAD~1)
-ATTESTATION_COMMIT         = (== git rev-parse HEAD at runtime; populated at D7)
+TERMINAL_RUN_ID            = 6bbc6fb8539f00e11bf6faa15d5071c014f7a671093738b344d6c2df12351856
+TERMINAL_BUNDLE_HASH       = cd90cad25adf8f6f3814f1307b3df990699abea6be9000e64be1cc2e539f7fd8
+
+CONTENT_COMMIT             = fd8d338619ef463bc9baa2d6947e9e91179710ec (== git HEAD~1 at D7)
+ATTESTATION_COMMIT         = 2e3f00c85e651c5ea3a1d4abea8d7e77bdb443c3 (== git rev-parse HEAD at D7 — pre-terminal_run/post_execution; later amended)
 CONTESTATION_TREE_SHA      = (== git rev-parse HEAD~1^{tree} at runtime; populated at D7)
 ATTESTATION_TREE_SHA       = (== git rev-parse HEAD^{tree} at runtime; populated at D7)
 

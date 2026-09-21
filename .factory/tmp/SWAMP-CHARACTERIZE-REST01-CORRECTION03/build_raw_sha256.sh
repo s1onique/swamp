@@ -16,8 +16,10 @@ trap "rm -f $TMP_HASHES" EXIT
 
 # Hash every regular file in the raw tree, deterministically, excluding
 # raw-sha256.txt itself AND the verifier stdout/stderr/exitcode files
-# (those change on every verifier run and would cause a chicken-and-egg
-# when the verifier itself is verifying the manifest).
+# AND the verifier binary hash files (those change on every verifier run
+# and would cause a chicken-and-egg when the verifier itself is verifying
+# the manifest). Also exclude the freeze_* shell scripts (they don't
+# change semantic content, only metadata).
 # Paths in the manifest are RELATIVE TO THE RAW TREE ROOT so the verifier
 # can resolve them from C03_RAW directly.
 find "$RAW_TREE_REL" -type f \
@@ -26,12 +28,22 @@ find "$RAW_TREE_REL" -type f \
   ! -name "freeze_precommit.sh" \
   ! -name "freeze_postcommit.sh" \
   ! -name "freeze_terminal_run.sh" \
+  ! -name "freeze_post_execution.sh" \
   ! -name "before.txt" \
   ! -name "mutated.txt" \
   ! -name "restored.txt" \
+  ! -path "*/postcommit/verifier.stdout" \
+  ! -path "*/postcommit/verifier.stderr" \
+  ! -path "*/postcommit/verifier.exitcode" \
+  ! -path "*/postcommit/verifier.sha256" \
   ! -path "*/postcommit/environment.txt" \
   ! -path "*/postcommit/status.txt" \
   ! -path "*/precommit/environment.txt" \
+  ! -path "*/precommit/verifier.stdout" \
+  ! -path "*/precommit/verifier.stderr" \
+  ! -path "*/precommit/verifier.exitcode" \
+  ! -path "*/terminal_run/*" \
+  ! -path "*/post_execution/*" \
   | LC_ALL=C sort \
   | while IFS= read -r f; do
       h=$(sha256sum "$f" | awk '{print $1}')

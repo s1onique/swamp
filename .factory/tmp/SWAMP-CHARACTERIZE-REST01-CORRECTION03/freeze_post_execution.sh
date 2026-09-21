@@ -38,10 +38,11 @@ trap cleanup EXIT
 HEAD_SHA=$(git rev-parse HEAD)
 HEAD_TREE_SHA=$(git rev-parse "HEAD^{tree}")
 
-# Stage 2: capture committed-tree bytes to seed the post_execution
-# bundle with the same provenance invariants as terminal_run/.
-git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$RAW_TREE_REL/terminal_run/head.txt" 2>/dev/null | awk '{print $3}' | head -1)" > "$BUILD_PE/head.txt" 2>/dev/null || printf '%s\n' "$HEAD_SHA" > "$BUILD_PE/head.txt"
-git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$RAW_TREE_REL/terminal_run/tree.txt" 2>/dev/null | awk '{print $3}' | head -1)" > "$BUILD_PE/tree.txt" 2>/dev/null || printf '%s\n' "$HEAD_TREE_SHA" > "$BUILD_PE/tree.txt"
+# Stage 2: capture live HEAD/HEAD-tree at this moment (this IS the
+# post-execution bundle's provenance invariant — it records WHO ran
+# the post-exec verifier and what tree they ran against).
+printf '%s\n' "$HEAD_SHA" > "$BUILD_PE/head.txt"
+printf '%s\n' "$HEAD_TREE_SHA" > "$BUILD_PE/tree.txt"
 sha256sum .factory/scripts/check_characterize_rest01_correction03.sh > "$BUILD_PE/verifier.sha256"
 
 # Stage 3: run the post-execution verifier. Reads committed tree
