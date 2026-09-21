@@ -1,0 +1,33 @@
+ACT-SWAMP-DOCTOR-SIGNAL-CAPABILITY01 — NORMALIZED SUMMARY
+
+VERDICT: SIGNAL_CAPABILITY_HANDLING_REPAIRED
+SUBJECT: bcaa9695b7f27f51964a9f41587fdf112b261c89 (unchanged)
+
+Production scope: src/cli/commands/doctor_audit.ts, src/cli/commands/doctor_audit_test.ts
+
+Primary invariant achieved:
+  signal_attempt → one of {delivered, already-terminal, capability-denied, failed}
+  No implicit "unknown-but-ignored" outcome.
+
+Test surface (24 tests):
+  passed                = 22
+  failed                = 0
+  capability_gated_skip = 2  (CAN_SIGNAL_CHILD=false reason=PermissionDenied)
+  portable_tests_skipped = 0
+  real_signal_executed  = 0  (probe says no)
+  real_signal_skipped   = 2
+
+Denied-signal latency:
+  before ACT  : 5285 ms (waited for natural child completion)
+  after ACT   :   54 ms (RED test) / 32-114 ms (T4/T7)
+
+Substrate fingerprint in production: zero matches (grep clean).
+
+Closure invariants: all 13 verified.
+Negative claims: all 7 verified.
+Conservation laws: all 5 verified.
+
+CAUSE_OWNER       = SUBSTRATE  (unchanged)
+HANDLING_QUALITY  = ROBUST     (was DEGRADED_OR_MISLEADING)
+
+Recommended next ACT: ACT-SWAMP-ANSI-OUTPUT01

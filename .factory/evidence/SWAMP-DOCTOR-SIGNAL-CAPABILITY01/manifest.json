@@ -1,0 +1,76 @@
+{
+  "act": "SWAMP-DOCTOR-SIGNAL-CAPABILITY01",
+  "verdict": "SIGNAL_CAPABILITY_HANDLING_REPAIRED",
+  "subject": "bcaa9695b7f27f51964a9f41587fdf112b261c89",
+  "deno_version": "2.9.7",
+  "host": {"arch": "arm64", "kernel": "23.6.0", "sandbox_parent": "VSCodium Helper (Plugin) --enable-sandbox"},
+  "scope": {
+    "production_files_changed": [
+      "src/cli/commands/doctor_audit.ts",
+      "src/cli/commands/doctor_audit_test.ts"
+    ],
+    "factory_files_added": [
+      ".factory/acts/SWAMP-DOCTOR-SIGNAL-CAPABILITY01.md",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/DESIGN.md",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/RED.md",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/CAPABILITY-MATRIX.md",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/TESTS.md",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/RESULT.md",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/manifest.json",
+      ".factory/evidence/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/normalized/summary.txt"
+    ]
+  },
+  "design": {
+    "new_exports": ["SignalSender", "defaultSignalSender", "CancellationPhase", "ChildSignalDeliveryError", "SignalAttempt", "attemptSignal"],
+    "test_seam": "opts._signalSender on runChildWithAbort (no global hook, default delegates to ChildProcess.kill)",
+    "error_contract": "ChildSignalDeliveryError extends UserError (code='subprocess_signal_unavailable')"
+  },
+  "test_results": {
+    "total": 24,
+    "passed": 22,
+    "failed": 0,
+    "capability_gated_skip": 2,
+    "real_signal_executed": 0,
+    "real_signal_skipped_reason": "host substrate denies signal delivery",
+    "probe_verdict": "CAN_SIGNAL_CHILD=false reason=PermissionDenied",
+    "exit_code": 0
+  },
+  "latency": {
+    "red_test_before_ms": 5285,
+    "red_test_after_ms": 54,
+    "T4_denied_sigterm_ms": 32,
+    "T7_denied_sigkill_ms": 114,
+    "real_signal_capability_skipped_ms": 520
+  },
+  "conservation": {
+    "passed_plus_failed_plus_skipped_equals_total": true,
+    "real_signal_executed_plus_skipped_equals_real_signal_count": true,
+    "portable_tests_skipped": 0,
+    "terminal_outcomes_per_call": 1
+  },
+  "negative_claims": {
+    "PermissionDenied_not_swallowed": true,
+    "generic_signal_error_not_swallowed": true,
+    "SIGKILL_error_not_swallowed": true,
+    "denied_SIGTERM_does_not_arm_fake_escalation": true,
+    "capability_unavailable_skip_does_not_skip_portable_logic_tests": true,
+    "no_process_name_or_env_detection_in_production": true,
+    "successful_normal_child_path_unchanged": true
+  },
+  "raw_evidence": {
+    "directory": ".factory/tmp/SWAMP-DOCTOR-SIGNAL-CAPABILITY01/",
+    "immutable": true,
+    "hash_pinned_in": "raw-sha256.txt",
+    "baseline01_sha256_preserved": "ae420afef38fea978bd6a33d0e54971547424aa2c9b8f54310d2b731a7cb9417"
+  },
+  "regression_checks": {
+    "deno_check": "PASS (src/cli/commands/doctor_audit.ts + doctor_audit_test.ts)",
+    "deno_lint": "PASS",
+    "deno_fmt_check": "PASS",
+    "deno_test_doctor_audit": "PASS (24/24 tests, EXIT=0)",
+    "deno_test_full_doctor_group": "PASS (34/34 tests)"
+  },
+  "cause_owner": "SUBSTRATE",
+  "handling_quality": "ROBUST",
+  "recommended_next_act": "ACT-SWAMP-ANSI-OUTPUT01"
+}
