@@ -1,5 +1,22 @@
 # ACT-SWAMP-TEST-CHAR01
 
+**STATUS**: SUPERSEDED by `SWAMP-TEST-CHAR01-CORRECTION01` for substrate-binding claims.
+
+This ACT's verdict (`TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS`) was based on
+x86_64-under-Rosetta Deno observations and missed the substrate confound.
+CORRECTION01 reproduces all failures on native arm64 Deno and identifies
+the actual causes:
+
+- D1/D2 doctor: `ENVIRONMENTAL_SANDBOX_BLOCKS_SIGNAL` (host macOS sandbox blocks kill)
+- A1/A2 ANSI:   `DENO_BEHAVIOR_NO_COLOR_NOT_HONORED` (Deno 2.9.7 fmt/lint emit ANSI escapes)
+- 154 mkdir family: `ENVIRONMENTAL` (unchanged)
+
+See `.factory/evidence/SWAMP-TEST-CHAR01-CORRECTION01/RESULT.md` for the
+authoritative corrected characterization.
+
+---
+
+
 **Mission**: Characterize the pristine Swamp test-suite failures observed by
 `SWAMP-BASELINE01` and determine, with reproducible evidence, which failures
 are caused by filesystem/home policy, dependency-cache state,

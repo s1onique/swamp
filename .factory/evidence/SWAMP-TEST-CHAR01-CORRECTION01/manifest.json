@@ -1,0 +1,59 @@
+{
+  "act": "SWAMP-TEST-CHAR01-CORRECTION01",
+  "verdict": "TEST_CHARACTERIZATION_CORRECTED_TO_SUBSTRATE_AND_DENO_BEHAVIOR",
+  "subject": "bcaa9695b7f27f51964a9f41587fdf112b261c89",
+  "deno_version": "2.9.7",
+  "deno_runtimes": {
+    "x86_64": {"path": "/tmp/deno-bin/deno", "mach_o": "Mach-O 64-bit executable x86_64", "codesign": "Developer ID Application: Deno Land Inc."},
+    "arm64":  {"path": "/tmp/deno-arm64/deno", "mach_o": "Mach-O 64-bit executable arm64", "codesign": "Developer ID Application: Deno Land Inc."}
+  },
+  "host": {"arch": "arm64", "kernel": "23.6.0", "sandbox_parent": "VSCodium Helper (Plugin) --enable-sandbox"},
+  "goals": {
+    "harness_exit_code_fix": "DONE — set+e/RC=$?/set-e immediately after deno test command",
+    "arm64_repro": {
+      "doctor_isolated_N5": "5/5 FAILED, mean=61105 ms, range=60540-62874 ms, exit_code=1",
+      "ansi_isolated_N5":   "5/5 FAILED, mean=378 ms,   range=302-429 ms,   exit_code=1"
+    },
+    "signal_microreproducer": {
+      "arm64":   {"M1":"EPERM 5006ms","M2":"EPERM 5001ms","M3":"EPERM 5003ms","M4":"EPERM 5003ms"},
+      "x86_64":  {"M1":"EPERM 5133ms","M2":"EPERM 5002ms","M3":"EPERM 5003ms","M4":"EPERM 5003ms"},
+      "shell_kill_minus_TERM": "EPERM (host shell cannot signal descendants)",
+      "deno_test_allow_all":   "child.kill and Deno.kill both return EPERM"
+    }
+  },
+  "reclassifications": [
+    {"target": "D1 doctor SIGTERM-respecting", "prior": "DOCTOR_REPRODUCIBLE_DEFECT", "corrected": "ENVIRONMENTAL_SANDBOX_BLOCKS_SIGNAL"},
+    {"target": "D2 doctor SIGKILL-escalation", "prior": "DOCTOR_REPRODUCIBLE_DEFECT", "corrected": "ENVIRONMENTAL_SANDBOX_BLOCKS_SIGNAL"},
+    {"target": "A1 extension_quality fmt ANSI", "prior": "ANSI_REPRODUCIBLE_DEFECT",   "corrected": "DENO_BEHAVIOR_NO_COLOR_NOT_HONORED"},
+    {"target": "A2 extension_quality lint ANSI","prior": "ANSI_REPRODUCIBLE_DEFECT",   "corrected": "DENO_BEHAVIOR_NO_COLOR_NOT_HONORED"},
+    {"target": "154 mkdir family",             "prior": "ENVIRONMENTAL",               "corrected": "ENVIRONMENTAL"}
+  ],
+  "conservation": {
+    "doctor_isolated":    "11 + 2 == 13   PASS",
+    "ansi_isolated":      "47 + 2 == 49   PASS",
+    "classified_targets": "4 == 4         PASS",
+    "reported_status_agrees_with_exit_code": "PASS (all 5 iters: exit_code=1, summary=FAILED)"
+  },
+  "raw_evidence_sha256_baseline01": "ae420afef38fea978bd6a33d0e54971547424aa2c9b8f54310d2b731a7cb9417",
+  "raw_evidence_unchanged": true,
+  "production_source_changes": false,
+  "doctrine_additions": [
+    "Experimental conclusions are bound not only to source SHA, but also to execution substrate (source SHA, runtime version, runtime architecture, OS/kernel, sandbox profile, experiment configuration).",
+    "Conservation: reported_test_status agrees with process_exit_code — capture $? immediately, before any arithmetic or assignment.",
+    "Sandbox must be probed before signal-delivery experiments — VSCodium Helper's --enable-sandbox is invisible to Deno and breaks kill(2)."
+  ],
+  "negative_claims": {
+    "NO_SWAMP_PRODUCTION_CODE_CHANGED": true,
+    "NO_BASELINE_RAW_EVIDENCE_MUTATED": true,
+    "NO_TEST_CHAR01_RAW_EVIDENCE_MUTATED": true,
+    "NO_TEST_FAILURE_FIXED_DURING_CHARACTERIZATION": true,
+    "NO_PASS_INFERRED_FROM_SINGLE_RERUN": true,
+    "NO_ENVIRONMENTAL_CLASSIFICATION_WITHOUT_CONTROL": true,
+    "NO_FLAKE_CLASSIFICATION_WITHOUT_REPETITION": true,
+    "NO_RAW_EVIDENCE_NORMALIZED_IN_PLACE": true,
+    "BOARD_STATE_AGREES_WITH_ACT_STATE": true,
+    "POLICY_EQUALS_VERIFIER_SCOPE_EQUALS_CLAIM": true,
+    "SUBSTRATE_EXPLICITLY_BOUND_TO_VERDICT": true
+  },
+  "recommended_next_act": "ACT-SWAMP-DOCTOR-SIGNAL01"
+}

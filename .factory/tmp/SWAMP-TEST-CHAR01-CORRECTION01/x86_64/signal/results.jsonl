@@ -1,0 +1,9 @@
+M1 send-error: EPERM: Operation not permitted
+{"id":"M1","signal":"SIGTERM","method":"ChildProcess.kill","pid":92928,"send_ms":295,"resolved_ms":5428,"elapsed_ms":5133,"exit_code":null,"pid_alive_after_signal":false,"status_completed_in_time":false}
+M2 send-error: EPERM: Operation not permitted
+{"id":"M2","signal":"SIGTERM","method":"Deno.kill","pid":92950,"send_ms":5897,"resolved_ms":10899,"elapsed_ms":5002,"exit_code":null,"pid_alive_after_signal":false,"status_completed_in_time":false}
+M3 send-error: EPERM: Operation not permitted
+{"id":"M3","signal":"SIGKILL","method":"ChildProcess.kill","pid":92970,"send_ms":11367,"resolved_ms":16370,"elapsed_ms":5003,"exit_code":null,"pid_alive_after_signal":false,"status_completed_in_time":false}
+M4 send-error: EPERM: Operation not permitted
+{"id":"M4","signal":"SIGKILL","method":"Deno.kill","pid":92992,"send_ms":16840,"resolved_ms":21843,"elapsed_ms":5003,"exit_code":null,"pid_alive_after_signal":false,"status_completed_in_time":false}
+summary: cases=4 completed_in_time=0/4 exit_code_captured=0/4 pid_alive_after_signal=0/4

@@ -2,7 +2,30 @@
 
 **ACT**: SWAMP-TEST-CHAR01
 
-**VERDICT**: `TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS` (with one environmental class also confirmed)
+**VERDICT**: `TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS` (initial verdict)
+
+**SUPERSEDED BY**: `SWAMP-TEST-CHAR01-CORRECTION01` for substrate-binding claims.
+See `.factory/evidence/SWAMP-TEST-CHAR01-CORRECTION01/RESULT.md` for the
+corrected verdict:
+  `TEST_CHARACTERIZATION_CORRECTED_TO_SUBSTRATE_AND_DENO_BEHAVIOR`.
+
+This file is preserved as the initial characterization. The corrected
+reclassification is:
+
+| target | initial classification | corrected classification |
+|---|---|---|
+| D1 doctor SIGTERM-respecting | DOCTOR_REPRODUCIBLE_DEFECT | ENVIRONMENTAL_SANDBOX_BLOCKS_SIGNAL |
+| D2 doctor SIGKILL-escalation | DOCTOR_REPRODUCIBLE_DEFECT | ENVIRONMENTAL_SANDBOX_BLOCKS_SIGNAL |
+| A1 extension_quality fmt ANSI | ANSI_REPRODUCIBLE_DEFECT  | DENO_BEHAVIOR_NO_COLOR_NOT_HONORED |
+| A2 extension_quality lint ANSI| ANSI_REPRODUCIBLE_DEFECT  | DENO_BEHAVIOR_NO_COLOR_NOT_HONORED |
+| 154 mkdir family              | ENVIRONMENTAL            | ENVIRONMENTAL (unchanged) |
+
+The reviewer of this ACT (a subprocess/runtime engineer) identified the
+substrate confound: this ACT ran an x86_64 Deno binary under Rosetta on an
+arm64 host. CORRECTION01 rules out runtime architecture as a cause by
+re-running all experiments under native arm64 Deno, and discovers that
+the actual cause of the doctor failures is the VSCodium Helper
+`--enable-sandbox` blocking `kill(2)` to descendant processes.
 
 The four BASELINE01-unresolved failures split into two independent reproducible defects:
 

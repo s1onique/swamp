@@ -1,0 +1,5 @@
+M1 send-error: EPERM: Operation not permitted
+M2 send-error: EPERM: Operation not permitted
+M3 send-error: EPERM: Operation not permitted
+M4 send-error: EPERM: Operation not permitted
+summary: cases=4 completed_in_time=4/4 exit_code_captured=4/4 pid_alive_after_signal=0/4

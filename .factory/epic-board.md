@@ -6,7 +6,8 @@
 | SWAMP-BASELINE01-CORRECTION01    | CLOSED  | Reconcile arithmetic, fix board state, fix patch hygiene — superseded by CORRECTION02 for telemetry classification |
 | SWAMP-BASELINE01-CORRECTION02    | CLOSED  | Re-classify telemetry failures by observed signature; codify evidence-immutability doctrine |
 | SWAMP-BASELINE01-CORRECTION03    | CLOSED  | Scope the evidence-hygiene verifier to the policy it enforces (policy == verifier scope == reported claim) |
-| SWAMP-TEST-CHAR01                | CLOSED  | Characterize test-suite failures via 4-cell cache × HOME matrix. Verdict: TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS. 2 doctor + 2 ANSI defects all reproducible. 154 mkdir family confirmed environmental. |
+| SWAMP-TEST-CHAR01                | CLOSED  | Characterize test-suite failures via 4-cell cache × HOME matrix. Verdict: TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS. 2 doctor + 2 ANSI defects all reproducible. 154 mkdir family confirmed environmental. Substrate-bound — see CORRECTION01. |
+| SWAMP-TEST-CHAR01-CORRECTION01    | CLOSED  | Fix harness exit-code capture (DONE), re-run doctor+ANSI on native arm64 (DONE), Swamp-free subprocess-signal microreproducer on x86_64+arm64 (DONE). Verdict: TEST_CHARACTERIZATION_CORRECTED_TO_SUBSTRATE_AND_DENO_BEHAVIOR. D1/D2 doctor reclassified to ENVIRONMENTAL_SANDBOX_BLOCKS_SIGNAL. A1/A2 ANSI reclassified to DENO_BEHAVIOR_NO_COLOR_NOT_HONORED. |
 | SWAMP-DOGFOOD01  | QUEUED  | Use Swamp externally as intended                         |
 | SWAMP-ATTACK01   | QUEUED  | Adversarially falsify important guarantees               |
 | SW-F01           | BACKLOG | Immutable/versioned Factory evidence experiment          |

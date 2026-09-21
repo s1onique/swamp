@@ -1,0 +1,36 @@
+[0m[38;5;245mrunning 13 tests from ./src/cli/commands/doctor_audit_test.ts[0m
+doctorAuditCommand module loads ... [0m[32mok[0m [0m[38;5;245m(36ms)[0m
+doctorAuditCommand is registered as subcommand of doctorCommand ... [0m[32mok[0m [0m[38;5;245m(11ms)[0m
+doctorAuditCommand has the expected option set ... [0m[32mok[0m [0m[38;5;245m(398µs)[0m
+resolveTargetTool: returns flag tool when explicit override is provided ... [0m[32mok[0m [0m[38;5;245m(111µs)[0m
+resolveTargetTool: falls back to marker tool when no flag provided ... [0m[32mok[0m [0m[38;5;245m(148µs)[0m
+resolveTargetTool: throws NoToolConfiguredError when neither flag nor marker has a tool ... [0m[32mok[0m [0m[38;5;245m(354µs)[0m
+resolveTargetTool: flag value is validated against the AiTool union (rejects garbage) ... [0m[32mok[0m [0m[38;5;245m(142µs)[0m
+resolveTargetTool: flag wins even when marker is set ... [0m[32mok[0m [0m[38;5;245m(52µs)[0m
+resolveTargetTool: accepts the audit-skip tools (codex/none) as valid overrides ... [0m[32mok[0m [0m[38;5;245m(95µs)[0m
+resolveTargetTool: accepts copilot as a valid audit-enabled tool override ... [0m[32mok[0m [0m[38;5;245m(46µs)[0m
+runChildWithAbort: throws AbortError without spawning when signal is already aborted ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly ... [0m[31mFAILED[0m [0m[38;5;245m(30s)[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM ... [0m[31mFAILED[0m [0m[38;5;245m(30s)[0m
+
+[0m[1m[37m[41m ERRORS [0m
+
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:150:6[0m
+[0m[1m[31merror[0m: Error: expected SIGTERM-responding child to exit promptly; took 30039.331958ms
+      throw new Error(
+[0m[31m            ^[0m
+    at [0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit_test.ts[0m:[0m[33m170[0m:[0m[33m13[0m
+
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:179:6[0m
+[0m[1m[31merror[0m: Error: expected SIGKILL escalation to terminate child; took 30048.540291999998ms
+      throw new Error(
+[0m[31m            ^[0m
+    at [0m[2m[38;5;245mfile:///Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/[0m[0m[36msrc/cli/commands/doctor_audit_test.ts[0m:[0m[33m201[0m:[0m[33m13[0m
+
+[0m[1m[37m[41m FAILURES [0m
+
+runChildWithAbort: aborting a SIGTERM-respecting child terminates it promptly [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:150:6[0m
+runChildWithAbort: escalates to SIGKILL when child traps SIGTERM [0m[38;5;245m=> ./src/cli/commands/doctor_audit_test.ts:179:6[0m
+
+[0m[31mFAILED[0m | 11 passed | 2 failed [0m[38;5;245m(1m0s)[0m
+
