@@ -1,4 +1,4 @@
-# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION06 edition)
+# POST-COMMIT ATTESTATION — SWAMP-CHARACTERIZE-REST01-CORRECTION03 (CORRECTION07 edition)
 
 ## Subject
 
@@ -25,18 +25,24 @@
 
 ## Populated fields (final, after Commit C existed, attested at Commit D)
 
-  CONTENT_COMMIT_SHA                = 4c1b21248ad3a7ab8c83c95f316130c85910de5d (== git HEAD~1)
-  CONTENT_TREE_SHA                  = ae0e451ee4922ad043ccb822ef22cfcf8234a388 (== git rev-parse HEAD~1^{tree} at attestation)
+  CONTENT_COMMIT_SHA                = 8aba5c0173575b999bf051a0815db100d96b9428 (== git HEAD~1; populated at D7 from C7 (current HEAD before D7))
+  CONTENT_TREE_SHA                  = 134731cd966c063ce093113e4c0fa0a2ea153664 (== git rev-parse HEAD~1^{tree} at attestation; populated at D7)
   ATTESTATION_TREE_SHA              = (== git rev-parse HEAD^{tree} at attestation)
-  ATTESTATION_TREE_SHA              = f35a10ad4bd5d6fa0abfe4295a8f2b1a40effb73 (== git rev-parse HEAD^{tree})
+  ATTESTATION_TREE_SHA              = 9d3fbd44219ff26e3c1c0026ae92e77c04ed7e42 (== git rev-parse HEAD^{tree}; populated at D7)
   SUBJECT                           = a392c49e1c899fbbbbf39bf84d73a8308c048eb6
   POSTCOMMIT_VERIFIER_EXIT          = 0
-  POSTCOMMIT_VERIFIER_TOTAL         = 91 (CORRECTION06 final: 82 pre + 5 projection-identity + 4 terminal-run = 91)
-  POSTCOMMIT_VERIFIER_PASS          = 91 (CORRECTION06 final; all 91 PASS)
-  POSTCOMMIT_VERIFIER_FAIL          = 0  (no fail)
-  POSTCOMMIT_VERIFIER_RESULT        = PASS (91/91)
-  TERMINAL_VERIFIER_RUN_TOTAL       = 91 (== committed terminal_run/verifier.stdout)
-  TERMINAL_VERIFIER_RUN_RESULT      = PASS (= committed terminal_run/verifier.stdout)
+  POSTCOMMIT_VERIFIER_TOTAL         = (placeholder; populated at D7)
+  POSTCOMMIT_VERIFIER_PASS          = (placeholder)
+  POSTCOMMIT_VERIFIER_FAIL          = (placeholder)
+  POSTCOMMIT_VERIFIER_DEFERRED      = (placeholder; CORRECTION07 — 8 deferred properties)
+  POSTCOMMIT_VERIFIER_RESULT        = (placeholder)
+  TERMINAL_RUN_EXECUTED             = (placeholder; populated at D7 by freeze_terminal_run.sh)
+  TERMINAL_BUNDLE_HASH              = (placeholder; sha256(BUNDLE_V1 + 7 files lex-ordered by name))
+  TERMINAL_RUN_ID                   = (placeholder; sha256(TV_RUN_V2 + 7 versioned fields: verifier_sha256 + content_commit + bundle_sha256 + stdout_sha256 + stderr_sha256 + exitcode + execution_mode))
+  POST_EXECUTION_VERIFIER_TOTAL     = (placeholder; populated at D7 by freeze_post_execution.sh)
+  POST_EXECUTION_VERIFIER_PASS      = (placeholder; 8 properties)
+  POST_EXECUTION_VERIFIER_FAIL      = (placeholder)
+  POST_EXECUTION_VERIFIER_RESULT    = (placeholder)
   PROJECTION_COUNT                  = 8 (derived from manifest.json
                                           authoritative_projections array length)
   WORKING_TREE_CLEAN_AT_MEASUREMENT = (superseded by NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE)
@@ -47,19 +53,21 @@
   CONTENT_COMMIT_SCOPE_FACTORY_ONLY = true (no files outside .factory/ between
                                             parent commit and content commit)
   ATTESTATION_SUBJECT_BOUND         = true (all 6 relations satisfied at post-attestation runtime)
-  RAW_SHA256_ENTRY_COUNT            = 26 (runtime-derived from committed raw-sha256.txt via wc -l)
+  RAW_SHA256_ENTRY_COUNT            = (postcommit; populated at D7 from committed raw-sha256.txt)
   PARENT_PRESERVED                  = true (D3; independent of overall verdict)
-  TERMINAL_VERIFIER_RUN_ID          = 6ada1f9cef557f58380a8351c29b809e1e42ceb6d6ed0df9cf705fa62c950ff3 (sha256 over committed postcommit/{head.txt=4c1b2124...,tree.txt=ae0e451e...,verifier.exitcode=0})
 
   PARENT_RAW_MANIFEST_EXPECTED_SHA256 = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
   PARENT_RAW_MANIFEST_ACTUAL_SHA256   = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
   PARENT_PRESERVED                    = true (D3 repair: independent of overall verdict)
 
+  TERMINAL_VERIFIER_RUN_ID (historical; CORRECTION06) = sha256 over committed postcommit/{head.txt=4c1b2124...,tree.txt=ae0e451e...,verifier.exitcode=0} = 6ada1f9cef557f58380a8351c29b809e1e42ceb6d6ed0df9cf705fa62c950ff3
+  (Superseded by TERMINAL_RUN_ID in CORRECTION07; the historical value above is from CORRECTION06 closure and is referenced only for traceability to the prior ACT's run identity.)
+
 ## Raw evidence (captured AFTER Commit C existed)
 
-  .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/
-    head.txt              git rev-parse HEAD           = 4c1b21248ad3a7ab8c83c95f316130c85910de5d
-    tree.txt              git rev-parse HEAD^{tree}    = 4d769403cff93a74465051f54ac2a7d3d6977e2b
+  .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/ at D7 (current values):
+    head.txt              git rev-parse HEAD           = 8aba5c0173575b999bf051a0815db100d96b9428 (== git HEAD~1 at D7)
+    tree.txt              git rev-parse HEAD^{tree}    = 134731cd966c063ce093113e4c0fa0a2ea153664 (== git HEAD~1^{tree} at D7)
     status.txt            git status --short
     verifier.stdout       postcommit verifier stdout
     verifier.stderr       postcommit verifier stderr

@@ -45,26 +45,31 @@ while [ $# -gt 0 ]; do
     --mode=*) MODE="${1#*=}"; shift ;;
     --help|-h)
       cat <<'EOF'
-Usage: check_characterize_rest01_correction03.sh --mode <precommit|postcommit>
+Usage: check_characterize_rest01_correction03.sh --mode <precommit|postcommit|terminal|post-exec>
 
   precommit   verify content and authority-bearing projections
               (does not require a clean working tree)
   postcommit  verify precommit predicates plus post-commit
-              predicates:
-                HEAD equals the bound content commit
-                no unexpected working-tree dirt at attestation capture
-                subject reachable
-                commit scope factory-only
-                evidence resolves from content commit
-                parent hash still matches historical blob
-                attestation subject actually bound to the named commit
+              predicates plus terminal-run identity invariants
+              that are evaluable from the committed tree.
+  terminal    runs in --mode postcommit silently except the 4
+              self-referential terminal-run properties are emitted
+              as DEFERRED (not PASS). DEFERRED_COUNT is reported
+              and the script exits 0 iff no FAIL lines were
+              emitted. Used by freeze_terminal_run.sh.
+  post-exec   reads ONLY the committed tree (git cat-file) and
+              evaluates the deferred-properties against the frozen
+              terminal_run/ bundle (TERMINAL_RUN_EXECUTED,
+              _EXITCODE, _RESULT, _FAIL_COUNT, _BUNDLE_HASH,
+              _ID, AUTHORITATIVE_PROJECTIONS_AGREE).
 
 Deterministic machine lines emitted on stdout:
 
   VERIFIER_TOTAL=<N>
   VERIFIER_PASS=<N>
   VERIFIER_FAIL=<N>
-  VERIFIER_RESULT=<PASS|FAIL>
+  VERIFIER_DEFERRED=<N>                  (terminal mode only)
+  VERIFIER_RESULT=<PASS|FAIL|DEFERRED>
 
   PARENT_RAW_MANIFEST_EXPECTED_SHA256=<sha>
   PARENT_RAW_MANIFEST_ACTUAL_SHA256=<sha>
@@ -99,14 +104,23 @@ Deterministic machine lines emitted on stdout:
       BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER
       MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER
 
-    Four terminal-run invariants (CORRECTION06, all must be PASS):
-      TERMINAL_EXITCODE_IS_ZERO
-      TERMINAL_VERIFIER_RESULT_IS_PASS
-      TERMINAL_VERIFIER_RUN_ID_IS_BOUND
+    Six terminal-run invariants (CORRECTION06+07; evaluated by
+    post-exec verifier against the frozen bundle):
+      TERMINAL_RUN_EXECUTED
+      TERMINAL_RUN_EXITCODE_IS_ZERO
+      TERMINAL_RUN_RESULT_IS_PASS
+      TERMINAL_RUN_FAIL_COUNT_IS_ZERO
+      TERMINAL_RUN_BUNDLE_HASH_IS_BOUND
+      TERMINAL_RUN_ID_IS_BOUND
+
+    One bundled-freshness invariant (CORRECTION07):
       NO_STALE_TERMINAL_RUN_BUNDLE
 
+    One cross-projection invariant (CORRECTION07):
+      AUTHORITATIVE_PROJECTIONS_AGREE
+
 Exit codes:
-  0   all invariants satisfied
+  0   all (non-deferred) invariants satisfied
   1   at least one invariant failed
 EOF
       exit 0
@@ -116,31 +130,15 @@ EOF
 done
 
 case "$MODE" in
-  precommit|postcommit) ;;
+  precommit|postcommit|post-exec) ;;
   terminal)
-    # Special CORRECTION06 mode: run postcommit-style checks but skip
-    # dirt checks (terminal run is captured while terminal_run/ is being
-    # written) and skip the recursive TERMINAL_EXITCODE_IS_ZERO (the
-    # terminal run's exitcode is set as part of capture). Identical to
-    # postcommit but with these two checks skipped.
+    # Special CORRECTION07 mode: run postcommit-style checks but skip
+    # the 4 self-referential terminal-run properties (those are
+    # evaluator-invisible — they inspect evidence the verifier itself
+    # has not yet produced). Those 4 properties are emitted as
+    # DEFERRED instead of PASS. Used by freeze_terminal_run.sh.
     MODE=postcommit
     TERMINAL_RUN_ACTIVE=1
-    ;;
-  id)
-    # Special CORRECTION06 mode: print the TERMINAL_VERIFIER_RUN_ID without
-    # running any other checks. Used by freeze_terminal_run.sh.
-    if [ -f .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt ] && \
-       [ -f .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt ] && \
-       [ -f .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode ]; then
-      (
-        cat .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt
-        cat .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt
-        cat .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode
-      ) | sha256sum | awk '{print $1}'
-      exit 0
-    fi
-    echo "UNINITIALIZED" >&2
-    exit 1
     ;;
   *) echo "FAIL: bad mode: $MODE" >&2; exit 2 ;;
 esac
@@ -203,11 +201,14 @@ CANON_PROJ_JSON=$(read_manifest_field "['authoritative_projections']")
 # --- observation / predicate / assertion helpers ---
 o()   { printf 'PASS: %s\n' "$1"; }
 n()   { printf 'FAIL: %s\n' "$1"; }
+d()   { printf 'DEFERRED: %s\n' "$1"; }
 PASS_COUNT=0
 FAIL_COUNT=0
+DEFERRED_COUNT=0
 TOTAL=0
 pass() { o "$1"; PASS_COUNT=$((PASS_COUNT+1)); TOTAL=$((TOTAL+1)); }
 fail() { n "$1"; FAIL_COUNT=$((FAIL_COUNT+1)); TOTAL=$((TOTAL+1)); }
+defer() { d "$1"; DEFERRED_COUNT=$((DEFERRED_COUNT+1)); TOTAL=$((TOTAL+1)); }
 check() {
   # check "name" "expected" "observed"  -> dispatches to pass/fail by equality
   if [ "$2" = "$3" ]; then
@@ -228,7 +229,32 @@ check_py() {
 # CONTENT (PRECOMMIT) PREDICATES
 # ============================================================
 
+# In --mode post-exec, the verifier evaluates only the 8 terminal-run
+# / projection-sweep invariants against the frozen committed bundle.
+# The full precommit+postcommit invariant sweep is skipped; it has
+# already been run by the postcommit verifier on the same commit.
 echo "== mode=$MODE =="
+
+if [ "$MODE" = "post-exec" ]; then
+  # --- POST-EXECUTION MODE prelude ---
+  # Initialize the minimum environment so the post-execution invariant
+  # block (further down) has everything it needs. ALL precommit and
+  # postcommit invariants are skipped: the postcommit verifier has
+  # already audited them on this commit, and a separate verification
+  # would re-emit the same lines (defense-in-depth would not improve
+  # authority because it would run the same code on the same tree).
+  echo "(post-exec mode: precommit/postcommit sweep skipped; only the 8 deferred post-exec properties are evaluated)"
+  GIT_HEAD_SHA=$(git rev-parse HEAD)
+  GIT_CONTENT_COMMIT_SHA=$(git rev-parse HEAD~1 2>/dev/null || echo NONE)
+  GIT_CONTENT_TREE_SHA=$(git rev-parse HEAD~1^{tree} 2>/dev/null || echo NONE)
+  GIT_ATTESTATION_TREE_SHA=$(git rev-parse HEAD^{tree})
+  MANIFEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' 2>/dev/null | awk '{print $3}' | head -1)
+  ATTEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' 2>/dev/null | awk '{print $3}' | head -1)
+  PC_HEAD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
+  PC_TREE_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
+  PC_EXIT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
+  PC_STDOUT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
+else
 
 # --- 1. Required files exist ---
 for f in "$FAIL" "$INV" "$RES" "$CLSUM" "$MAN" "$NORM" "$CL02" "$CL03" \
@@ -494,6 +520,8 @@ for f in files:
     if (a, b) in [(28, 28), (47, 47)]:
       bad.append((f, m.group(0)))
 print('PASS' if not bad else f'FAIL:{bad}')"
+
+fi  # end of [ MODE != post-exec ] precommit sweep guard
 
 # ============================================================
 # POST-COMMIT (POSTCOMMIT) PREDICATES
@@ -1019,133 +1047,276 @@ print('PASS' if ok else f'FAIL:{state}')"
   PC_HEAD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
   PC_TREE_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
   PC_EXIT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
-  PC_STDOUT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
 
-  TERMINAL_EXITCODE=""
-  if [ -n "$PC_EXIT_BLOB_SHA" ]; then
-    TERMINAL_EXITCODE=$(git cat-file blob "$PC_EXIT_BLOB_SHA" 2>/dev/null | tr -d ' \t\r\n' || true)
-  fi
-  TERMINAL_STDOUT=""
-  if [ -n "$PC_STDOUT_BLOB_SHA" ]; then
-    TERMINAL_STDOUT=$(git cat-file blob "$PC_STDOUT_BLOB_SHA" 2>/dev/null || true)
-  fi
-
-  # INVARIANT 6: TERMINAL_EXITCODE_IS_ZERO
-  # The construction-phase freeze runs the verifier BEFORE committed
-  # bundles are consistent; the captured exitcode may be non-zero
-  # (especially during the construction phase of CORRECTION06 itself).
-  # What matters is that the post-attestation terminal run exits 0 —
-  # recorded in terminal_run/verifier.exitcode (captured by
-  # freeze_terminal_run.sh AFTER all bundles are committed).
-  if [ "${TERMINAL_RUN_ACTIVE:-0}" = "1" ]; then
-    # The terminal run is being captured right now. Skip self-reference
-    # checks (the verifier.exitcode is being written as we speak).
-    pass "TERMINAL_EXITCODE_IS_ZERO (skipped — terminal run active; final exitcode is captured in terminal_run/verifier.exitcode)"
-  else
-  TERMINAL_RUN_EXITCODE=""
-  TERMINAL_RUN_EXIT_BLOB=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/verifier.exitcode' 2>/dev/null | awk '{print $3}')
-  if [ -n "$TERMINAL_RUN_EXIT_BLOB" ]; then
-    TERMINAL_RUN_EXITCODE=$(git cat-file blob "$TERMINAL_RUN_EXIT_BLOB" 2>/dev/null | tr -d ' \t\r\n' || true)
-  fi
-  # Accept construction-phase exitcode==0 OR committed terminal_run exitcode==0.
-  if [ "$TERMINAL_EXITCODE" = "0" ]; then
-    pass "TERMINAL_EXITCODE_IS_ZERO (committed postcommit/verifier.exitcode == 0)"
-  elif [ -n "$TERMINAL_RUN_EXITCODE" ] && [ "$TERMINAL_RUN_EXITCODE" = "0" ]; then
-    pass "TERMINAL_EXITCODE_IS_ZERO (terminal_run/verifier.exitcode == 0 binds closure)"
-  elif [ -z "$TERMINAL_RUN_EXITCODE" ]; then
-    # No terminal_run committed yet — defer; closure still binds via tvrid invariant.
-    pass "TERMINAL_EXITCODE_IS_ZERO (deferred — no terminal_run/ committed yet; tvrid invariant governs)"
-  else
-    fail "TERMINAL_EXITCODE_IS_ZERO (terminal_run/verifier.exitcode='$TERMINAL_RUN_EXITCODE'; need 0)"
-  fi
-  fi
-
-  # INVARIANT 7: TERMINAL_VERIFIER_RESULT_IS_PASS
-  # The committed stdout is allowed to be a construction-phase FAIL (the
-  # generator runs at construction, before the bundles are committed).
-  # What matters is that the runtime-derived tvrid is consistent across
-  # all three projections (manifest, attest_md, derived) — see
-  # TERMINAL_VERIFIER_RUN_ID_IS_BOUND. The post-attestation terminal
-  # PASS is captured in `terminal_run/` (if/when committed).
-  if [ -z "$TERMINAL_STDOUT" ]; then
-    pass "TERMINAL_VERIFIER_RESULT_IS_PASS (committed postcommit/verifier.stdout not yet populated; terminal run is in terminal_run/ if committed)"
-  else
-    PASS_LINE=$(echo "$TERMINAL_STDOUT" | grep -E '^VERIFIER_RESULT=' | head -1 || true)
-    FAIL_COUNT_LINE=$(echo "$TERMINAL_STDOUT" | grep -E '^VERIFIER_FAIL=' | head -1 || true)
-    if [ "$PASS_LINE" = "VERIFIER_RESULT=PASS" ] && [ "$FAIL_COUNT_LINE" = "VERIFIER_FAIL=0" ]; then
-      pass "TERMINAL_VERIFIER_RESULT_IS_PASS (committed stdout has VERIFIER_RESULT=PASS and VERIFIER_FAIL=0)"
-    else
-      pass "TERMINAL_VERIFIER_RESULT_IS_PASS (committed stdout contains construction-phase verifier output $PASS_LINE ; $FAIL_COUNT_LINE ; the terminal successful run is the verifier's runtime stdout and the bundle is hash-bound to the manifest/attest projections)"
-    fi
-  fi
-
-  # INVARIANT 8: TERMINAL_VERIFIER_RUN_ID_IS_BOUND
-  # manifest.terminal_verifier_run_id == attestation_md.terminal_verifier_run_id
-  #   == sha256(committed postcommit/{head.txt, tree.txt, verifier.exitcode})
-  MANIFEST_TVRID="UNAVAILABLE"
-  if [ -n "$MANIFEST_BLOB_SHA" ]; then
-    MANIFEST_TVRID=$(git cat-file blob "$MANIFEST_BLOB_SHA" 2>/dev/null \
-      | python3 -c "import json,sys; d=json.load(sys.stdin); v=d.get('terminal_verifier_run_id'); print('null' if v is None else str(v))" 2>/dev/null || echo "PARSE_ERROR")
-  fi
-  ATTEST_TVRID=""
-  if [ -n "$ATTEST_BLOB_SHA" ]; then
-    ATTEST_TVRID=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null \
-      | grep -E '^[[:space:]]*TERMINAL_VERIFIER_RUN_ID[[:space:]]*=' \
-      | head -1 \
-      | awk -F'=' '{print $2}' \
-      | awk '{print $1}' \
-      | tr -d ' \t\r\n' || true)
-  fi
-  DERIVED_TVRID="UNAVAILABLE"
-  if [ -n "$PC_HEAD_BLOB_SHA" ] && [ -n "$PC_TREE_BLOB_SHA" ] && [ -n "$PC_EXIT_BLOB_SHA" ]; then
-    # Stream the three committed blobs (each includes its trailing newline)
-    # through sha256sum WITHOUT command substitution, which would strip
-    # the trailing newline of the OVERALL output and produce a different
-    # digest. Each blob is git cat-file'd (a leading newline from <tree>
-    # concatenation is unnecessary; we want plain head.txt + plain tree.txt
-    # + plain verifier.exitcode). Temporary file preserves bytes.
-    TMP=$(mktemp)
-    {
-      git cat-file blob "$PC_HEAD_BLOB_SHA"
-      git cat-file blob "$PC_TREE_BLOB_SHA"
-      git cat-file blob "$PC_EXIT_BLOB_SHA"
-    } > "$TMP"
-    DERIVED_TVRID=$(sha256sum "$TMP" | awk '{print $1}')
-    rm -f "$TMP"
-  fi
-  # (debug echo removed)
-  if [ "$MANIFEST_TVRID" = "$ATTEST_TVRID" ] \
-     && [ "$MANIFEST_TVRID" = "$DERIVED_TVRID" ] \
-     && [ "$MANIFEST_TVRID" != "null" ] \
-     && [ "$MANIFEST_TVRID" != "PARSE_ERROR" ] \
-     && [ "$MANIFEST_TVRID" != "UNAVAILABLE" ]; then
-    pass "TERMINAL_VERIFIER_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID — all three agree)"
-  else
-    fail "TERMINAL_VERIFIER_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID — agreement required)"
-  fi
-
-  # INVARIANT 9: NO_STALE_TERMINAL_RUN_BUNDLE
-  TERMINAL_RUN_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/head.txt' 2>/dev/null | awk '{print $3}')
-  if [ -n "$TERMINAL_RUN_BLOB_SHA" ]; then
-    if [ "$TERMINAL_RUN_BLOB_SHA" = "$PC_HEAD_BLOB_SHA" ]; then
-      pass "NO_STALE_TERMINAL_RUN_BUNDLE (terminal_run/head.txt matches committed postcommit/head.txt; terminal run is fresh)"
-    else
-      fail "NO_STALE_TERMINAL_RUN_BUNDLE (terminal_run/head.txt sha=$TERMINAL_RUN_BLOB_SHA vs committed postcommit/head.txt sha=$PC_HEAD_BLOB_SHA — stale terminal run)"
-    fi
-  else
-    pass "NO_STALE_TERMINAL_RUN_BUNDLE (terminal_run/ not yet committed; invariant trivially satisfied)"
-  fi
+  # CORRECTION07 (post-execution authority, doctrine property 10):
+  # The 8 terminal-run / projection-sweep properties inspect evidence
+  # the verifier itself has not yet produced. They MUST be deferred
+  # to the post-execution verifier (--mode post-exec). The verifier
+  # must never pass itself on properties of its own not-yet-produced
+  # output.
+  defer "TERMINAL_RUN_EXECUTED (post-exec authority required; --mode post-exec only)"
+  defer "TERMINAL_RUN_EXITCODE_IS_ZERO (post-exec authority required)"
+  defer "TERMINAL_RUN_RESULT_IS_PASS (post-exec authority required)"
+  defer "TERMINAL_RUN_FAIL_COUNT_IS_ZERO (post-exec authority required)"
+  defer "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (post-exec authority required)"
+  defer "TERMINAL_RUN_ID_IS_BOUND (post-exec authority required)"
+  defer "NO_STALE_TERMINAL_RUN_BUNDLE (post-exec authority required)"
+  defer "AUTHORITATIVE_PROJECTIONS_AGREE (post-exec authority required)"
 fi
 
 # ============================================================
+# POST-EXECUTION VERIFIER (machine B; --mode post-exec)
+# Reads ONLY the committed tree via git cat-file. NO working-copy
+# access. Evaluates the 8 deferred properties against the frozen
+# terminal_run/ bundle.
+# ============================================================
+if [ "$MODE" = "post-exec" ]; then
+  PC_HEAD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt' 2>/dev/null | awk '{print $3}')
+  PC_TREE_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt' 2>/dev/null | awk '{print $3}')
+  PC_EXIT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode' 2>/dev/null | awk '{print $3}')
+  PC_STDOUT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout' 2>/dev/null | awk '{print $3}')
+
+  # terminal_run/ blob SHAs (ls-tree -r recurses)
+  TR_FILES=$(git ls-tree -r "$GIT_HEAD_SHA" -- '.factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/terminal_run/' 2>/dev/null | awk '{print $3 " " $4}' | sort || true)
+  TR_STDOUT_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/verifier.stdout" {print $1}')
+  TR_STDERR_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/verifier.stderr" {print $1}')
+  TR_EXIT_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/verifier.exitcode" {print $1}')
+  TR_HEAD_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/head.txt" {print $1}')
+  TR_TREE_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/tree.txt" {print $1}')
+  TR_BUNDLE_SHA_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/verifier.sha256" {print $1}')
+  TR_ENV_BLOB=$(echo "$TR_FILES" | awk '$2 == "terminal_run/environment.txt" {print $1}')
+
+  # INVARIANT P1: TERMINAL_RUN_EXECUTED
+  if [ -n "$TR_STDOUT_BLOB" ] && [ -n "$TR_EXIT_BLOB" ] && [ -n "$TR_HEAD_BLOB" ] && [ -n "$TR_TREE_BLOB" ] && [ -n "$TR_BUNDLE_SHA_BLOB" ] && [ -n "$TR_STDERR_BLOB" ]; then
+    pass "TERMINAL_RUN_EXECUTED (terminal_run/{stdout,stderr,exitcode,head,tree,verifier.sha256} all committed)"
+  else
+    fail "TERMINAL_RUN_EXECUTED (terminal_run/ missing required components: stdout=${TR_STDOUT_BLOB:-MISSING}, stderr=${TR_STDERR_BLOB:-MISSING}, exitcode=${TR_EXIT_BLOB:-MISSING}, head=${TR_HEAD_BLOB:-MISSING}, tree=${TR_TREE_BLOB:-MISSING}, verifier.sha256=${TR_BUNDLE_SHA_BLOB:-MISSING})"
+  fi
+
+  # INVARIANT P2: TERMINAL_RUN_EXITCODE_IS_ZERO
+  TR_EXITCODE=""
+  if [ -n "$TR_EXIT_BLOB" ]; then
+    TR_EXITCODE=$(git cat-file blob "$TR_EXIT_BLOB" 2>/dev/null | tr -d ' 	
+' || true)
+  fi
+  if [ "$TR_EXITCODE" = "0" ]; then
+    pass "TERMINAL_RUN_EXITCODE_IS_ZERO (terminal_run/verifier.exitcode == 0; canonical exit)"
+  else
+    fail "TERMINAL_RUN_EXITCODE_IS_ZERO (terminal_run/verifier.exitcode='$TR_EXITCODE'; need 0)"
+  fi
+
+  # INVARIANT P3: TERMINAL_RUN_RESULT_IS_PASS
+  TR_STDOUT=""
+  if [ -n "$TR_STDOUT_BLOB" ]; then
+    TR_STDOUT=$(git cat-file blob "$TR_STDOUT_BLOB" 2>/dev/null || true)
+  fi
+  PASS_LINE=$(printf '%s' "$TR_STDOUT" | grep -E '^VERIFIER_RESULT=' | head -1 || true)
+  FAIL_COUNT_LINE=$(printf '%s' "$TR_STDOUT" | grep -E '^VERIFIER_FAIL=' | head -1 || true)
+  PASS_TOTAL_LINE=$(printf '%s' "$TR_STDOUT" | grep -E '^VERIFIER_TOTAL=' | head -1 || true)
+  PASS_PASS_LINE=$(printf '%s' "$TR_STDOUT" | grep -E '^VERIFIER_PASS=' | head -1 || true)
+  if [ "$PASS_LINE" = "VERIFIER_RESULT=PASS" ] && [ "$FAIL_COUNT_LINE" = "VERIFIER_FAIL=0" ]; then
+    pass "TERMINAL_RUN_RESULT_IS_PASS ($PASS_TOTAL_LINE ; $PASS_PASS_LINE ; $FAIL_COUNT_LINE — PASS/0 fail)"
+  else
+    fail "TERMINAL_RUN_RESULT_IS_PASS (terminal_run/verifier.stdout says $PASS_LINE / $FAIL_COUNT_LINE / $PASS_PASS_LINE ; need VERIFIER_RESULT=PASS VERIFIER_FAIL=0)"
+  fi
+
+  # INVARIANT P4: TERMINAL_RUN_FAIL_COUNT_IS_ZERO
+  TR_FAIL_COUNT=""
+  if [ "$FAIL_COUNT_LINE" = "VERIFIER_FAIL=0" ]; then
+    TR_FAIL_COUNT="0"
+  elif [ -n "$FAIL_COUNT_LINE" ]; then
+    TR_FAIL_COUNT="${FAIL_COUNT_LINE#VERIFIER_FAIL=}"
+  fi
+  if [ "$TR_FAIL_COUNT" = "0" ]; then
+    pass "TERMINAL_RUN_FAIL_COUNT_IS_ZERO (=0 from $FAIL_COUNT_LINE)"
+  else
+    fail "TERMINAL_RUN_FAIL_COUNT_IS_ZERO (=$TR_FAIL_COUNT)"
+  fi
+
+  # Compute TERMINAL_RUN_BUNDLE_HASH = sha256("BUNDLE_V1\n" +
+  #   for f in lex-ordered terminal_run files: "terminal_run/<f>=" || bytes || "\n")
+  DERIVED_BUNDLE_HASH="UNAVAILABLE"
+  if [ -n "$TR_STDOUT_BLOB" ] && [ -n "$TR_STDERR_BLOB" ] && [ -n "$TR_EXIT_BLOB" ] && [ -n "$TR_HEAD_BLOB" ] && [ -n "$TR_TREE_BLOB" ] && [ -n "$TR_BUNDLE_SHA_BLOB" ]; then
+    TMP=$(mktemp)
+    printf '%s\n' "BUNDLE_V1" > "$TMP"
+    for f in environment.txt head.txt tree.txt verifier.exitcode verifier.sha256 verifier.stderr verifier.stdout; do
+      LF="terminal_run/$f"
+      B=$(echo "$TR_FILES" | awk -v lf="$LF" '$2 == lf {print $1}')
+      if [ -n "$B" ]; then
+        printf 'terminal_run/%s=' "$f" >> "$TMP"
+        git cat-file blob "$B" >> "$TMP"
+        printf '\n' >> "$TMP"
+      fi
+    done
+    DERIVED_BUNDLE_HASH=$(sha256sum "$TMP" | awk '{print $1}')
+    rm -f "$TMP"
+  fi
+  MANIFEST_BUNDLE_HASH="UNAVAILABLE"
+  if [ -n "$MANIFEST_BLOB_SHA" ]; then
+    MANIFEST_BUNDLE_HASH=$(git cat-file blob "$MANIFEST_BLOB_SHA" 2>/dev/null       | python3 -c "import json,sys; d=json.load(sys.stdin); v=d.get('terminal_bundle_hash'); print('null' if v is None else str(v))" 2>/dev/null || echo "PARSE_ERROR")
+  fi
+  ATTEST_BUNDLE_HASH=""
+  if [ -n "$ATTEST_BLOB_SHA" ]; then
+    ATTEST_BUNDLE_HASH=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null       | grep -E '^[[:space:]]*TERMINAL_BUNDLE_HASH[[:space:]]*='       | head -1       | awk -F'=' '{print $2}'       | awk '{print $1}'       | tr -d ' \t\r\n' || true)
+  fi
+  # INVARIANT P5: TERMINAL_RUN_BUNDLE_HASH_IS_BOUND
+  if [ "$MANIFEST_BUNDLE_HASH" = "$ATTEST_BUNDLE_HASH" ]      && [ "$MANIFEST_BUNDLE_HASH" = "$DERIVED_BUNDLE_HASH" ]      && [ "$MANIFEST_BUNDLE_HASH" != "null" ]      && [ "$MANIFEST_BUNDLE_HASH" != "PARSE_ERROR" ]      && [ "$MANIFEST_BUNDLE_HASH" != "UNAVAILABLE" ]      && [ -n "$MANIFEST_BUNDLE_HASH" ]; then
+    pass "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=$MANIFEST_BUNDLE_HASH ; attest_md=$ATTEST_BUNDLE_HASH ; derived=$DERIVED_BUNDLE_HASH -- all three agree; bundle hash binds stdout+stderr+exitcode+head+tree+environment)"
+  else
+    fail "TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=$MANIFEST_BUNDLE_HASH ; attest_md=$ATTEST_BUNDLE_HASH ; derived=$DERIVED_BUNDLE_HASH -- agreement required)"
+  fi
+
+  # Compute TERMINAL_RUN_ID = sha256("TV_RUN_V2\n" + 7 versioned fields)
+  # This is the REAL execution identity: changes if any verifier_blob,
+  # content_commit, bundle_sha, stdout_sha, stderr_sha, exitcode, or
+  # mode changes. Two different verifier runs no longer share the same
+  # identity (fixes CORRECTION06 D2).
+  DERIVED_TVRID="UNAVAILABLE"
+  if [ "$DERIVED_BUNDLE_HASH" != "UNAVAILABLE" ] && [ -n "$GIT_CONTENT_COMMIT_SHA" ] && [ -n "$TR_STDOUT_BLOB" ] && [ -n "$TR_STDERR_BLOB" ] && [ -n "$TR_EXIT_BLOB" ]; then
+    VERIFIER_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- .factory/scripts/check_characterize_rest01_correction03.sh 2>/dev/null | awk '{print $3}' | head -1)
+    if [ -n "$VERIFIER_BLOB_SHA" ]; then
+      VERIFIER_SHA256=$(git cat-file blob "$VERIFIER_BLOB_SHA" 2>/dev/null | sha256sum | awk '{print $1}')
+      TR_STDOUT_SHA=$(git cat-file blob "$TR_STDOUT_BLOB" 2>/dev/null | sha256sum | awk '{print $1}')
+      TR_STDERR_SHA=$(git cat-file blob "$TR_STDERR_BLOB" 2>/dev/null | sha256sum | awk '{print $1}')
+      TMP=$(mktemp)
+      {
+        printf '%s\n' "TV_RUN_V2"
+        printf 'verifier_sha256=%s\n' "$VERIFIER_SHA256"
+        printf 'content_commit=%s\n' "$GIT_CONTENT_COMMIT_SHA"
+        printf 'bundle_sha256=%s\n' "$DERIVED_BUNDLE_HASH"
+        printf 'stdout_sha256=%s\n' "$TR_STDOUT_SHA"
+        printf 'stderr_sha256=%s\n' "$TR_STDERR_SHA"
+        printf 'exitcode=%s\n' "$TR_EXITCODE"
+        printf 'execution_mode=terminal\n'
+      } > "$TMP"
+      DERIVED_TVRID=$(sha256sum "$TMP" | awk '{print $1}')
+      rm -f "$TMP"
+    fi
+  fi
+  MANIFEST_TVRID="UNAVAILABLE"
+  if [ -n "$MANIFEST_BLOB_SHA" ]; then
+    MANIFEST_TVRID=$(git cat-file blob "$MANIFEST_BLOB_SHA" 2>/dev/null       | python3 -c "import json,sys; d=json.load(sys.stdin); v=d.get('terminal_run_id'); print('null' if v is None else str(v))" 2>/dev/null || echo "PARSE_ERROR")
+  fi
+  ATTEST_TVRID=""
+  if [ -n "$ATTEST_BLOB_SHA" ]; then
+    ATTEST_TVRID=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null       | grep -E '^[[:space:]]*TERMINAL_RUN_ID[[:space:]]*='       | head -1       | awk -F'=' '{print $2}'       | awk '{print $1}'       | tr -d ' \t\r\n' || true)
+  fi
+  # INVARIANT P6: TERMINAL_RUN_ID_IS_BOUND
+  if [ "$MANIFEST_TVRID" = "$ATTEST_TVRID" ]      && [ "$MANIFEST_TVRID" = "$DERIVED_TVRID" ]      && [ "$MANIFEST_TVRID" != "null" ]      && [ "$MANIFEST_TVRID" != "PARSE_ERROR" ]      && [ "$MANIFEST_TVRID" != "UNAVAILABLE" ]      && [ -n "$MANIFEST_TVRID" ]; then
+    pass "TERMINAL_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID -- all three agree; identity = sha256(TV_RUN_V2 + 7 versioned fields), sensitive to verifier + stdout + stderr + exitcode)"
+  else
+    fail "TERMINAL_RUN_ID_IS_BOUND (manifest=$MANIFEST_TVRID ; attest_md=$ATTEST_TVRID ; derived=$DERIVED_TVRID -- agreement required)"
+  fi
+
+  # INVARIANT P7: NO_STALE_TERMINAL_RUN_BUNDLE (bundle-identity, not single-file)
+  # For each terminal_run/<f> with a postcommit/<f> counterpart, the blob
+  # SHAs must match by file name. The bundle hash P5 already enforces
+  # byte-identity; this enforces file-level coherence.
+  STALE_FILE=""
+  for f in head.txt tree.txt verifier.exitcode verifier.stdout verifier.stderr verifier.sha256; do
+    PC_PATH="postcommit/$f"
+    TR_PATH="terminal_run/$f"
+    PC_B=$(git ls-tree "$GIT_HEAD_SHA" -- ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/$PC_PATH" 2>/dev/null | awk '{print $3}' | head -1)
+    TR_B=$(echo "$TR_FILES" | awk -v tr="$TR_PATH" '$2 == tr {print $1}')
+    if [ -z "$PC_B" ] && [ -z "$TR_B" ]; then
+      : # both absent — treat as N/A (file not in either bundle); skip
+      continue
+    elif [ -z "$PC_B" ]; then
+      STALE_FILE="$STALE_FILE $f(present-in-terminal,missing-in-postcommit)"
+    elif [ -z "$TR_B" ]; then
+      STALE_FILE="$STALE_FILE $f(present-in-postcommit,missing-in-terminal)"
+    elif [ "$PC_B" != "$TR_B" ]; then
+      STALE_FILE="$STALE_FILE $f(PC=$PC_B TR=$TR_B)"
+    fi
+  done
+  if [ -z "$STALE_FILE" ]; then
+    pass "NO_STALE_TERMINAL_RUN_BUNDLE (terminal_run/{head,tree,exitcode,stdout,stderr,sha256} all match postcommit/ on per-file blob SHA; bundle identity preserved across all 6 file-level checks)"
+  else
+    fail "NO_STALE_TERMINAL_RUN_BUNDLE (file-level mismatch:$STALE_FILE)"
+  fi
+
+  # INVARIANT P8: AUTHORITATIVE_PROJECTIONS_AGREE
+  # Every committed authoritative projection must reference only commit
+  # SHAs that exist in DERIVED_SHA256_SET, and must reference HEAD+HEAD~1
+  # as the "current commit" pair. This catches stale Commit D/Commit C
+  # literals (CORRECTION07 D4 defect class).
+  DERIVED_SHA_SET=$(mktemp)
+  {
+    echo "$GIT_HEAD_SHA"
+    echo "$GIT_CONTENT_COMMIT_SHA"
+    echo "$GIT_CONTENT_TREE_SHA"
+    echo "$GIT_ATTESTATION_TREE_SHA"
+    if [ -n "$MANIFEST_TVRID" ] && [ "$MANIFEST_TVRID" != "UNAVAILABLE" ]; then echo "$MANIFEST_TVRID"; fi
+    if [ -n "$MANIFEST_BUNDLE_HASH" ] && [ "$MANIFEST_BUNDLE_HASH" != "UNAVAILABLE" ]; then echo "$MANIFEST_BUNDLE_HASH"; fi
+  } > "$DERIVED_SHA_SET" 2>/dev/null
+  VERIFIER_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- .factory/scripts/check_characterize_rest01_correction03.sh 2>/dev/null | awk '{print $3}' | head -1)
+  if [ -n "$VERIFIER_BLOB_SHA" ]; then
+    git cat-file blob "$VERIFIER_BLOB_SHA" 2>/dev/null | sha256sum | awk '{print $1}' >> "$DERIVED_SHA_SET"
+  fi
+  sort -u "$DERIVED_SHA_SET" -o "$DERIVED_SHA_SET" 2>/dev/null
+  grep -E '^[0-9a-f]{40}$' "$DERIVED_SHA_SET" > "$DERIVED_SHA_SET.shas" 2>/dev/null || : > "$DERIVED_SHA_SET.shas"
+
+  PROJECTIONS_AGREE=1
+  STALE_REFS=""
+  # The PATTERNS below detect "current-state" commit/scalar claims. A
+  # 40-hex SHA appearing inside one of these patterns is asserting
+  # something about the live state and must match HEAD or HEAD~1
+  # (or a hash explicitly bound to the live state via the manifest).
+  # SHAs appearing in narrative context ("in the past", "superseded",
+  # quoted history, etc.) are NOT checked — historical references are
+  # documentation, not authority.
+  STALE_CLAIM_PATTERNS='(Content commit|Commit C|Content_commit|content_commit_sha)\s*[=(:].{0,40}\b[0-9a-f]{40}\b|(Attestation commit|Commit D|Attestation_commit|attestation_commit_sha)\s*[=(:].{0,40}\b[0-9a-f]{40}\b|ATTESTATION_COMMIT_SHA\s*[=(:].{0,40}\b[0-9a-f]{40}\b|CONTENT_COMMIT_SHA\s*[=(:].{0,40}\b[0-9a-f]{40}\b|\bCURRENT_CONTENT_COMMIT\b.{0,40}\b[0-9a-f]{40}\b'
+  for PROJ_PATH in \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/RESULT.md' \
+      '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/normalized/summary.txt' \
+      '.factory/epic-board.md' \
+      '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION07.md' \
+    ; do
+    PROJ_BLOB=$(git ls-tree "$GIT_HEAD_SHA" -- "$PROJ_PATH" 2>/dev/null | awk '{print $3}' | head -1)
+    [ -z "$PROJ_BLOB" ] && continue
+    PROJ_CONTENT=$(git cat-file blob "$PROJ_BLOB" 2>/dev/null || true)
+    # Run grep with -P (perl regex) for non-greedy matching
+    STALE_LINES=$(printf '%s\n' "$PROJ_CONTENT" | grep -nP "$STALE_CLAIM_PATTERNS" 2>/dev/null || true)
+    [ -z "$STALE_LINES" ] && continue
+    while IFS= read -r LN; do
+      # Extract the SHA from the matching line
+      CLAIMED_SHA=$(echo "$LN" | grep -oE '\b[0-9a-f]{40}\b' | tail -1)
+      [ -z "$CLAIMED_SHA" ] && continue
+      # The claim is allowed iff: HEAD, HEAD~1, or in the derived set
+      if [ "$CLAIMED_SHA" = "$GIT_HEAD_SHA" ] || [ "$CLAIMED_SHA" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+        : # ok
+      elif grep -qx "$CLAIMED_SHA" "$DERIVED_SHA_SET.shas" 2>/dev/null; then
+        : # in derived set (verifier SHA, content/attestation tree, terminal IDs)
+      else
+        PROJECTIONS_AGREE=0
+        STALE_REFS="$STALE_REFS ${PROJ_PATH##*/}::${CLAIMED_SHA}"
+      fi
+    done <<< "$STALE_LINES"
+  done
+  if [ "$PROJECTIONS_AGREE" = "1" ]; then
+    pass "AUTHORITATIVE_PROJECTIONS_AGREE (6 committed projections: every Content commit/Commit C/Commit D claim references HEAD, HEAD~1, or a hash in the live derived-set; historical narrative SHAs are not flagged)"
+  else
+    fail "AUTHORITATIVE_PROJECTIONS_AGREE (stale Commit C/D claims found:$STALE_REFS)"
+  fi
+  rm -f "$DERIVED_SHA_SET" "$DERIVED_SHA_SET.shas"
+fi
 # FINAL MACHINE PROJECTION (deterministic lines)
 # ============================================================
 echo
 echo "VERIFIER_TOTAL=$TOTAL"
 echo "VERIFIER_PASS=$PASS_COUNT"
 echo "VERIFIER_FAIL=$FAIL_COUNT"
-if [ "$FAIL_COUNT" = 0 ]; then
-  echo "VERIFIER_RESULT=PASS"
+echo "VERIFIER_DEFERRED=$DEFERRED_COUNT"
+if [ "$FAIL_COUNT" = 0 ] && [ "$PASS_COUNT" -gt 0 ]; then
+  if [ "$DEFERRED_COUNT" -gt 0 ]; then
+    echo "VERIFIER_RESULT=DEFERRED"
+  else
+    echo "VERIFIER_RESULT=PASS"
+  fi
+elif [ "$FAIL_COUNT" = 0 ] && [ "$PASS_COUNT" = 0 ]; then
+  echo "VERIFIER_RESULT=DEFERRED"
 else
   echo "VERIFIER_RESULT=FAIL"
 fi
@@ -1175,10 +1346,18 @@ if [ "$MODE" = "postcommit" ]; then
   echo "BOARD_CONTENT_COMMIT_SHA=${BOARD_CONTENT_SHA}"
   echo "MANIFEST_RAW_HASH_ENTRY_COUNT=${MANIFEST_RAW_COUNT}"
 fi
+if [ "$MODE" = "post-exec" ]; then
+  echo "GIT_DERIVED_HEAD_SHA=${GIT_HEAD_SHA}"
+  echo "GIT_DERIVED_CONTENT_COMMIT_SHA=${GIT_CONTENT_COMMIT_SHA}"
+  echo "GIT_DERIVED_CONTENT_TREE_SHA=${GIT_CONTENT_TREE_SHA}"
+  echo "GIT_DERIVED_ATTESTATION_TREE_SHA=${GIT_ATTESTATION_TREE_SHA}"
+  echo "DERIVED_BUNDLE_HASH=${DERIVED_BUNDLE_HASH:-UNAVAILABLE}"
+  echo "DERIVED_TVRID=${DERIVED_TVRID:-UNAVAILABLE}"
+fi
 
 # Conservation invariant on verifier counts (defense in depth)
-if [ "$((PASS_COUNT+FAIL_COUNT))" != "$TOTAL" ]; then
-  echo "FAIL: VERIFIER_COUNTS_DO_NOT_CONSERVE" >&2
+if [ "$((PASS_COUNT+FAIL_COUNT+DEFERRED_COUNT))" != "$TOTAL" ]; then
+  echo "FAIL: VERIFIER_COUNTS_DO_NOT_CONSERVE (PASS=$PASS_COUNT FAIL=$FAIL_COUNT DEFERRED=$DEFERRED_COUNT TOTAL=$TOTAL)" >&2
   exit 1
 fi
 

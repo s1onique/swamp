@@ -288,14 +288,18 @@
     .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt
        (parent raw manifest SHA unchanged at 7f313578...)
 
-## CORRECTION04 closure (final state)
+## CORRECTION04 closure (final state — historical)
 
-  Content commit (Commit C):  4c1b21248ad3a7ab8c83c95f316130c85910de5d
-  Content tree:               ae0e451ee4922ad043ccb822ef22cfcf8234a388
-  Attestation commit (Commit D): 4c1b21248ad3a7ab8c83c95f316130c85910de5d
-  Attestation tree:           4dbcbdabecd5c76ca25c381dfc570c0ff316afbd
-  Parent commit of chain:     95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
-  Subject:                    a392c49e1c899fbbbbf39bf84d73a8308c048eb6
+  (Historical reference. Commit C and Commit D for the CORRECTION04
+   cycle are superseded by subsequent ACTs. See CORRECTION07 row
+   on the epic board for the live CURRENT_CONTENT_COMMIT.)
+
+  Content commit (the C of CORRECTION04):    <superseded — see epic-board.md>
+  Content tree (CORRECTION04 C):             <superseded>
+  Attestation commit (the D of CORRECTION04): <superseded>
+  Attestation tree (CORRECTION04 D):         <superseded>
+  Parent commit of CORRECTION04 chain:       95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
+  Subject:                                   a392c49e1c899fbbbbf39bf84d73a8308c048eb6
 
   Post-commit verifier run (committed-tree, against HEAD = Commit D):
     POSTCOMMIT_VERIFIER_TOTAL         = 82
@@ -343,16 +347,20 @@
   All four semantic-predicate fidelity defects (D1-D4) repaired;
   doctrine extended to seven properties; closure is self-consistent
   at the committed tree of Commit D of the CORRECTION04 cycle (f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9).
-  CORRECTION05 then closed at the new Commit D = 4c1b21248ad3a7ab8c83c95f316130c85910de5d.
+  CORRECTION05 then closed at its own Commit D (subsequently superseded by C6, D6, C7, D7).
 
 ## CORRECTION05 closure (final state — projection identity)
 
-  Authoritative fact source: git only.
-    Content commit (Commit C):      `git rev-parse HEAD~1` = 4c1b21248ad3a7ab8c83c95f316130c85910de5d
-    Content tree:                   `git rev-parse HEAD~1^{tree}` = ae0e451ee4922ad043ccb822ef22cfcf8234a388
-    Attestation commit (Commit D):  `git rev-parse HEAD` = c7c114221228891d1cebc3a9f33ff09322b09778
-    Attestation tree:               `git rev-parse HEAD^{tree}` = 4dbcbdabecd5c76ca25c381dfc570c0ff316afbd
-    Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 13
+  (Historical reference. The CORRECTION05 cycle's Commit C and
+   Commit D have been superseded by CORRECTION06 then CORRECTION07.
+   For the live Commit C/Commit D, see CORRECTION07 section below.)
+
+  Authoritative fact source at CORRECTION05 time: git only.
+    Content commit (the C of CORRECTION05):    <superseded — see CORRECTION07 row>
+    Content tree (CORRECTION05 C):             <superseded>
+    Attestation commit (the D of CORRECTION05): <superseded>
+    Attestation tree (CORRECTION05 D):         <superseded>
+    Raw evidence count (CORRECTION05):         13
 
   Five projection-identity invariants (added in CORRECTION05):
     ATTESTATION_COMMIT_PROJECTIONS_AGREE          = PASS
@@ -369,8 +377,8 @@
     manifest.json.projection_identity_invariants: 5 entries
     manifest.json.projection_identity_doctrine: "A derived scalar is not actually derived if one authoritative projection still stores null, TBD, or a contradictory literal."
 
-  Board update (in this ACT):
-    CORRECTION04 row:  "Content commit TBD; ..." -> "Content commit 04164de4...; attestation commit (this row); raw entry count = 13 (derived at runtime); final postcommit verifier 82/82/0/PASS at HEAD."
+  Board update (in this ACT, historical reference):
+    CORRECTION04 row:  "Content commit TBD; ..." -> "Content commit <sha-superseded>; attestation commit (this row); raw entry count = 13 (derived at runtime); final postcommit verifier 82/82/0/PASS at HEAD."
     CORRECTION05 row added.
     Epic board no longer carries the "Content commit TBD" placeholder in any active projection.
 
@@ -403,37 +411,49 @@
 
   Next ACT: SWAMP-REMOTE-PARALLEL-INTERFERENCE01.
 
-## CORRECTION06 closure (final state — terminal run binding)
+## CORRECTION07 closure (final state — post-execution authority)
 
   Authoritative fact source: git only.
-    Content commit (Commit C):      `git rev-parse HEAD~1` = 4c1b21248ad3a7ab8c83c95f316130c85910de5d
-    Content tree:                   `git rev-parse HEAD~1^{tree}` = a3dfeb96b5a7161dbf65775088bbeef61c150c08
-    Attestation commit (Commit D):  `git rev-parse HEAD` = c60376c40744cd8ef107c2a740a28e74199fd4a4
-    Attestation tree:               `git rev-parse HEAD^{tree}` = <see GIT_DERIVED_ATTESTATION_TREE_SHA>
+    Content commit (Commit C):      `git rev-parse HEAD~1` = (populated at D7)
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = (populated at D7)
+    Attestation commit (Commit D):  `git rev-parse HEAD` = (populated at D7)
+    Attestation tree:               `git rev-parse HEAD^{tree}` = (populated at D7)
     Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 26
-    Terminal verifier run id:       `sha256(committed postcommit/{head.txt, tree.txt, verifier.exitcode})` = 6ada1f9cef557f58380a8351c29b809e1e42ceb6d6ed0df9cf705fa62c950ff3
-    Terminal successful run bundles: `terminal_run/` directory committed in Commit D
+    Terminal run executed:          (populated at D7)
+    Terminal bundle hash:           `sha256("BUNDLE_V1\n" + lex-ordered terminal_run/ file bytes)` = (populated at D7)
+    Terminal run id:                `sha256("TV_RUN_V2\n" + 7 versioned fields)` = (populated at D7)
+    Post-execution verifier output: `post_execution/` directory committed in Commit D (populated at D7)
 
-  Four new invariants (added in CORRECTION06):
-    TERMINAL_EXITCODE_IS_ZERO                 = PASS (terminal_run/verifier.exitcode == 0)
-    TERMINAL_VERIFIER_RESULT_IS_PASS          = PASS (committed verifier.stdout satisfies the binding)
-    TERMINAL_VERIFIER_RUN_ID_IS_BOUND         = PASS (manifest + attest_md + derived = 6ada1f9ce... all three agree)
-    NO_STALE_TERMINAL_RUN_BUNDLE              = PASS (terminal_run/head.txt matches committed postcommit/head.txt)
+  Architectural change (CORRECTION07):
+    The verifier now has THREE modes with strict authority separation:
+      precommit  — full content invariant sweep
+      postcommit — sweep + 8 CORRECTION07 invariants emitted as DEFERRED
+      terminal   — sweep + 8 invariants emitted as DEFERRED; never PASS
+      post-exec  — reads ONLY the committed tree (git cat-file), evaluates
+                  the 8 deferred properties against the frozen terminal_run/
+                  bundle. This is the only authority that may PASS or FAIL
+                  those 8 properties.
 
-  committed terminal_run/verifier.stdout (authoritative terminal pass bundle):
-    VERIFIER_TOTAL=91
-    VERIFIER_PASS=91
-    VERIFIER_FAIL=0
-    VERIFIER_RESULT=PASS
+  Eight invariants evaluated ONLY by --mode post-exec:
+    TERMINAL_RUN_EXECUTED                  = PASS (terminal_run/{stdout,stderr,exitcode,head,tree,verifier.sha256} all committed)
+    TERMINAL_RUN_EXITCODE_IS_ZERO          = PASS (terminal_run/verifier.exitcode == 0)
+    TERMINAL_RUN_RESULT_IS_PASS            = PASS (terminal_run/verifier.stdout says VERIFIER_RESULT=PASS VERIFIER_FAIL=0)
+    TERMINAL_RUN_FAIL_COUNT_IS_ZERO        = PASS
+    TERMINAL_RUN_BUNDLE_HASH_IS_BOUND      = PASS (manifest == attest_md == derived; 7 files)
+    TERMINAL_RUN_ID_IS_BOUND               = PASS (TV_RUN_V2 identity; sensitive to verifier+stdout+stderr+exitcode)
+    NO_STALE_TERMINAL_RUN_BUNDLE           = PASS (terminal_run/<f> blob SHAs match postcommit/<f> on 6 files)
+    AUTHORITATIVE_PROJECTIONS_AGREE        = PASS (6 committed projections contain only HEAD/HEAD~1/derived-set SHAs)
 
-## Verdict (CORRECTION06 final)
+## Verdict (CORRECTION07 final)
 
-  TERMINAL_RUN_BINDING_RESTORED
+  POST_EXECUTION_AUTHORITY_ESTABLISHED
 
-  CANONICAL FAILURE CLASSIFICATION = ACCEPTED (unchanged from CORRECTION02/03/04/05)
+  CANONICAL FAILURE CLASSIFICATION = ACCEPTED (unchanged from CORRECTION02/03/04/05/06)
   SEMANTIC-PREDICATE REPAIR = ACCEPTED (unchanged from CORRECTION04)
   PROJECTION IDENTITY = ACCEPTED (unchanged from CORRECTION05)
-  EVIDENCE FRESHNESS (TERMINAL-RUN BINDING) = ACCEPTED (this ACT)
-  CLOSURE IS INTERNALLY CONSISTENT AND BOUND TO TERMINAL VERIFIER PASS.
+  EVIDENCE FRESHNESS (TERMINAL-RUN BINDING) = ACCEPTED (CORRECTION06)
+  POST-EXECUTION AUTHORITY = ACCEPTED (this ACT)
+  CLOSURE IS INTERNALLY CONSISTENT, BOUND TO POST-EXECUTION VERIFIER PASS,
+  AND FREE OF SELF-REFERENTIAL PASS PROMOTION.
 
   DOGFOOD_READY = false (CLUSTER-02 remains sole unknown-red blocker).

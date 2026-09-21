@@ -31,13 +31,23 @@ cd "$ROOT"
 HEAD_SHA=$(git rev-parse HEAD)
 
 # Stage 1: capture the stable committed binary evidence in BUILD (out-of-tree).
+# CORRECTION07: prefer COMMITTED postcommit/* blobs from HEAD's tree
+# (the canonical source of truth); fall back to on-disk postcommit/*
+# when not yet committed (C7 still being authored; D7 not yet made).
 BUILD_TR=$(mktemp -d)
 cleanup() { rm -rf "$BUILD_TR"; }
 trap cleanup EXIT
 
-git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/head.txt" | awk '{print $3}')" > "$BUILD_TR/head.txt"
-git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/tree.txt" | awk '{print $3}')" > "$BUILD_TR/tree.txt"
-git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/verifier.sha256" | awk '{print $3}')" > "$BUILD_TR/verifier.sha256"
+if [ -z "$(git ls-tree "$HEAD_SHA" -- "$PC/head.txt" 2>/dev/null | awk '{print $3}')" ]; then
+  # Not yet committed; use on-disk source.
+  cp "$PC/head.txt"         "$BUILD_TR/head.txt"
+  cp "$PC/tree.txt"         "$BUILD_TR/tree.txt"
+  cp "$PC/verifier.sha256"  "$BUILD_TR/verifier.sha256"
+else
+  git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/head.txt" | awk '{print $3}')" > "$BUILD_TR/head.txt"
+  git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/tree.txt" | awk '{print $3}')" > "$BUILD_TR/tree.txt"
+  git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/verifier.sha256" | awk '{print $3}')" > "$BUILD_TR/verifier.sha256"
+fi
 
 # Stage 2: run the verifier with redirected stdout/stderr into BUILD_TR.
 BOARD_EXPECTED_STATE="CLOSED_PENDING_ATTESTATION" \
