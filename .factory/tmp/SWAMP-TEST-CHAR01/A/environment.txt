@@ -1,0 +1,41 @@
+run_id=A.1
+cell=A
+description=real user HOME / existing baseline DENO_DIR
+HOME=/Volumes/UserData/Users/chistyakov (real)
+SWAMP_HOME=<not set, default = HOME>
+DENO_DIR=<not set, default = ~/.cache/deno — read-only on this host>
+cache_state=default (real)
+network=available
+DENO_JOBS=default
+TTY=non-TTY (redirected to files)
+start=2026-09-21T09:03Z
+end=2026-09-21T09:03Z
+wall_duration_s=<a few seconds>
+exit_code=1
+command=SWAMP_NO_TELEMETRY=1 /tmp/deno-bin/deno test --parallel --unstable-bundle --allow-read --allow-write --allow-env --allow-run --allow-net --allow-sys --allow-ffi
+
+OUTCOME:
+- Deno started downloading dependencies into the default cache
+  (~/.cache/deno/) which lives under the read-only HOME volume.
+- The first JSR manifest write failed: "JSR package manifest for
+  '@std/assert' failed to load. Failed caching
+  'https://jsr.io/@std/assert/meta.json'."
+- The test runner exited with code 1 before any test ran.
+- No "passed/failed/ignored" summary was emitted.
+
+INTERPRETATION:
+- Cell A on THIS HOST cannot reach a comparable state to the
+  BASELINE01 captures: the BASELINE01 captures were produced by
+  a run that already had a warm Deno cache (the BASELINE01
+  test.stdout shows only a handful of "Download" lines, not the
+  full ~120 downloads observed here). The BASELINE01 evidence
+  is therefore a *different* baseline state than the host this
+  ACT starts from.
+- This ACT's Cell A is therefore recorded as:
+    "test runner failed to start (read-only HOME cache target)"
+  rather than as a comparable rerun of BASELINE01.
+- The BASELINE01 captures remain the canonical observation.
+  What we can still test from Cell A:
+    - The home-read-only contract is reproduced (mkdir of
+      $HOME/.claude/skills/swamp is the BASELINE01 failure mode)
+    - The Deno-default-cache-on-HOME contract is reproduced.

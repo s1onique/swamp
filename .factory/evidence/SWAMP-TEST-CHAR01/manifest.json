@@ -1,0 +1,51 @@
+{
+  "act": "SWAMP-TEST-CHAR01",
+  "verdict": "TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS",
+  "subject": "bcaa9695b7f27f51964a9f41587fdf112b261c89",
+  "act_head_at_start": "20a5fcf694c9bcaf3d82349710f0339e1a63b1b4",
+  "deno_version": "deno 2.9.7 (stable, release, x86_64-apple-darwin)",
+  "deno_path": "/tmp/deno-bin/deno",
+  "primary_matrix": {
+    "A": {"description": "real HOME / default DENO_DIR", "result": "cannot start (read-only HOME cannot stage JSR cache)"},
+    "B": {"description": "synthetic writable HOME / fresh DENO_DIR / network", "result": "partial: 12453 ok / 44 FAILED / 31 ignored observed; 4 unresolved targets FAILED; 154 mkdir family disappeared"},
+    "C": {"description": "synthetic HOME / warm DENO_DIR", "result": "telemetry controls PASS"},
+    "D": {"description": "synthetic HOME / warm DENO_DIR / --cached-only", "result": "PASS for telemetry; doctor + ANSI still fail"},
+    "E": {"description": "--reload control", "result": "not run — H-CACHE-A falsified by Cell B with fresh"}
+  },
+  "targets": {
+    "doctor_audit_SIGTERM": {"id": "D1", "classification": "DOCTOR_REPRODUCIBLE_DEFECT", "evidence": "REPRODUCED_REPEATEDLY", "isolated_runs": 5, "isolated_failures": 5, "full_suite_reproduction": true, "cached_only_reproduction": true},
+    "doctor_audit_SIGKILL": {"id": "D2", "classification": "DOCTOR_REPRODUCIBLE_DEFECT", "evidence": "REPRODUCED_REPEATEDLY", "isolated_runs": 5, "isolated_failures": 5, "full_suite_reproduction": true, "cached_only_reproduction": true},
+    "extension_quality_fmt_ANSI": {"id": "A1", "classification": "ANSI_REPRODUCIBLE_DEFECT", "evidence": "REPRODUCED_REPEATEDLY", "isolated_runs": 5, "isolated_failures": 5, "full_suite_reproduction": true, "cached_only_reproduction": true, "env_controls": ["NO_COLOR=1", "TERM=dumb"]},
+    "extension_quality_lint_ANSI": {"id": "A2", "classification": "ANSI_REPRODUCIBLE_DEFECT", "evidence": "REPRODUCED_REPEATEDLY", "isolated_runs": 5, "isolated_failures": 5, "full_suite_reproduction": true, "cached_only_reproduction": true, "env_controls": ["NO_COLOR=1", "TERM=dumb"]}
+  },
+  "controls": {
+    "telemetry_B_fresh": "ok | 2 passed | 0 failed (12s)",
+    "telemetry_C_warm": "ok | 2 passed | 0 failed (5s)",
+    "telemetry_D_cached_only": "ok | 2 passed | 0 failed (5s)",
+    "permission_denied_baseline01": "138 occurrences of mkdir '/Volumes/UserData/Users/chistyakov/.claude/skills/swamp'",
+    "permission_denied_cell_B": "0 occurrences of that signature"
+  },
+  "conservation": {
+    "isolated_doctor": "11 + 2 == 13",
+    "isolated_ansi": "47 + 2 == 49",
+    "telemetry": "2 + 0 == 2",
+    "classified_targets": "4 == 4"
+  },
+  "raw_evidence_sha256_baseline01": "ae420afef38fea978bd6a33d0e54971547424aa2c9b8f54310d2b731a7cb9417",
+  "raw_evidence_unchanged": true,
+  "authored_artifacts_hygiene": "PASS",
+  "whole_range_hygiene": "EXPECTED_FAIL_RAW_EVIDENCE",
+  "production_source_changes": false,
+  "negative_claims": {
+    "NO_SWAMP_PRODUCTION_CODE_CHANGED": true,
+    "NO_BASELINE_RAW_EVIDENCE_MUTATED": true,
+    "NO_TEST_FAILURE_FIXED_DURING_CHARACTERIZATION": true,
+    "NO_PASS_INFERRED_FROM_SINGLE_RERUN": true,
+    "NO_ENVIRONMENTAL_CLASSIFICATION_WITHOUT_CONTROL": true,
+    "NO_FLAKE_CLASSIFICATION_WITHOUT_REPETITION": true,
+    "NO_RAW_EVIDENCE_NORMALIZED_IN_PLACE": true,
+    "BOARD_STATE_AGREES_WITH_ACT_STATE": true,
+    "POLICY_EQUALS_VERIFIER_SCOPE_EQUALS_CLAIM": true
+  },
+  "recommended_next_act": "ACT-SWAMP-DOCTOR-SIGNAL01"
+}

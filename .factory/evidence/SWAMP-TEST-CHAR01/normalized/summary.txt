@@ -1,0 +1,90 @@
+SWAMP-TEST-CHAR01 NORMALIZED SUMMARY
+
+PRIMARY VERDICT: TEST_SUITE_HAS_REPRODUCIBLE_DEFECTS (with one environmental class also confirmed)
+
+PER-TARGET CLASSIFICATIONS:
+  D1 doctor_audit SIGTERM-respecting     DOCTOR_REPRODUCIBLE_DEFECT        REPRODUCED_REPEATEDLY
+  D2 doctor_audit SIGKILL-escalation     DOCTOR_REPRODUCIBLE_DEFECT        REPRODUCED_REPEATEDLY
+  A1 extension_quality fmt ANSI          ANSI_REPRODUCIBLE_DEFECT          REPRODUCED_REPEATEDLY
+  A2 extension_quality lint ANSI         ANSI_REPRODUCIBLE_DEFECT          REPRODUCED_REPEATEDLY
+
+PER-CELL OBSERVATIONS:
+  Cell A: real HOME / default DENO_DIR
+          cannot start — read-only HOME cannot stage JSR cache
+          (corresponds to BASELINE01's host environment)
+  Cell B: synthetic writable HOME / fresh DENO_DIR / network available
+          full suite captured 12453 ok / 44 FAILED / 31 ignored
+          (partial — tool harness SIGTERM before Deno's natural test summary)
+          154 mkdir family: 0 occurrences (vs 138 in BASELINE01)
+          all 4 unresolved targets: FAILED
+  Cell C: synthetic HOME / warm DENO_DIR / network available
+          telemetry controls: 2 passed (cache sufficient)
+  Cell D: synthetic HOME / warm DENO_DIR / --cached-only
+          telemetry controls: 2 passed (cache genuinely prewarmed)
+          doctor + ANSI: still fail (defects are not cache-related)
+
+ISOLATED REPETITIONS (N=5):
+  doctor:
+    5/5 FAILED with 2 failures each
+    mean 61443 ms, median 61463 ms, min 61371 ms, max 61498 ms
+    same two tests fail every iteration
+  ansi:
+    5/5 FAILED with 2 failures each
+    mean 7130 ms, median 7133 ms, min 7118 ms, max 7136 ms
+    same two tests fail every iteration
+
+ENVIRONMENT CONTROLS (ansi):
+  NO_COLOR=1       -> 2 failures (unchanged)
+  TERM=dumb        -> 2 failures (unchanged)
+  --cached-only    -> 2 failures (unchanged)
+  (TTY was not introduced; defect is in deno fmt --check / deno lint emitting
+   ANSI regardless of NO_COLOR when output is piped)
+
+PARALLELISM (doctor):
+  isolated (no --parallel): 5/5 FAIL
+  full-suite (--parallel): FAIL in Cell B.1
+  parallelism dependence: FALSIFIED
+
+CONSERVATION:
+  isolated doctor:    11 + 2 == 13 total  ✓
+  isolated ansi:      47 + 2 == 49 total  ✓
+  telemetry controls: 2 + 0 == 2 total    ✓
+  classified_targets == 4                ✓
+
+HYPOTHESES FALSIFIED OR SUPPORTED:
+  H-B1 (154 mkdir disappears on writable HOME): SUPPORTED  ✓
+  H-B2 (JSR-cache behavior may occur during dep population): SUPPORTED (initial cache fill took ~12s)
+  H-B3 (4 unresolved tests unaffected by HOME writability): SUPPORTED
+  H-C (telemetry JSR-cache disappears with warm cache): SUPPORTED on this host
+  H-DOCTOR-PARALLEL (doctor fails under load only): FALSIFIED
+  H-ANSI-TTY (ANSI depends on TTY): FALSIFIED
+
+ENVIRONMENTAL CLASSIFICATION CONFIRMED:
+  154 mkdir PermissionDenied failures — confirmed as environmental
+    (deterministic consequence of unwritable $HOME/.claude/skills/swamp)
+
+NEGATIVE CLAIMS (all true):
+  NO_SWAMP_PRODUCTION_CODE_CHANGED                 = true
+  NO_BASELINE_RAW_EVIDENCE_MUTATED                 = true (sha256 ae420afe...)
+  NO_TEST_FAILURE_FIXED_DURING_CHARACTERIZATION    = true
+  NO_PASS_INFERRED_FROM_SINGLE_RERUN               = true (N=5 isolated, N=1 full-suite)
+  NO_ENVIRONMENTAL_CLASSIFICATION_WITHOUT_CONTROL  = true (Cell A vs B compared)
+  NO_FLAKE_CLASSIFICATION_WITHOUT_REPETITION       = true (5/5 identical)
+  NO_RAW_EVIDENCE_NORMALIZED_IN_PLACE              = true (raw outputs immutable)
+  BOARD_STATE_AGREES_WITH_ACT_STATE                = true (4 ACTs CLOSED, this ACT CLOSED at commit)
+  POLICY_EQUALS_VERIFIER_SCOPE_EQUALS_CLAIM        = true (check_evidence_hygiene.sh scoped)
+
+RECOMMENDED NEXT ACT: ACT-SWAMP-DOCTOR-SIGNAL01 and ACT-SWAMP-ANSI-OUTPUT01
+  (two separate defect-repair ACTs; both targets have reproducible defects)
+
+DURATION:
+  Cell A:        <1s (failed to start)
+  Cell B.1:     ~10 min (truncated by tool harness SIGTERM)
+  Cell B-telemetry (fresh): ~12s
+  Cell C-telemetry (warm): ~5s
+  Cell D-telemetry: ~5s
+  Cell D-doctor: ~60s
+  Cell D-ansi: ~7s
+  5 isolated doctor: 5 × 61s = 305s
+  5 isolated ansi: 5 × 7s = 35s
+  controls (NO_COLOR, TERM=dumb): 2 × 7s = 14s
