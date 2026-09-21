@@ -144,3 +144,84 @@
   The closure of Commit B itself, if needed, would require another
   external authority (or is simply declared by operator judgment
   given the bounded nature of the relation).
+
+## Semantic predicate fidelity (CORRECTION04 — seventh property)
+
+A peer review of CORRECTION03 surfaced four defects where the
+predicate's name implied a stronger check than its implementation.
+The four defects, repaired in CORRECTION04:
+
+  D1  WORKING_TREE_CLEAN_AT_MEASUREMENT was emitted while
+      `git status --short` reported eight modified/untracked paths.
+      The verifier had defined away the attestation-build dirt
+      (raw-sha256.txt, build_raw_sha256.sh, POST-COMMIT-ATTESTATION.md,
+      epic-board.md, precommit/verifier.*, postcommit/**,
+      freeze_postcommit.sh) and called the remainder "clean". Git's
+      ordinary definition of clean is non-empty status. The
+      predicate name lied.
+
+      Repaired: replaced with
+        NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE
+      which asserts the *unexpected* count is zero, and exposes
+      the three observable scalars
+        RAW_GIT_STATUS_ENTRY_COUNT
+        EXPECTED_ATTESTATION_BUILD_DIRT_COUNT
+        UNEXPECTED_DIRT_COUNT
+      whose names say exactly what they measure.
+
+  D2  ACT/manifest prose claimed "17 entries" while the actual
+      committed raw-sha256.txt had 13 lines. The "17" was a stale
+      number from a draft before the build script's exclusions
+      were tightened. Projection consistency regressed on evidence
+      cardinality.
+
+      Repaired: replaced every literal "17" with
+        raw_hash_entry_count := (raw-sha256.txt entry count
+                                 computed mechanically)
+      and the verifier emits the runtime-derived value
+        RAW_SHA256_ENTRY_COUNT=<N>
+      Prose projections must quote the manifest's raw_hash_entry_count
+      (or this scalar) rather than a hard-coded integer.
+
+  D3  PARENT_CHARACTERIZATION_RAW_MANIFEST_PRESERVED was emitted
+      from the overall verifier verdict:
+          [ "$FAIL_COUNT" = 0 ] && echo true || echo false
+      so the scalar projected the whole verifier result, not the
+      hash equality.
+
+      Repaired: PARENT_PRESERVED is now set at the hash equality
+      comparison and emitted independently of VERIFIER_RESULT. A
+      negative control (force one unrelated predicate to fail while
+      the parent hash is preserved) demonstrates the two scalars
+      are independent. New scalar:
+        PARENT_PRESERVED_SCOPE=PARENT_RAW_MANIFEST
+      to make the predicate's scope explicit.
+
+  D4  ATTESTATION_SUBJECT_BOUND was implemented as
+          m.get("subject") and m.get("parent_commit")
+      which only proves two fields are non-empty. It did NOT prove
+      that Commit B attests Commit A.
+
+      Repaired: ATTESTATION_SUBJECT_BOUND now requires all six of
+        a) captured head.txt matches the bound CONTENT_COMMIT_SHA
+        b) captured tree.txt matches `git rev-parse <content>^{tree}`
+        c) POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA matches
+        d) POST-COMMIT-ATTESTATION.md CONTENT_TREE_SHA matches
+        e) the bound content commit is an ancestor of HEAD
+        f) every captured postcommit/* blob matches the blob
+           committed in HEAD's tree
+      The scalar is true iff all six are true. A negative control
+      that mutates the attest md's CONTENT_COMMIT_SHA demonstrates
+      the predicate fails while parent-hash still passes.
+
+## Property 7 — Semantic predicate fidelity
+
+  A predicate's implementation must prove exactly what its name
+  says — not a weaker neighboring property.
+
+  Counter-examples fixed by this ACT:
+    WORKING_TREE_CLEAN          != NO_UNEXPECTED_DIRT_AFTER_EXCLUSIONS
+    PARENT_HASH_PRESERVED       != WHOLE_VERIFIER_PASSED
+    ATTESTATION_SUBJECT_BOUND   != TWO_FIELDS_NONEMPTY
+    CONTENT_TREE_SHA_RECORDED   != TREE_OBSERVED  (now BOUND, comparing
+                                                  captured to expected)

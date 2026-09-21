@@ -146,7 +146,7 @@ introduces:
                                    mutated.txt, restored.txt,
                                    original.failures.json,
                                    inject.txt, restore.txt)
-      raw-sha256.txt              (no self-reference; 17 entries)
+      raw-sha256.txt              (no self-reference; (raw_hash_entry_count from manifest.json))
       build_raw_sha256.sh
       freeze_precommit.sh
       postcommit/                 (empty at Commit A; populated at

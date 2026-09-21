@@ -85,7 +85,7 @@ Correction target:      SIX closure-authority defects remaining in
     postcommit/                         (head, status, tree, verifier stdout,
                                          exitcode, sha256 — captured AFTER the
                                          content commit exists)
-    raw-sha256.txt                      (no self-reference; 17 entries;
+    raw-sha256.txt                      (no self-reference; (raw_hash_entry_count from manifest.json);
                                          excludes raw-sha256.txt itself,
                                          the build/freeze scripts, and the
                                          verifier stdout/stderr/exitcode files
@@ -96,7 +96,7 @@ Correction target:      SIX closure-authority defects remaining in
 ## Hash manifest properties
 
   RAW_HASH_MANIFEST_SELF_REFERENTIAL=false
-  RAW_HASHES_VERIFY=true               (17 verified)
+  RAW_HASHES_VERIFY=true               ((verified_count from verifier runtime))
   no_production_code_changed           (verified by
                                          check_characterize_rest01_correction03.sh
                                          between parent commit and HEAD)
@@ -115,3 +115,12 @@ Correction target:      SIX closure-authority defects remaining in
   Factory-only; verifier + evidence + epic-board + authored ACT.
   Two-commit closure protocol: content commit (Commit A) and
   attestation commit (Commit B).
+## CORRECTION04 follow-on
+
+  After CORRECTION03's verifier/evidence was committed, a peer
+  review identified four semantic-predicate fidelity defects
+  (predicate names implied stronger checks than implementations
+  performed). CORRECTION04 repaired all four without reopening
+  canonical classification, without new reproduction, and without
+  production code changes. See `.factory/acts/SWAMP-CHARACTERIZE-
+  REST01-CORRECTION04.md` and `RESULT.md` (CORRECTION04 section).

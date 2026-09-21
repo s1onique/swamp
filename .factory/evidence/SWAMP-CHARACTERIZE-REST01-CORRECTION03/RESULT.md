@@ -223,7 +223,7 @@
                                       inject.txt + restore.txt +
                                       setup.sh + run.sh)
       postcommit/                    (filled in after Commit A exists)
-      raw-sha256.txt                 (no self-reference; 17 entries)
+      raw-sha256.txt                 (no self-reference; (raw_hash_entry_count from manifest.json))
       build_raw_sha256.sh
       freeze_precommit.sh
 
@@ -236,3 +236,54 @@
   block dogfood (the gate checks no_unknown_red == true, which fails
   only on UNKNOWN cause_owner rows; CLUSTER-03 cause_owner is
   SWAMP_TEST_CONTRACT, not UNKNOWN).
+
+## CORRECTION04 (this ATT-CORRECTION04 repair — semantic predicate fidelity)
+
+  Closes four defects left by CORRECTION03 where predicate names
+  implied stronger checks than the implementations performed:
+
+  D1  WORKING_TREE_CLEAN_AT_MEASUREMENT was a misnomer; the working
+      tree had eight modified/untracked paths at attestation capture.
+      Replaced with NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE
+      and three observable scalars (RAW_GIT_STATUS_ENTRY_COUNT,
+      EXPECTED_ATTESTATION_BUILD_DIRT_COUNT, UNEXPECTED_DIRT_COUNT).
+
+  D2  Prose claimed "17 entries" in the raw hash manifest while the
+      committed file had 13. Replaced every literal with a derived
+      value (raw_hash_entry_count from manifest.json; verifier emits
+      RAW_SHA256_ENTRY_COUNT scalar).
+
+  D3  PARENT_CHARACTERIZATION_RAW_MANIFEST_PRESERVED was emitted
+      from the overall verifier verdict. Decoupled to a separate
+      scalar (PARENT_PRESERVED) set at the hash equality, with
+      PARENT_PRESERVED_SCOPE=PARENT_RAW_MANIFEST.
+
+  D4  ATTESTATION_SUBJECT_BOUND was implemented as "two fields are
+      non-empty". Made real: requires six concrete relations
+      (a-f) including ancestor-of relation and blob-hash match for
+      every captured postcommit artifact.
+
+  Doctrine upgraded to seven properties (adds "semantic predicate
+  fidelity").
+
+## Files (this ATT-CORRECTION04 repair)
+
+  Edited (project-wide):
+    .factory/scripts/check_characterize_rest01_correction03.sh
+    .factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/
+      MANIFEST.md, RESULT.md, AUTHORITY-MODEL.md, PROJECTION-AUDIT.md,
+      manifest.json
+    .factory/epic-board.md                       (CORRECTION04 row added)
+
+  Created:
+    .factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION04.md
+
+  Refrozen at CORRECTION04 content-commit time:
+    .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/
+      precommit/*, postcommit/*, raw-sha256.txt
+
+  Unchanged:
+    src/  integration/  extensions/  packages/   (no production change)
+    deno.json  deno.lock                          (no production change)
+    .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt
+       (parent raw manifest SHA unchanged at 7f313578...)

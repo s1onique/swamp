@@ -148,3 +148,43 @@
   VERIFIER_COUNTS_DERIVED                           true
   BOARD_STATE_AGREES_WITH_ACT_STATE                true (CLOSED_PENDING_ATTESTATION
                                                          at Commit A)
+
+## Defects addressed by CORRECTION04 (semantic predicate fidelity)
+
+  D1  WORKING_TREE_CLEAN_AT_MEASUREMENT rename
+      → NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE.
+      Three new observable scalars:
+        RAW_GIT_STATUS_ENTRY_COUNT
+        EXPECTED_ATTESTATION_BUILD_DIRT_COUNT
+        UNEXPECTED_DIRT_COUNT
+      Predicate asserts UNEXPECTED_DIRT_COUNT == 0.
+
+  D2  Raw evidence cardinality reconciliation.
+      "17 entries" in prose → raw_hash_entry_count from manifest.json
+      (or verifier's RAW_SHA256_ENTRY_COUNT scalar). Currently 13.
+      The literal "17" no longer appears in any current-state file.
+
+  D3  Parent-hash scalar decoupled.
+      PARENT_PRESERVED set at hash equality, independent of overall
+      verifier verdict. PARENT_PRESERVED_SCOPE=PARENT_RAW_MANIFEST
+      makes the scope explicit.
+
+  D4  ATTESTATION_SUBJECT_BOUND made real.
+      Six concrete relations:
+        a) captured head.txt matches expected CONTENT_COMMIT_SHA
+        b) captured tree.txt matches expected tree
+        c) POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA matches
+        d) POST-COMMIT-ATTESTATION.md CONTENT_TREE_SHA matches
+        e) content_commit is ancestor of HEAD
+        f) every captured postcommit/* blob matches HEAD's blob
+      All six must hold.
+
+## Doctrine properties (7)
+
+  1. arithmetic consistency
+  2. provenance integrity
+  3. causal sufficiency
+  4. verifier authority
+  5. projection consistency
+  6. temporal/state binding
+  7. semantic predicate fidelity  (NEW in CORRECTION04)

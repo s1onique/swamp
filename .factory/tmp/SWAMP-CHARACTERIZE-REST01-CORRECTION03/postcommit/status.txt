@@ -1,8 +1,11 @@
- M .factory/epic-board.md
  M .factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/build_raw_sha256.sh
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/precommit/verifier.exitcode
- M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/precommit/verifier.stdout
+ M .factory/scripts/check_characterize_rest01_correction03.sh
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/environment.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/head.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/status.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/tree.txt
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.exitcode
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.sha256
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stderr
+ M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/verifier.stdout
  M .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/raw-sha256.txt
-?? .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/freeze_postcommit.sh
-?? .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/postcommit/
