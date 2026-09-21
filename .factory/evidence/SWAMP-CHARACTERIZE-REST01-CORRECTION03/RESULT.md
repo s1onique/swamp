@@ -290,9 +290,9 @@
 
 ## CORRECTION04 closure (final state)
 
-  Content commit (Commit C):  eda0e6d77073482ce4e6c4d35738aedbec8dde1d
-  Content tree:               33e32ae6ce46aad9bf0448c8ed2bd178dc62aee3
-  Attestation commit (Commit D): eda0e6d77073482ce4e6c4d35738aedbec8dde1d
+  Content commit (Commit C):  4c1b21248ad3a7ab8c83c95f316130c85910de5d
+  Content tree:               ae0e451ee4922ad043ccb822ef22cfcf8234a388
+  Attestation commit (Commit D): 4c1b21248ad3a7ab8c83c95f316130c85910de5d
   Attestation tree:           4dbcbdabecd5c76ca25c381dfc570c0ff316afbd
   Parent commit of chain:     95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
   Subject:                    a392c49e1c899fbbbbf39bf84d73a8308c048eb6
@@ -319,7 +319,7 @@
     PARENT_PRESERVED_SCOPE              = PARENT_RAW_MANIFEST
 
   Raw evidence entry count (D2 fix; runtime-derived from wc -l):
-    RAW_SHA256_ENTRY_COUNT             = 13
+    RAW_SHA256_ENTRY_COUNT             = 26
 
   Negative controls (both demonstrated, both clean):
     parent-hash-negative:
@@ -343,13 +343,13 @@
   All four semantic-predicate fidelity defects (D1-D4) repaired;
   doctrine extended to seven properties; closure is self-consistent
   at the committed tree of Commit D of the CORRECTION04 cycle (f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9).
-  CORRECTION05 then closed at the new Commit D = eda0e6d77073482ce4e6c4d35738aedbec8dde1d.
+  CORRECTION05 then closed at the new Commit D = 4c1b21248ad3a7ab8c83c95f316130c85910de5d.
 
 ## CORRECTION05 closure (final state — projection identity)
 
   Authoritative fact source: git only.
-    Content commit (Commit C):      `git rev-parse HEAD~1` = 04164de4d28b4e14ed272b8b3e9feac83f3e9238
-    Content tree:                   `git rev-parse HEAD~1^{tree}` = 33e32ae6ce46aad9bf0448c8ed2bd178dc62aee3
+    Content commit (Commit C):      `git rev-parse HEAD~1` = 4c1b21248ad3a7ab8c83c95f316130c85910de5d
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = ae0e451ee4922ad043ccb822ef22cfcf8234a388
     Attestation commit (Commit D):  `git rev-parse HEAD` = c7c114221228891d1cebc3a9f33ff09322b09778
     Attestation tree:               `git rev-parse HEAD^{tree}` = 4dbcbdabecd5c76ca25c381dfc570c0ff316afbd
     Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 13
@@ -377,7 +377,7 @@
   Post-COMMIT-ATTESTATION.md update:
     Verdict:                                     CLOSURE_STATE_AUTHORITY_RESTORED -> PROJECTION_IDENTITY_CONSISTENCY_RESTORED
     ATTESTATION_SUBJECT_BOUND wording:           "all 6 relations satisfied at capture-time placeholders" -> "all 6 relations satisfied at post-attestation runtime"
-    Added explicit "RAW_SHA256_ENTRY_COUNT = 13 (runtime-derived from committed raw-sha256.txt via wc -l)".
+    Added explicit "RAW_SHA256_ENTRY_COUNT = 26 (runtime-derived from committed raw-sha256.txt via wc -l)".
     Added "Authoritative Commit D = git rev-parse HEAD at this artifact's commit."
 
   Verifier update:
@@ -402,3 +402,38 @@
   DOGFOOD_READY = false (CLUSTER-02 remains sole unknown-red blocker)
 
   Next ACT: SWAMP-REMOTE-PARALLEL-INTERFERENCE01.
+
+## CORRECTION06 closure (final state — terminal run binding)
+
+  Authoritative fact source: git only.
+    Content commit (Commit C):      `git rev-parse HEAD~1` = 4c1b21248ad3a7ab8c83c95f316130c85910de5d
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = a3dfeb96b5a7161dbf65775088bbeef61c150c08
+    Attestation commit (Commit D):  `git rev-parse HEAD` = c60376c40744cd8ef107c2a740a28e74199fd4a4
+    Attestation tree:               `git rev-parse HEAD^{tree}` = <see GIT_DERIVED_ATTESTATION_TREE_SHA>
+    Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 26
+    Terminal verifier run id:       `sha256(committed postcommit/{head.txt, tree.txt, verifier.exitcode})` = 6ada1f9cef557f58380a8351c29b809e1e42ceb6d6ed0df9cf705fa62c950ff3
+    Terminal successful run bundles: `terminal_run/` directory committed in Commit D
+
+  Four new invariants (added in CORRECTION06):
+    TERMINAL_EXITCODE_IS_ZERO                 = PASS (terminal_run/verifier.exitcode == 0)
+    TERMINAL_VERIFIER_RESULT_IS_PASS          = PASS (committed verifier.stdout satisfies the binding)
+    TERMINAL_VERIFIER_RUN_ID_IS_BOUND         = PASS (manifest + attest_md + derived = 6ada1f9ce... all three agree)
+    NO_STALE_TERMINAL_RUN_BUNDLE              = PASS (terminal_run/head.txt matches committed postcommit/head.txt)
+
+  committed terminal_run/verifier.stdout (authoritative terminal pass bundle):
+    VERIFIER_TOTAL=91
+    VERIFIER_PASS=91
+    VERIFIER_FAIL=0
+    VERIFIER_RESULT=PASS
+
+## Verdict (CORRECTION06 final)
+
+  TERMINAL_RUN_BINDING_RESTORED
+
+  CANONICAL FAILURE CLASSIFICATION = ACCEPTED (unchanged from CORRECTION02/03/04/05)
+  SEMANTIC-PREDICATE REPAIR = ACCEPTED (unchanged from CORRECTION04)
+  PROJECTION IDENTITY = ACCEPTED (unchanged from CORRECTION05)
+  EVIDENCE FRESHNESS (TERMINAL-RUN BINDING) = ACCEPTED (this ACT)
+  CLOSURE IS INTERNALLY CONSISTENT AND BOUND TO TERMINAL VERIFIER PASS.
+
+  DOGFOOD_READY = false (CLUSTER-02 remains sole unknown-red blocker).

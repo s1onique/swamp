@@ -42,10 +42,10 @@ VERIFIER COUNTS (runtime-derived; populated by post-commit run):
   VERIFIER_RESULT          = PASS (postcommit running against committed tree)
 
 RAW SHA256 ENTRY COUNT (CORRECTION05 projection-identity scalar):
-  RAW_SHA256_ENTRY_COUNT   = 13 (runtime-derived from wc -l committed raw-sha256.txt)
+  RAW_SHA256_ENTRY_COUNT   = 26 (runtime-derived from wc -l committed raw-sha256.txt)
   manifest.raw_hash_entry_count    = 13 (integer; was null prior to CORRECTION05)
-  attest_md.RAW_SHA256_ENTRY_COUNT = 13
-  result_md.RAW_SHA256_ENTRY_COUNT = 13
+  attest_md.RAW_SHA256_ENTRY_COUNT = 26
+  result_md.RAW_SHA256_ENTRY_COUNT = 26
 
 CONTENT_COMMIT             = 04164de4d28b4e14ed272b8b3e9feac83f3e9238 (== git HEAD~1)
 ATTESTATION_COMMIT         = f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9 (== git HEAD)

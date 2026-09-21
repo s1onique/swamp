@@ -3,21 +3,21 @@
 #
 # CORRECTION06: bind closure to the terminal verifier execution that
 # gives the FINAL pass. After .factory/tmp/.../postcommit/{head,tree,...}
-# have been committed (they form the FIRST-pass bundle), run the verifier
-# ONCE more and capture its execution as the terminal run.
+# have been committed (D6), run the verifier ONCE more and capture its
+# execution as the terminal run.
 #
-# The terminal_run/ directory is the authoritative evidence for the
-# committed verbatim binary identity of the post-construction pass:
-#   terminal_run.head.txt          same content as postcommit/head.txt
-#   terminal_run.tree.txt          same content as postcommit/tree.txt
-#   terminal_run.verifier.exitcode == 0
-#   terminal_run.verifier.stdout   MUST contain VERIFIER_RESULT=PASS, VERIFIER_FAIL=0
-#   terminal_run.verifier.sha256   == sha256(verifier file)
-#   terminal_run.terminal_verifier_run_id  == sha256 over the stable terminal state
+# Uses a build directory BUILD_TR (e.g. /tmp/...freeze_$$) so the working
+# tree stays clean during the verifier run; only the finalised bundles
+# are atomically moved into terminal_run/ at the very end.
 #
-# The terminal_verifier_run_id is a stable digest over:
-#   committed postcommit/head.txt + tree.txt + verifier.exitcode
-# which is invariant under verifier.stdout content (which can drift).
+# Outputs at terminal_run/:
+#   head.txt          == committed postcommit/head.txt
+#   tree.txt          == committed postcommit/tree.txt
+#   verifier.exitcode == exit code of the terminal verifier run
+#   verifier.stdout   stdout of the terminal verifier run
+#   verifier.stderr   stderr of the terminal verifier run
+#   verifier.sha256   sha256 of the verifier script
+#   environment.txt   context metadata
 
 set -u
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -28,32 +28,43 @@ TR="$ROOT/$RAW_TREE_REL/terminal_run"
 
 cd "$ROOT"
 
-# copy the stable binary evidence captured at construction time
-cp "$PC/head.txt"          "$TR/head.txt"
-cp "$PC/tree.txt"          "$TR/tree.txt"
-cp "$PC/verifier.sha256"   "$TR/verifier.sha256"
+HEAD_SHA=$(git rev-parse HEAD)
 
-# Run the verifier ONCE more with the SAME env (CONTENT_COMMIT_SHA = HEAD~1).
-# At this point all postcommit bundles are committed in HEAD, so the verifier
-# will read consistent state and produce a PASS.
+# Stage 1: capture the stable committed binary evidence in BUILD (out-of-tree).
+BUILD_TR=$(mktemp -d)
+cleanup() { rm -rf "$BUILD_TR"; }
+trap cleanup EXIT
+
+git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/head.txt" | awk '{print $3}')" > "$BUILD_TR/head.txt"
+git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/tree.txt" | awk '{print $3}')" > "$BUILD_TR/tree.txt"
+git cat-file blob "$(git ls-tree "$HEAD_SHA" -- "$PC/verifier.sha256" | awk '{print $3}')" > "$BUILD_TR/verifier.sha256"
+
+# Stage 2: run the verifier with redirected stdout/stderr into BUILD_TR.
 BOARD_EXPECTED_STATE="CLOSED_PENDING_ATTESTATION" \
-  bash "$ROOT/.factory/scripts/check_characterize_rest01_correction03.sh" --mode postcommit \
-  1>"$TR/verifier.stdout" \
-  2>"$TR/verifier.stderr"
-echo "$?" > "$TR/verifier.exitcode"
+  bash "$ROOT/.factory/scripts/check_characterize_rest01_correction03.sh" --mode terminal \
+  1>"$BUILD_TR/verifier.stdout" \
+  2>"$BUILD_TR/verifier.stderr"
+EC=$?
+echo "$EC" > "$BUILD_TR/verifier.exitcode"
 
-# Also capture environment for context
-cat > "$TR/environment.txt" <<TXT
+# Stage 3: capture environment for context.
+cat > "$BUILD_TR/environment.txt" <<TXT
 captured_at_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 deno_version_recorded=2.9.7 (pinned in .tool-versions; not on PATH for this shell)
 deno_on_path=$([ -n "$(command -v deno 2>/dev/null || true)" ] && echo yes || echo no)
 os=$(uname -a)
-terminal_verifier_run_id=$(TERMINAL_RUN_NOW=1 bash "$ROOT/.factory/scripts/check_characterize_rest01_correction03.sh" --mode id 2>/dev/null || echo UNKNOWN)
 subject_sha=a392c49e1c899fbbbbf39bf84d73a8308c048eb6
 invocation=$(echo "check_characterize_rest01_correction03.sh --mode postcommit (terminal)")
 TXT
 
+# Stage 4: atomically move BUILD_TR into terminal_run/.
+mkdir -p "$TR"
+rm -f "$TR"/*
+mv "$BUILD_TR"/* "$TR"/
+rmdir "$BUILD_TR"
+trap - EXIT
+
 echo "freeze_terminal_run :: DONE"
-echo "TERMINAL_EXITCODE=$(cat "$TR/verifier.exitcode")"
+echo "TERMINAL_EXITCODE=$EC"
 echo "TERMINAL_HEAD_SHA=$(head -1 "$TR/head.txt")"
 echo "TERMINAL_TREE_SHA=$(head -1 "$TR/tree.txt")"

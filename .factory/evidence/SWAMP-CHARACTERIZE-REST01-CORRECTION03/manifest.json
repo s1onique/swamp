@@ -5,7 +5,7 @@
   "parent_commit": "19d6d2e093e1bbc9e2cb160a19018444874444aa",
   "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION06",
   "verdict": "TERMINAL_RUN_BINDING_RESTORED",
-  "terminal_verifier_run_id": null,
+  "terminal_verifier_run_id": "6ada1f9cef557f58380a8351c29b809e1e42ceb6d6ed0df9cf705fa62c950ff3",
   "canonical_classifications": {
     "CLUSTER-01": {
       "classification": "ENVIRONMENTAL",
@@ -46,7 +46,7 @@
     "epic-board.md"
   ],
   "projection_count": 8,
-  "raw_hash_entry_count": 13,
+  "raw_hash_entry_count": 26,
   "raw_hash_entry_count_derivation": "wc -l <committed C03/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/raw-sha256.txt> (excludes comments + blank lines; runtime-derived at every verifier invocation; precommit/commit/post-commit identical)",
   "parent_raw_manifest_path": ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt",
   "parent_raw_manifest_expected_sha256": "7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9",
