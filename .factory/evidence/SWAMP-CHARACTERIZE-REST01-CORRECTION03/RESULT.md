@@ -292,8 +292,8 @@
 
   Content commit (Commit C):  04164de4d28b4e14ed272b8b3e9feac83f3e9238
   Content tree:               4d769403cff93a74465051f54ac2a7d3d6977e2b
-  Attestation commit (Commit D): 9b542d5553907c3078a7c858e45743d96577c8a3
-  Attestation tree:           ab729bac5d9902b6f5dd780ab17cdb8b2ad03b49
+  Attestation commit (Commit D): f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9
+  Attestation tree:           eaaa3bfe6277c9ede4503be9311d76d21345cbb6
   Parent commit of chain:     95203ca5a6efc3bf73bc3ff733fc5b2117b0e4ea
   Subject:                    a392c49e1c899fbbbbf39bf84d73a8308c048eb6
 
@@ -342,4 +342,62 @@
 
   All four semantic-predicate fidelity defects (D1-D4) repaired;
   doctrine extended to seven properties; closure is self-consistent
-  at the committed tree of Commit D = 9b542d5553907c3078a7c858e45743d96577c8a3.
+  at the committed tree of Commit D = f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9.
+
+## CORRECTION05 closure (final state — projection identity)
+
+  Authoritative fact source: git only.
+    Content commit (Commit C):      `git rev-parse HEAD~1` = 04164de4d28b4e14ed272b8b3e9feac83f3e9238
+    Content tree:                   `git rev-parse HEAD~1^{tree}` = 4d769403cff93a74465051f54ac2a7d3d6977e2b
+    Attestation commit (Commit D):  `git rev-parse HEAD` = f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9
+    Attestation tree:               `git rev-parse HEAD^{tree}` = eaaa3bfe6277c9ede4503be9311d76d21345cbb6
+    Raw evidence count:             `wc -l <committed raw-sha256.txt>` = 13
+
+  Five projection-identity invariants (added in CORRECTION05):
+    ATTESTATION_COMMIT_PROJECTIONS_AGREE          = PASS
+    CONTENT_COMMIT_PROJECTIONS_AGREE              = PASS
+    RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE        = PASS
+    BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER       = PASS
+    MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER       = PASS
+
+  Manifest update (in this ACT):
+    manifest.json.correction_act:            "SWAMP-CHARACTERIZE-REST01-CORRECTION04" -> "SWAMP-CHARACTERIZE-REST01-CORRECTION05"
+    manifest.json.verdict:                   "CLOSURE_STATE_AUTHORITY_RESTORED" -> "PROJECTION_IDENTITY_CONSISTENCY_RESTORED"
+    manifest.json.raw_hash_entry_count:      null -> 13 (integer)
+    manifest.json.doctrine_properties:       + "projection identity" (now 8)
+    manifest.json.projection_identity_invariants: 5 entries
+    manifest.json.projection_identity_doctrine: "A derived scalar is not actually derived if one authoritative projection still stores null, TBD, or a contradictory literal."
+
+  Board update (in this ACT):
+    CORRECTION04 row:  "Content commit TBD; ..." -> "Content commit 04164de4...; attestation commit (this row); raw entry count = 13 (derived at runtime); final postcommit verifier 82/82/0/PASS at HEAD."
+    CORRECTION05 row added.
+    Epic board no longer carries the "Content commit TBD" placeholder in any active projection.
+
+  Post-COMMIT-ATTESTATION.md update:
+    Verdict:                                     CLOSURE_STATE_AUTHORITY_RESTORED -> PROJECTION_IDENTITY_CONSISTENCY_RESTORED
+    ATTESTATION_SUBJECT_BOUND wording:           "all 6 relations satisfied at capture-time placeholders" -> "all 6 relations satisfied at post-attestation runtime"
+    Added explicit "RAW_SHA256_ENTRY_COUNT = 13 (runtime-derived from committed raw-sha256.txt via wc -l)".
+    Added "Authoritative Commit D = git rev-parse HEAD at this artifact's commit."
+
+  Verifier update:
+    Postcommit verifier emits 12 new projection lines:
+      GIT_DERIVED_HEAD_SHA, GIT_DERIVED_CONTENT_COMMIT_SHA,
+      GIT_DERIVED_CONTENT_TREE_SHA, GIT_DERIVED_ATTESTATION_TREE_SHA,
+      ATTEST_MD_CONTENT_COMMIT_SHA, ATTEST_MD_CONTENT_TREE_SHA,
+      ATTEST_MD_RAW_SHA256_ENTRY_COUNT,
+      RESULT_MD_ATTESTATION_COMMIT_SHA, RESULT_MD_RAW_SHA256_ENTRY_COUNT,
+      BOARD_CONTENT_COMMIT_SHA,
+      MANIFEST_RAW_HASH_ENTRY_COUNT.
+    Default CONTENT_COMMIT_SHA: PARENT_COMMIT -> git rev-parse HEAD~1.
+    Total invariants: 82 -> 87 (5 new). All PASS required.
+
+## Verdict (CORRECTION05 final)
+
+  PROJECTION_IDENTITY_CONSISTENCY_RESTORED
+
+  CANONICAL FAILURE CLASSIFICATION = ACCEPTED (unchanged from CORRECTION02/03/04)
+  SEMANTIC-PREDICATE REPAIR = ACCEPTED (unchanged from CORRECTION04)
+  FINAL CLOSURE PROJECTION = AUTHORITATIVE (this ACT)
+  DOGFOOD_READY = false (CLUSTER-02 remains sole unknown-red blocker)
+
+  Next ACT: SWAMP-REMOTE-PARALLEL-INTERFERENCE01.

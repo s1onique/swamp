@@ -3,8 +3,8 @@
   "subject": "a392c49e1c899fbbbbf39bf84d73a8308c048eb6",
   "parent_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION02",
   "parent_commit": "19d6d2e093e1bbc9e2cb160a19018444874444aa",
-  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION04",
-  "verdict": "CLOSURE_STATE_AUTHORITY_RESTORED",
+  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION05",
+  "verdict": "PROJECTION_IDENTITY_CONSISTENCY_RESTORED",
   "canonical_classifications": {
     "CLUSTER-01": {
       "classification": "ENVIRONMENTAL",
@@ -45,7 +45,8 @@
     "epic-board.md"
   ],
   "projection_count": 8,
-  "raw_hash_entry_count": null,
+  "raw_hash_entry_count": 13,
+  "raw_hash_entry_count_derivation": "wc -l <committed C03/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION03/raw-sha256.txt> (excludes comments + blank lines; runtime-derived at every verifier invocation; precommit/commit/post-commit identical)",
   "parent_raw_manifest_path": ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt",
   "parent_raw_manifest_expected_sha256": "7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9",
   "verifier_path": ".factory/scripts/check_characterize_rest01_correction03.sh",
@@ -58,8 +59,17 @@
     "verifier authority",
     "projection consistency",
     "temporal/state binding",
-    "semantic predicate fidelity"
+    "semantic predicate fidelity",
+    "projection identity"
   ],
+  "projection_identity_invariants": [
+    "ATTESTATION_COMMIT_PROJECTIONS_AGREE",
+    "CONTENT_COMMIT_PROJECTIONS_AGREE",
+    "RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE",
+    "BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER",
+    "MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER"
+  ],
+  "projection_identity_doctrine": "A derived scalar is not actually derived if one authoritative projection still stores null, TBD, or a contradictory literal.",
   "negative_claims": [
     "NO_PRODUCTION_CODE_CHANGED",
     "NO_NEW_FAILURE_REPRODUCTION",
@@ -76,6 +86,11 @@
     "VERIFIER_COUNTS_DERIVED",
     "POSTCOMMIT_PROPERTIES_HAVE_POSTCOMMIT_EVIDENCE",
     "ATTESTATION_SUBJECT_BOUND",
-    "BOARD_STATE_AGREES_WITH_ACT_STATE"
+    "BOARD_STATE_AGREES_WITH_ACT_STATE",
+    "ATTESTATION_COMMIT_PROJECTIONS_AGREE",
+    "CONTENT_COMMIT_PROJECTIONS_AGREE",
+    "RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE",
+    "BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER",
+    "MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER"
   ]
 }

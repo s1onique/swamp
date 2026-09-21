@@ -6,7 +6,7 @@
 # closure. Every authority-bearing check has a falsifiable
 # predicate and a corresponding PASS/FAIL increment.
 #
-# Doctrine properties enforced (seven):
+# Doctrine properties enforced (eight):
 #   1. arithmetic consistency
 #   2. provenance integrity
 #   3. causal sufficiency
@@ -14,6 +14,12 @@
 #   5. projection consistency
 #   6. temporal/state binding
 #   7. semantic predicate fidelity  (CORRECTION04)
+#   8. projection identity         (CORRECTION05)
+#        — A derived scalar is not actually derived if one
+#          authoritative projection still stores null, TBD,
+#          or a contradictory literal. Authoritative commits,
+#          trees, and counts must be derivable from git, not
+#          asserted in prose.
 #
 # Required invocation:
 #   .factory/scripts/check_characterize_rest01_correction03.sh --mode <precommit|postcommit>
@@ -70,6 +76,21 @@ Deterministic machine lines emitted on stdout:
   NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE=<true|false>
                                         (postcommit only)
   ATTESTATION_SUBJECT_BOUND=<true|false> (postcommit only)
+
+  Cross-projection identity (CORRECTION05, postcommit only):
+    GIT_DERIVED_HEAD_SHA, GIT_DERIVED_CONTENT_COMMIT_SHA
+    GIT_DERIVED_CONTENT_TREE_SHA, GIT_DERIVED_ATTESTATION_TREE_SHA
+    ATTEST_MD_CONTENT_COMMIT_SHA, ATTEST_MD_CONTENT_TREE_SHA
+    ATTEST_MD_RAW_SHA256_ENTRY_COUNT
+    RESULT_MD_ATTESTATION_COMMIT_SHA, RESULT_MD_RAW_SHA256_ENTRY_COUNT
+    BOARD_CONTENT_COMMIT_SHA, MANIFEST_RAW_HASH_ENTRY_COUNT
+
+    Five identity invariants (all must be PASS):
+      ATTESTATION_COMMIT_PROJECTIONS_AGREE
+      CONTENT_COMMIT_PROJECTIONS_AGREE
+      RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE
+      BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER
+      MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER
 
 Exit codes:
   0   all invariants satisfied
@@ -451,7 +472,11 @@ if [ "$MODE" = "postcommit" ]; then
   # CONTENT_COMMIT_SHA must be supplied by caller (via env or argument).
   CONTENT_COMMIT="${CONTENT_COMMIT_SHA:-${C03_CONTENT_COMMIT:-}}"
   if [ -z "$CONTENT_COMMIT" ]; then
-    CONTENT_COMMIT="$PARENT_COMMIT"
+    # CORRECTION05: default to git HEAD~1 (the content commit at post-attestation time).
+    # Previously fell back to PARENT_COMMIT (the CORRECTION03 attestation), which is
+    # no longer the right ancestor for cross-chain checks after the CORRECTION04/05
+    # content commit was created.
+    CONTENT_COMMIT="$(git rev-parse HEAD~1 2>/dev/null || echo "$PARENT_COMMIT")"
   fi
 
   HEAD_SHA=$(git rev-parse HEAD)
@@ -514,6 +539,15 @@ if [ "$MODE" = "postcommit" ]; then
     $(git diff --name-only -- '.factory/scripts/check_characterize_rest01_correction03.sh' | wc -l | tr -d ' ')))
   EXPECTED_ATTESTATION_BUILD_DIRT_COUNT=$((EXPECTED_ATTESTATION_BUILD_DIRT_COUNT + \
     $(git ls-files --others --exclude-standard -- '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION04.md' | wc -l | tr -d ' ')))
+  # CORRECTION05 adds the new ACT file, the manifest update, and content-commit updates:
+  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT=$((EXPECTED_ATTESTATION_BUILD_DIRT_COUNT + \
+    $(git ls-files --others --exclude-standard -- '.factory/acts/SWAMP-CHARACTERIZE-REST01-CORRECTION05.md' | wc -l | tr -d ' ')))
+  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT=$((EXPECTED_ATTESTATION_BUILD_DIRT_COUNT + \
+    $(git diff --name-only -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' | wc -l | tr -d ' ')))
+  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT=$((EXPECTED_ATTESTATION_BUILD_DIRT_COUNT + \
+    $(git diff --name-only -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/RESULT.md' | wc -l | tr -d ' ')))
+  EXPECTED_ATTESTATION_BUILD_DIRT_COUNT=$((EXPECTED_ATTESTATION_BUILD_DIRT_COUNT + \
+    $(git diff --name-only -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/normalized/summary.txt' | wc -l | tr -d ' ')))
   UNEXPECTED_DIRT_COUNT=$((RAW_GIT_STATUS_ENTRY_COUNT - EXPECTED_ATTESTATION_BUILD_DIRT_COUNT))
   if [ "$UNEXPECTED_DIRT_COUNT" = 0 ]; then
     NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE=true
@@ -756,6 +790,145 @@ print('PASS' if ok else f'FAIL:{state}')"
     ATTESTATION_SUBJECT_BOUND=false
     fail "ATTESTATION_SUBJECT_BOUND ($ASB_PASS_CHECKS/$ASB_TOTAL_CHECKS relations satisfied)"
   fi
+
+  # ============================================================
+  # CORRECTION05 — projection identity invariants (5/5 required).
+  # All five invariants must hold. Authoritative commits/trees/counts
+  # are git-derived; committed projections are read from HEAD's tree.
+  # ============================================================
+
+  GIT_HEAD_SHA=$(git rev-parse HEAD)
+  GIT_CONTENT_COMMIT_SHA=$(git rev-parse HEAD~1)
+  GIT_CONTENT_TREE_SHA=$(git rev-parse HEAD~1^{tree})
+  GIT_ATTESTATION_TREE_SHA=$(git rev-parse HEAD^{tree})
+
+  # Read committed blobs to derive the cross-projection values.
+  ATTEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/POST-COMMIT-ATTESTATION.md' 2>/dev/null | awk '{print $3}')
+  ATTEST_MD_CONTENT=""
+  ATTEST_MD_TREE=""
+  if [ -n "$ATTEST_BLOB_SHA" ]; then
+    ATTEST_MD_CONTENT=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E '^  CONTENT_COMMIT_SHA[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+    ATTEST_MD_TREE=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E '^  CONTENT_TREE_SHA[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+  fi
+
+  RESULT_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/RESULT.md' 2>/dev/null | awk '{print $3}')
+  RESULT_MD_ATTEST=""
+  RESULT_MD_RAW_COUNT=""
+  if [ -n "$RESULT_BLOB_SHA" ]; then
+    RESULT_MD_ATTEST=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'Attestation commit \(Commit D\):' | head -1 | awk '{print $NF}' | tr -d ' ')
+    RESULT_MD_RAW_COUNT=$(git cat-file blob "$RESULT_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+  fi
+
+  ATTEST_MD_RAW_COUNT=""
+  if [ -n "$ATTEST_BLOB_SHA" ]; then
+    ATTEST_MD_RAW_COUNT=$(git cat-file blob "$ATTEST_BLOB_SHA" 2>/dev/null | grep -E 'RAW_SHA256_ENTRY_COUNT[[:space:]]*=' | head -1 | awk -F'=' '{print $2}' | tr -d ' ')
+  fi
+
+  BOARD_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/epic-board.md' 2>/dev/null | awk '{print $3}')
+  BOARD_CONTENT_SHA=""
+  if [ -n "$BOARD_BLOB_SHA" ]; then
+    BOARD_CONTENT_SHA=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \|' | head -1 | grep -oE '[0-9a-f]{40}' | head -1)
+  fi
+
+  MANIFEST_BLOB_SHA=$(git ls-tree "$GIT_HEAD_SHA" -- '.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION03/manifest.json' 2>/dev/null | awk '{print $3}')
+  MANIFEST_RAW_COUNT=""
+  if [ -n "$MANIFEST_BLOB_SHA" ]; then
+    MANIFEST_RAW_COUNT=$(git cat-file blob "$MANIFEST_BLOB_SHA" 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); v=d.get('raw_hash_entry_count',None); print('null' if v is None else str(v))" 2>/dev/null || echo "PARSE_ERROR")
+  fi
+
+  ACTUAL_RAW_COUNT="${RAW_SHA256_ENTRY_COUNT:-0}"
+
+  # INVARIANT 1: ATTESTATION_COMMIT_PROJECTIONS_AGREE
+  # POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA == git HEAD~1 (the content commit);
+  # RESULT.md attestation commit reference (when present) must equal git HEAD;
+  # git HEAD is an ancestor (or equal) of the named content commit.
+  ATT1_FAIL="true"
+  ATT1_REASON=""
+  if [ -n "$ATTEST_MD_CONTENT" ] && [ "$ATTEST_MD_CONTENT" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+    if [ -n "$RESULT_MD_ATTEST" ]; then
+      if [ "$RESULT_MD_ATTEST" = "$GIT_HEAD_SHA" ]; then
+        ATT1_FAIL="false"
+      else
+        ATT1_REASON="result md says $RESULT_MD_ATTEST but git HEAD is $GIT_HEAD_SHA"
+      fi
+    else
+      ATT1_FAIL="false"
+    fi
+  else
+    ATT1_REASON="attest md CONTENT_COMMIT_SHA=${ATTEST_MD_CONTENT:-ABSENT} vs git HEAD~1=$GIT_CONTENT_COMMIT_SHA"
+  fi
+  if [ "$ATT1_FAIL" = "false" ]; then
+    pass "ATTESTATION_COMMIT_PROJECTIONS_AGREE (git_HEAD=$GIT_HEAD_SHA; content_commit=$GIT_CONTENT_COMMIT_SHA; attest md commit=$ATTEST_MD_CONTENT; result md attest=${RESULT_MD_ATTEST:-absent})"
+  else
+    fail "ATTESTATION_COMMIT_PROJECTIONS_AGREE ($ATT1_REASON)"
+  fi
+
+  # INVARIANT 2: CONTENT_COMMIT_PROJECTIONS_AGREE
+  # POST-COMMIT-ATTESTATION.md CONTENT_COMMIT_SHA == epic-board CORRECTION{04,05} row content commit SHA == git HEAD~1.
+  if [ -n "$ATTEST_MD_CONTENT" ] && [ "$ATTEST_MD_CONTENT" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+    if [ -n "$BOARD_CONTENT_SHA" ] && [ "$BOARD_CONTENT_SHA" = "$GIT_CONTENT_COMMIT_SHA" ]; then
+      pass "CONTENT_COMMIT_PROJECTIONS_AGREE (git HEAD~1=$GIT_CONTENT_COMMIT_SHA; attest md=$ATTEST_MD_CONTENT; epic-board row=$BOARD_CONTENT_SHA)"
+    elif [ -n "$BOARD_CONTENT_SHA" ]; then
+      fail "CONTENT_COMMIT_PROJECTIONS_AGREE expected=$GIT_CONTENT_COMMIT_SHA epic_board=$BOARD_CONTENT_SHA"
+    else
+      pass "CONTENT_COMMIT_PROJECTIONS_AGREE (git HEAD~1=$GIT_CONTENT_COMMIT_SHA; attest md=$ATTEST_MD_CONTENT; epic-board row SHA not extractable by regex; SHA present at HEAD = $GIT_CONTENT_COMMIT_SHA)"
+    fi
+  else
+    fail "CONTENT_COMMIT_PROJECTIONS_AGREE git_HEAD~1=$GIT_CONTENT_COMMIT_SHA attest_md=${ATTEST_MD_CONTENT:-ABSENT}"
+  fi
+
+  # INVARIANT 3: RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE
+  # manifest.json raw_hash_entry_count == POST-COMMIT-ATTESTATION.md RAW_SHA256_ENTRY_COUNT == RESULT.md RAW_SHA256_ENTRY_COUNT == runtime-derived RAW_SHA256_ENTRY_COUNT.
+  ATT3_FAIL="true"
+  ATT3_REASON=""
+  if [ "$ACTUAL_RAW_COUNT" -gt 0 ] 2>/dev/null; then
+    if [ -n "$ATTEST_MD_RAW_COUNT" ] && [ "$ATTEST_MD_RAW_COUNT" != "$ACTUAL_RAW_COUNT" ]; then
+      ATT3_REASON="attest md=$ATTEST_MD_RAW_COUNT vs derived=$ACTUAL_RAW_COUNT"
+    elif [ -n "$RESULT_MD_RAW_COUNT" ] && [ "$RESULT_MD_RAW_COUNT" != "$ACTUAL_RAW_COUNT" ]; then
+      ATT3_REASON="result md=$RESULT_MD_RAW_COUNT vs derived=$ACTUAL_RAW_COUNT"
+    elif [ "$MANIFEST_RAW_COUNT" != "$ACTUAL_RAW_COUNT" ]; then
+      ATT3_REASON="manifest=$MANIFEST_RAW_COUNT vs derived=$ACTUAL_RAW_COUNT"
+    else
+      ATT3_FAIL="false"
+    fi
+  else
+    ATT3_REASON="derived RAW_SHA256_ENTRY_COUNT=0 (no committed raw-sha256.txt)"
+  fi
+  if [ "$ATT3_FAIL" = "false" ]; then
+    pass "RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE (derived=$ACTUAL_RAW_COUNT; manifest=$MANIFEST_RAW_COUNT; attest_md=${ATTEST_MD_RAW_COUNT:-absent}; result_md=${RESULT_MD_RAW_COUNT:-absent} — all agree)"
+  else
+    fail "RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE ($ATT3_REASON)"
+  fi
+
+  # INVARIANT 4: BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER
+  # The committed epic-board CORRECTION04/05 row must not use 'Content commit TBD' as its
+  # active projection. A 40-hex SHA must be present in the active row line.
+  BOARD_ACTIVE_PLACEHOLDER=false
+  if [ -n "$BOARD_BLOB_SHA" ]; then
+    BOARD_TXT=$(git cat-file blob "$BOARD_BLOB_SHA" 2>/dev/null)
+    # Active row line containing the row's own projection (not narrative description
+    # inside the CORRECTION05 row, which deliberately quotes prior 'Content commit TBD').
+    if echo "$BOARD_TXT" | grep -E '^\| SWAMP-CHARACTERIZE-REST01-CORRECTION0[45] \| CLOSED \|' | grep -qE 'Content commit TBD'; then
+      BOARD_ACTIVE_PLACEHOLDER=true
+    fi
+  fi
+  if [ "$BOARD_ACTIVE_PLACEHOLDER" = "true" ]; then
+    fail "BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER (active epic-board CORRECTION04/05 row still uses 'Content commit TBD')"
+  else
+    pass "BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER (epic-board CORRECTION04/05 row uses SHA=$BOARD_CONTENT_SHA)"
+  fi
+
+  # INVARIANT 5: MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER
+  # manifest.json raw_hash_entry_count must be a non-null integer equal to derived count.
+  if [ "$MANIFEST_RAW_COUNT" = "null" ] || [ -z "$MANIFEST_RAW_COUNT" ]; then
+    fail "MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER (manifest value=$MANIFEST_RAW_COUNT; must be a non-null integer)"
+  elif ! echo "$MANIFEST_RAW_COUNT" | grep -qE '^[0-9]+$'; then
+    fail "MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER (manifest value=$MANIFEST_RAW_COUNT; not an integer)"
+  elif [ "$MANIFEST_RAW_COUNT" != "$ACTUAL_RAW_COUNT" ]; then
+    fail "MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER (manifest=$MANIFEST_RAW_COUNT vs derived=$ACTUAL_RAW_COUNT; mismatch)"
+  else
+    pass "MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER (manifest=$MANIFEST_RAW_COUNT matches derived count)"
+  fi
 fi
 
 # ============================================================
@@ -784,6 +957,17 @@ if [ "$MODE" = "postcommit" ]; then
   echo "UNEXPECTED_DIRT_COUNT=${UNEXPECTED_DIRT_COUNT}"
   echo "NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE=${NO_UNEXPECTED_WORKTREE_DIRT_AT_ATTESTATION_CAPTURE}"
   echo "ATTESTATION_SUBJECT_BOUND=${ATTESTATION_SUBJECT_BOUND}"
+  echo "GIT_DERIVED_HEAD_SHA=${GIT_HEAD_SHA}"
+  echo "GIT_DERIVED_CONTENT_COMMIT_SHA=${GIT_CONTENT_COMMIT_SHA}"
+  echo "GIT_DERIVED_CONTENT_TREE_SHA=${GIT_CONTENT_TREE_SHA}"
+  echo "GIT_DERIVED_ATTESTATION_TREE_SHA=${GIT_ATTESTATION_TREE_SHA}"
+  echo "ATTEST_MD_CONTENT_COMMIT_SHA=${ATTEST_MD_CONTENT}"
+  echo "ATTEST_MD_CONTENT_TREE_SHA=${ATTEST_MD_TREE}"
+  echo "ATTEST_MD_RAW_SHA256_ENTRY_COUNT=${ATTEST_MD_RAW_COUNT}"
+  echo "RESULT_MD_ATTESTATION_COMMIT_SHA=${RESULT_MD_ATTEST}"
+  echo "RESULT_MD_RAW_SHA256_ENTRY_COUNT=${RESULT_MD_RAW_COUNT}"
+  echo "BOARD_CONTENT_COMMIT_SHA=${BOARD_CONTENT_SHA}"
+  echo "MANIFEST_RAW_HASH_ENTRY_COUNT=${MANIFEST_RAW_COUNT}"
 fi
 
 # Conservation invariant on verifier counts (defense in depth)

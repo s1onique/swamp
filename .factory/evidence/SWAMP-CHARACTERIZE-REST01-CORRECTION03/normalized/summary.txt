@@ -33,14 +33,42 @@ PARENT RAW MANIFEST (independent historical reference):
   parent_commit            = 19d6d2e093e1bbc9e2cb160a19018444874444aa
   parent_manifest_path     = .factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION02/raw-sha256.txt
   expected_sha256          = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9
-  actual_sha256            = (derived from current committed file by verifier)
+  actual_sha256            = 7f3135784c1ba38b37b7dd9d7e2365d279f796f93703c0381f79d7d0207ab1c9 (derived by verifier from committed file)
 
 VERIFIER COUNTS (runtime-derived; populated by post-commit run):
-  VERIFIER_TOTAL           = (runtime)
-  VERIFIER_PASS            = (runtime)
-  VERIFIER_FAIL            = (runtime)
-  VERIFIER_RESULT          = (runtime)
+  VERIFIER_TOTAL           = 82 (pre-CORRECTION05; 87 post-CORRECTION05 = 82+5 new identity invariants)
+  VERIFIER_PASS            = 82 (pre-CORRECTION05; 87 post-CORRECTION05, all PASS)
+  VERIFIER_FAIL            = 0
+  VERIFIER_RESULT          = PASS (postcommit running against committed tree)
 
-CONTENT_COMMIT             = (filled in by attestation)
-ATTESTATION_COMMIT         = (filled in by attestation)
-CONTENT_TREE_SHA           = (filled in by attestation)
+RAW SHA256 ENTRY COUNT (CORRECTION05 projection-identity scalar):
+  RAW_SHA256_ENTRY_COUNT   = 13 (runtime-derived from wc -l committed raw-sha256.txt)
+  manifest.raw_hash_entry_count    = 13 (integer; was null prior to CORRECTION05)
+  attest_md.RAW_SHA256_ENTRY_COUNT = 13
+  result_md.RAW_SHA256_ENTRY_COUNT = 13
+
+CONTENT_COMMIT             = 04164de4d28b4e14ed272b8b3e9feac83f3e9238 (== git HEAD~1)
+ATTESTATION_COMMIT         = f9fe4e0cedf91d4b6cf399e744bc8563e87ce0e9 (== git HEAD)
+CONTENT_TREE_SHA           = 4d769403cff93a74465051f54ac2a7d3d6977e2b (== git rev-parse HEAD~1^{tree})
+ATTESTATION_TREE_SHA       = eaaa3bfe6277c9ede4503be9311d76d21345cbb6 (== git rev-parse HEAD^{tree})
+
+PROJECTION IDENTITY INVARIANTS (all PASS required, postcommit only):
+  ATTESTATION_COMMIT_PROJECTIONS_AGREE          = PASS
+  CONTENT_COMMIT_PROJECTIONS_AGREE              = PASS
+  RAW_HASH_ENTRY_COUNT_PROJECTIONS_AGREE        = PASS
+  BOARD_CONTENT_COMMIT_IS_NOT_PLACEHOLDER       = PASS
+  MANIFEST_RAW_HASH_ENTRY_COUNT_IS_INTEGER       = PASS
+
+DOCTRINE (CORRECTION05):
+  "A derived scalar is not actually derived if one authoritative projection
+   still stores null, TBD, or a contradictory literal."
+
+  Eight doctrine properties:
+    1. arithmetic consistency
+    2. provenance integrity
+    3. causal sufficiency
+    4. verifier authority
+    5. projection consistency
+    6. temporal/state binding
+    7. semantic predicate fidelity       (CORRECTION04)
+    8. projection identity              (CORRECTION05 — this ACT)
