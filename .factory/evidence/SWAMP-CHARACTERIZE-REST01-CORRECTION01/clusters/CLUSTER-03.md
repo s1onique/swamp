@@ -105,9 +105,23 @@ direction because it changes the scenario.
 
 - The failure is still deterministic and reproduces 3/3 isolated
   runs. It is NOT flaky.
-- The production code is NOT at fault; it correctly catches the
-  TypeError on scenario A and correctly no-ops on scenario B. The
-  test fixture is at fault.
+- **Narrowed in CORRECTION02:** The observed failure is explained
+  by the test contract/fixture mismatch and is not evidence of a
+  production-code failure. This is a weaker claim than
+  "production code is correct". Specifically:
+    - The test asserts scenario A (`calls.length === 1`). The
+      fixture creates scenario B (child exits before abort). The
+      observed failure (`calls.length === 0`) is the consistent
+      outcome of scenario B.
+    - The production path that handles an already-terminated
+      sender — i.e. catches the TypeError on scenario A and
+      no-ops on scenario B — has not been independently proven
+      correct by this ACT. It is merely not implicated by
+      THIS failure.
+    - A separate portable test would be required to claim
+      "production code is correct". This ACT does not run one.
+    - The test fixture (line 613-614) is at fault relative to
+      the asserted invariant on line 632.
 - This is still the only failure in the prior ACT's inventory that
   is caused by SWAMP, not the substrate.
 - The historical cause attribution (introduced by production commit

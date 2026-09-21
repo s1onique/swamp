@@ -14,7 +14,7 @@
       "runner_status": "FAILED",
       "cluster_id": "CLUSTER-03",
       "classification": "TEST_CONTRACT_AMBIGUITY",
-      "cause_owner": "SWAMP (test contract)",
+      "cause_owner": "SWAMP_TEST_CONTRACT",
       "handling_quality": "DEGRADED",
       "evidence_strength": "REPRODUCED_REPEATEDLY",
       "error_excerpt": [
@@ -30,7 +30,8 @@
       "handling": "DEFERRED_AWAITING_TERMINAL_RACE_ACT",
       "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
       "prior_classification_was": "PROJECT_DEFECT",
-      "reclassification_reason": "Fixture scenario contradicts asserted invariant; contract decision needed."
+      "reclassification_reason": "Fixture scenario contradicts asserted invariant; contract decision needed.",
+      "cause_owner_prose": "SWAMP (test contract)"
     },
     {
       "failure_id": "F-02",
@@ -614,7 +615,7 @@
       "classification": "UNRESOLVED",
       "cause_owner": "UNKNOWN",
       "handling_quality": "DEGRADED",
-      "evidence_strength": "REPRODUCED_REPEATEDLY",
+      "evidence_strength": "OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD",
       "error_excerpt": [
         "------- post-test output -------",
         "2026-09-21T16:31:44.658Z [INF] serve\u00b7worker-gateway: Worker \"queue-worker\" enrolled (\"first-connect\")",
@@ -634,8 +635,9 @@
     }
   ],
   "classification_conservation": {
-    "PROJECT_DEFECT": 1,
-    "ENVIRONMENTAL": 32
+    "ENVIRONMENTAL": 31,
+    "TEST_CONTRACT_AMBIGUITY": 1,
+    "UNRESOLVED": 1
   },
   "cluster_sizes": {
     "CLUSTER-01": 31,
@@ -645,8 +647,9 @@
   "conservation_check": {
     "sum(classification_counts)": 33,
     "runner_failed": 33,
+    "sum(cluster_sizes)": 33,
     "ok": true,
-    "sum(cluster_sizes)": 33
+    "note": "Recomputed in CORRECTION02 from failures[] rows (single source of truth)."
   },
   "Deno_version": "deno 2.9.7 (stable, release, aarch64-apple-darwin)",
   "deno_binary": "/tmp/deno-arm64/deno",
@@ -657,7 +660,12 @@
   "deno_dir": "/tmp/swamp-char-rest01.ipyvth/deno",
   "tmpdir": "/tmp",
   "parallel": true,
-  "unknown_red": false,
-  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
-  "no_unknown_red": false
+  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION02",
+  "no_unknown_red": false,
+  "prior_correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+  "correction_act_chain": [
+    "SWAMP-CHARACTERIZE-REST01",
+    "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+    "SWAMP-CHARACTERIZE-REST01-CORRECTION02"
+  ]
 }

@@ -18,5 +18,11 @@
     ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/prewarm/stdout.txt",
     ".factory/tmp/SWAMP-CHARACTERIZE-REST01-CORRECTION01/prewarm/stderr.txt"
   ],
-  "note": "All raw evidence files are hashed under raw-sha256.txt. The prior ACT raw evidence (SWAMP-CHARACTERIZE-REST01/**) is preserved unchanged and is referenced by this ACT."
+  "note": "All raw evidence files are hashed under raw-sha256.txt. The prior ACT raw evidence (SWAMP-CHARACTERIZE-REST01/**) is preserved unchanged. CORRECTION01 file projection defects were repaired by CORRECTION02; see .factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION02/.",
+  "prior_correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+  "correction_act_chain": [
+    "SWAMP-CHARACTERIZE-REST01",
+    "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+    "SWAMP-CHARACTERIZE-REST01-CORRECTION02"
+  ]
 }

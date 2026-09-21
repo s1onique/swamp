@@ -1,0 +1,8 @@
+import json
+p='/Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/failures.json'
+d=json.load(open(p))
+for f in d['failures']:
+    if f['cluster_id']=='CLUSTER-02':
+        print(f'restoring OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD (was {f["evidence_strength"]})')
+        f['evidence_strength']='OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD'
+json.dump(d, open(p,'w'), indent=2)

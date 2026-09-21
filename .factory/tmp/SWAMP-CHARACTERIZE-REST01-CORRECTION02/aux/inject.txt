@@ -1,0 +1,8 @@
+import json
+p='/Volumes/UserData/Users/chistyakov/Projects/SPbNIX/swamp/.factory/evidence/SWAMP-CHARACTERIZE-REST01-CORRECTION01/failures.json'
+d=json.load(open(p))
+for f in d['failures']:
+    if f['cluster_id']=='CLUSTER-02':
+        print(f'injecting REPRODUCED_REPEATEDLY (was {f["evidence_strength"]})')
+        f['evidence_strength']='REPRODUCED_REPEATEDLY'
+json.dump(d, open(p,'w'), indent=2)

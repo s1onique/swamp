@@ -1,0 +1,52 @@
+PASS: FILE_PRESENT: failures.json
+PASS: FILE_PRESENT: classified-inventory.json
+PASS: FILE_PRESENT: RESULT.md
+PASS: FILE_PRESENT: CLUSTER-SUMMARY.md
+PASS: FILE_PRESENT: MANIFEST.md
+PASS: FILE_PRESENT: summary.txt
+PASS: failures.json:CLUSTER-01.classification (=ENVIRONMENTAL)
+PASS: failures.json:CLUSTER-02.classification (=UNRESOLVED)
+PASS: failures.json:CLUSTER-03.classification (=TEST_CONTRACT_AMBIGUITY)
+PASS: failures.json:CLUSTER-02.cause_owner (=UNKNOWN)
+PASS: failures.json:CLUSTER-03.cause_owner (=SWAMP_TEST_CONTRACT)
+FAIL: failures.json:CLUSTER-02.evidence_strength expected=OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD observed=REPRODUCED_REPEATEDLY
+PASS: failures.json:CLUSTER-03.evidence_strength (=REPRODUCED_REPEATEDLY)
+PASS: failures.json:classification_conservation (={"ENVIRONMENTAL": 31, "TEST_CONTRACT_AMBIGUITY": 1, "UNRESOLVED": 1})
+PASS: failures.json:no_unknown_red (=false)
+PASS: failures.json:unknown_red_absent (=false)
+PASS: inventory:CLUSTER-01.classification (=ENVIRONMENTAL)
+PASS: inventory:CLUSTER-02.classification (=UNRESOLVED)
+PASS: inventory:CLUSTER-03.classification (=TEST_CONTRACT_AMBIGUITY)
+PASS: inventory:CLUSTER-02.cause_owner (=UNKNOWN)
+PASS: inventory:CLUSTER-03.cause_owner (=SWAMP_TEST_CONTRACT)
+PASS: inventory:CLUSTER-02.evidence_strength (=OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD)
+PASS: inventory:CLUSTER-03.evidence_strength (=REPRODUCED_REPEATEDLY)
+PASS: inventory:classification_conservation (={"ENVIRONMENTAL": 31, "TEST_CONTRACT_AMBIGUITY": 1, "UNRESOLVED": 1})
+PASS: inventory:no_unknown_red (=false)
+PASS: inventory:unknown_red_absent (=false)
+PASS: CROSS_PROJ:CLUSTER-01.classification (=ENVIRONMENTAL)
+PASS: CROSS_PROJ:CLUSTER-02.classification (=UNRESOLVED)
+PASS: CROSS_PROJ:CLUSTER-03.classification (=TEST_CONTRACT_AMBIGUITY)
+PASS: PROSE_LABEL:UNRESOLVED in CLUSTER-SUMMARY.md
+PASS: PROSE_LABEL:UNRESOLVED in RESULT.md
+PASS: PROSE_LABEL:UNRESOLVED in summary.txt
+PASS: PROSE_LABEL:TEST_CONTRACT_AMBIGUITY in CLUSTER-SUMMARY.md
+PASS: PROSE_LABEL:TEST_CONTRACT_AMBIGUITY in RESULT.md
+PASS: PROSE_LABEL:TEST_CONTRACT_AMBIGUITY in summary.txt
+PASS: CLUSTER-SUMMARY.md:CLUSTER-02 row corrected
+PASS: CLUSTER-SUMMARY.md:CLUSTER-03 row corrected
+PASS: normalized:ENVIRONMENTAL=31
+PASS: normalized:UNRESOLVED=1
+PASS: normalized:TEST_CONTRACT_AMBIGUITY=1
+PASS: RESULT:verdict
+PASS: epic-board:CORRECTION02 row CLOSED
+PASS: NO_PRODUCTION_CODE_CHANGED (=0)
+FAIL: WORKING_TREE_CLEAN_AT_FINAL_COMMIT expected=0 observed=9
+PASS: SUBJECT_REACHABLE
+PASS: BASELINE01_RAW_SHA_PRESERVED
+FAIL: THIS_ACT_HASH_MISMATCH:./aux/before.txt expected=97a650d08d6ba1945a47dce32fdd03e9bd8fee2931633cc3bf4f4314360c25cf actual=d8ea52a8d016fd48db7b83a72b905ec1b1e3fb8555b1715bd4664f4fd86d1e92
+FAIL: THIS_ACT_HASH_MISMATCH:./aux/during.txt expected=9a7e68a3d267d365d89e0ef537f066f26afb29cb987acd7f2858eb94c39a48b5 actual=04f01566d79d195c10bd13365aca5f7d168f48036e8dfb1857e2d83a2f2d2378
+FAIL: THIS_ACT_RAW_HASH_VERIFY=false ok=4 bad=2
+
+=== Verifier summary: 44 PASS, 5 FAIL (of 49) ===
+ALL_INVARIANTS_SATISFIED=false

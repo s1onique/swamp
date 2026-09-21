@@ -625,8 +625,8 @@
   ],
   "classification_conservation": {
     "ENVIRONMENTAL": 31,
-    "UNRESOLVED": 1,
-    "TEST_CONTRACT_AMBIGUITY": 1
+    "TEST_CONTRACT_AMBIGUITY": 1,
+    "UNRESOLVED": 1
   },
   "cluster_sizes": {
     "CLUSTER-01": 31,
@@ -636,9 +636,9 @@
   "conservation_check": {
     "sum(classification_counts)": 33,
     "runner_failed": 33,
-    "ok": true,
     "sum(cluster_sizes)": 33,
-    "note": "PROJECT_DEFECT (cluster-03) reclassified as TEST_CONTRACT_AMBIGUITY; ENVIRONMENTAL (cluster-02) reclassified as UNRESOLVED."
+    "ok": true,
+    "note": "Recomputed in CORRECTION02 from failures[] rows (single source of truth)."
   },
   "Deno_version": "deno 2.9.7 (stable, release, aarch64-apple-darwin)",
   "deno_binary": "/tmp/deno-arm64/deno",
@@ -649,43 +649,43 @@
   "deno_dir": "/tmp/swamp-char-rest01.ipyvth/deno",
   "tmpdir": "/tmp",
   "parallel": true,
-  "unknown_red": true,
   "cluster_reclassifications": {
+    "CLUSTER-03": {
+      "unchanged": false,
+      "old": {
+        "classification": "PROJECT_DEFECT",
+        "cause_owner": "UNKNOWN_PRIOR",
+        "evidence_strength": "UNKNOWN_PRIOR"
+      },
+      "new": {
+        "classification": "TEST_CONTRACT_AMBIGUITY",
+        "cause_owner": "SWAMP_TEST_CONTRACT",
+        "evidence_strength": "REPRODUCED_REPEATEDLY"
+      },
+      "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01"
+    },
     "CLUSTER-01": {
       "unchanged": true
     },
     "CLUSTER-02": {
+      "unchanged": false,
       "old": {
-        "primary": "ENVIRONMENTAL",
-        "cause_owner": "SUBSTRATE",
-        "evidence": "REPRODUCED_REPEATEDLY"
+        "classification": "ENVIRONMENTAL",
+        "cause_owner": "UNKNOWN_PRIOR",
+        "evidence_strength": "REPRODUCED_REPEATEDLY"
       },
       "new": {
-        "primary": "UNRESOLVED",
+        "classification": "UNRESOLVED",
         "cause_owner": "UNKNOWN",
-        "evidence": "OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD"
+        "evidence_strength": "OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD"
       },
-      "reason": "No controlled subset reproduces; 10 controls all green except one tangential fluke in cluster-01 file."
-    },
-    "CLUSTER-03": {
-      "old": {
-        "primary": "PROJECT_DEFECT",
-        "cause_owner": "SWAMP",
-        "framing": "timing edge"
-      },
-      "new": {
-        "primary": "TEST_CONTRACT_AMBIGUITY",
-        "cause_owner": "SWAMP (test contract)",
-        "framing": "fixture asserts scenario A while test name/contract speak scenario B"
-      },
-      "reason": "Two non-equivalent invariants; contract decision required before any timing tweak."
+      "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01"
     }
   },
   "no_unknown_red": false,
-  "unknown_red_explanation": "CLUSTER-02 is UNRESOLVED with cause_owner UNKNOWN; no control reproduces the RPC channel close.",
   "dogfood_ready": false,
-  "dogfood_ready_reason": "Mechanically false: unresolved count is 1 (gate requires 0). Previously claimed false for a different (and indefensible) reason.",
-  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+  "dogfood_ready_reason": "false: no_unknown_red is false (CLUSTER-02 has cause_owner=UNKNOWN). Gate blocks on no_unknown_red == true. Resolved by SWAMP-REMOTE-PARALLEL-INTERFERENCE01 (cluster-02 bisect).",
+  "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION02",
   "correction_subject": "a392c49e1c899fbbbbf39bf84d73a8308c048eb6",
   "recommend_next_acts": [
     {
@@ -698,5 +698,44 @@
       "scope": "CLUSTER-03",
       "purpose": "Decide which of two non-equivalent invariants T8 should assert; split or rename accordingly."
     }
-  ]
+  ],
+  "clusters": {
+    "CLUSTER-01": {
+      "count": 31,
+      "classification": "ENVIRONMENTAL",
+      "cause_owner": "SUBSTRATE",
+      "evidence_strength": "FALSIFIED_BY_CONTROL",
+      "handling": "",
+      "prior_classification_was": "",
+      "prior_evidence_was": "",
+      "prior_cause_owner_was": "",
+      "correction_act": "",
+      "reclassification_reason": ""
+    },
+    "CLUSTER-02": {
+      "count": 1,
+      "classification": "UNRESOLVED",
+      "cause_owner": "UNKNOWN",
+      "evidence_strength": "OBSERVED_ONCE_UNDER_FULL_SUITE_LOAD",
+      "handling": "DEFERRED_AWAITING_PARALLEL_INTERFERENCE_ACT",
+      "prior_classification_was": "ENVIRONMENTAL",
+      "prior_evidence_was": "REPRODUCED_REPEATEDLY",
+      "prior_cause_owner_was": "",
+      "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+      "reclassification_reason": "No controlled subset reproduces; observed once under full-suite load only."
+    },
+    "CLUSTER-03": {
+      "count": 1,
+      "classification": "TEST_CONTRACT_AMBIGUITY",
+      "cause_owner": "SWAMP_TEST_CONTRACT",
+      "evidence_strength": "REPRODUCED_REPEATEDLY",
+      "handling": "DEFERRED_AWAITING_TERMINAL_RACE_ACT",
+      "prior_classification_was": "PROJECT_DEFECT",
+      "prior_evidence_was": "",
+      "prior_cause_owner_was": "",
+      "correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01",
+      "reclassification_reason": "Fixture scenario contradicts asserted invariant; contract decision needed."
+    }
+  },
+  "prior_correction_act": "SWAMP-CHARACTERIZE-REST01-CORRECTION01"
 }
