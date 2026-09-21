@@ -1,0 +1,35 @@
+== mode=post-exec ==
+(post-exec mode: precommit/postcommit sweep skipped; only the 8 deferred post-exec properties are evaluated against subject=3c908b5c2cedb44955002d259a79db6ac36d78d9)
+PASS: TERMINAL_RUN_EXECUTED (terminal_run/{stdout,stderr,exitcode,head,tree,verifier.sha256} all committed)
+PASS: TERMINAL_RUN_EXITCODE_IS_ZERO (terminal_run/verifier.exitcode == 0; canonical exit)
+PASS: TERMINAL_RUN_RESULT_IS_PASS (VERIFIER_TOTAL=88 ; VERIFIER_PASS=80 ; VERIFIER_FAIL=0 ; VERIFIER_RESULT=DEFERRED — observed failure count is zero; post-exec verifier is the authority on the deferred properties)
+PASS: TERMINAL_RUN_FAIL_COUNT_IS_ZERO (=0 from VERIFIER_FAIL=0)
+PASS: TERMINAL_RUN_BUNDLE_HASH_IS_BOUND (manifest=8ef698b961c1764556576bda1ffc3086f0a2a9a6df3c64820ee8062c0d50c864 ; attest_md=<placeholder> ; derived=8ef698b961c1764556576bda1ffc3086f0a2a9a6df3c64820ee8062c0d50c864 -- manifest and derived agree; bundle hash binds stdout+stderr+exitcode+head+tree+environment)
+PASS: TERMINAL_RUN_ID_IS_BOUND (manifest=eff996308e68c62835d4e6684cb7bfc18555c032345b748c87da4c2293e1eed5 ; attest_md=<placeholder>; derived=eff996308e68c62835d4e6684cb7bfc18555c032345b748c87da4c2293e1eed5 -- manifest and derived agree; identity = sha256(TV_RUN_V2 + 7 versioned fields), sensitive to verifier + stdout + stderr + exitcode)
+PASS: NO_STALE_TERMINAL_RUN_BUNDLE (terminal_run/{head.txt,tree.txt,verifier.sha256} all match postcommit/ on per-file blob SHA; bundle identity preserved across all 3 identity-file checks; output files like verifier.stdout/err/exitcode legitimately differ because they capture two separate verifier executions, and the bundle hash P5 binds the whole bundle together)
+PASS: AUTHORITATIVE_PROJECTIONS_AGREE (7 committed projections + expanded pattern set: every current-state claim references subject (C8) or derivable-from-C8 hash; no C-equals-D collapse)
+PASS: STATIC_RELATION_S1 (subject reference exists in A8; A8 attests C8 not A8)
+PASS: STATIC_RELATION_S2 (git merge-base --is-ancestor C8 A8 returns 0; C8 is parent/ancestor of A8)
+PASS: STATIC_RELATION_S3 (bundle hash inside C8=8ef698b961c1764556576bda1ffc3086f0a2a9a6df3c64820ee8062c0d50c864 == re-derived from git ls-tree C8:terminal_run/=8ef698b961c1764556576bda1ffc3086f0a2a9a6df3c64820ee8062c0d50c864)
+PASS: STATIC_RELATION_S4 (C8:terminal_run/verifier.stdout contains VERIFIER_RESULT=PASS|DEFERRED and VERIFIER_FAIL=0)
+PASS: STATIC_RELATION_S5 (every projection names C8 or derivable-from-C8 hash; no C-equals-D collapse)
+
+VERIFIER_TOTAL=13
+VERIFIER_PASS=13
+VERIFIER_FAIL=0
+VERIFIER_DEFERRED=0
+VERIFIER_RESULT=PASS
+PARENT_RAW_MANIFEST_EXPECTED_SHA256=UNAVAILABLE
+PARENT_RAW_MANIFEST_ACTUAL_SHA256=UNAVAILABLE
+PARENT_PRESERVED=unknown
+PARENT_PRESERVED_SCOPE=PARENT_RAW_MANIFEST
+RAW_SHA256_ENTRY_COUNT=0
+VERIFIER_SUBJECT=3c908b5c2cedb44955002d259a79db6ac36d78d9
+VERIFIER_ATTESTOR=3c908b5c2cedb44955002d259a79db6ac36d78d9
+GIT_DERIVED_HEAD_SHA=3c908b5c2cedb44955002d259a79db6ac36d78d9
+GIT_DERIVED_CONTENT_COMMIT_SHA=3c908b5c2cedb44955002d259a79db6ac36d78d9
+GIT_DERIVED_CONTENT_TREE_SHA=9daef036c40fc07924f105c3366d919d401ea69f
+GIT_DERIVED_ATTESTATION_TREE_SHA=9daef036c40fc07924f105c3366d919d401ea69f
+DERIVED_BUNDLE_HASH=8ef698b961c1764556576bda1ffc3086f0a2a9a6df3c64820ee8062c0d50c864
+DERIVED_TVRID=eff996308e68c62835d4e6684cb7bfc18555c032345b748c87da4c2293e1eed5
+VERIFIER_RESULT_AT_SUBJECT=PASS

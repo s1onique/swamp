@@ -1,0 +1,8 @@
+captured_at_utc=2026-09-21T22:23:21Z
+deno_version_recorded=2.9.7 (pinned in .tool-versions; not on PATH for this shell)
+deno_on_path=no
+os=Darwin MacBook-Pro-3.local 23.6.0 Darwin Kernel Version 23.6.0: Thu Dec 19 20:47:16 PST 2024; root:xnu-10063.141.1.703.2~1/RELEASE_ARM64_T6031 arm64 arm Darwin
+subject_sha=3c908b5c2cedb44955002d259a79db6ac36d78d9
+attestor_sha=3c908b5c2cedb44955002d259a79db6ac36d78d9
+invocation=check_characterize_rest01_correction03.sh --mode post-exec --subject 3c908b5c2cedb44955002d259a79db6ac36d78d9 (CORRECTION08 acyclic)
+verdict_role=INFORMATIONAL_CROSS_CHECK (CORRECTION08: the verdict authority on C8 is C8:terminal_run/verifier.stdout, not anything in this bundle)
